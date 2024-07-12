@@ -36,13 +36,45 @@ base_cfg["supported-obj-types"] = list(benchmarks.PROPERTY_TYPES.keys())
 base_cfg["supported-model-types"] = ["pomdp"]
 base_cfg["supported-model-formalisms"] = ["prism"]
 
-seq_cfg = copy.deepcopy(base_cfg)
-seq_cfg["id"] = 'seq'
-seq_cfg["cmd"] += ["--revised", "--belief-exploration unfold", f"--size-threshold {int(1e10)}"]
-seq_cfg["notes"] += ["Sequential approach with full belief-mdp exploration"]
-seq_cfg["latex"] = "seq"
+for i in [3,4]:
+    seq_c_cfg = copy.deepcopy(base_cfg)
+    seq_c_cfg["id"] = f'seqc{i}'
+    seq_c_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration unfold", f"--size-threshold {10**i}"]
+    seq_c_cfg["notes"] += [f"Sequential approach with cutoffs and size threshold 10^{i}"]
+    seq_c_cfg["latex"] = f"seqc{i}"
+    CONFIGS.append(seq_c_cfg)
+    unr_c_cfg = copy.deepcopy(base_cfg)
+    unr_c_cfg["id"] = f'unrc{i}'
+    unr_c_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration unfold", f"--size-threshold {10**i}"]
+    unr_c_cfg["notes"] += [f"Unfolds reward bounds, reward aware, with cutoffs and size threshold 10^{i}"]
+    unr_c_cfg["latex"] = f"unrc{i}"
+    CONFIGS.append(unr_c_cfg)
+    uns_c_cfg = copy.deepcopy(base_cfg)
+    uns_c_cfg["id"] = f'unsc{i}'
+    uns_c_cfg["cmd"] += ["--revised", "--unfold-reward-bound", "--belief-exploration unfold", f"--size-threshold {10**i}"]
+    uns_c_cfg["notes"] += [f"Unfolds reward bounds, do not observer rewards, with cutoffs and size threshold 10^{i}"]
+    uns_c_cfg["latex"] = f"unsc{i}"
+    CONFIGS.append(uns_c_cfg)
 
-CONFIGS.append(seq_cfg)
+for i in [6,12]:
+    seq_d_cfg = copy.deepcopy(base_cfg)
+    seq_d_cfg["id"] = f'seqd{i}'
+    seq_d_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
+    seq_d_cfg["notes"] += [f"Sequential approach with discretization and resolution {i}"]
+    seq_d_cfg["latex"] = f"seqd{i}"
+    CONFIGS.append(seq_d_cfg)
+    unr_d_cfg = copy.deepcopy(base_cfg)
+    unr_d_cfg["id"] = f'unrd{i}'
+    unr_d_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
+    unr_d_cfg["notes"] += [f"Unfolds reward bounds, reward aware, with discretization and resolution {i}"]
+    unr_d_cfg["latex"] = f"unrd{i}"
+    CONFIGS.append(unr_d_cfg)
+    uns_d_cfg = copy.deepcopy(base_cfg)
+    uns_d_cfg["id"] = f'unsd{i}'
+    uns_d_cfg["cmd"] += ["--revised", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
+    uns_d_cfg["notes"] += [f"Unfolds reward bounds, do not observer rewards, with discretization and resolution {i}"]
+    uns_d_cfg["latex"] = f"unsd{i}"
+    CONFIGS.append(uns_d_cfg)
 
 def config_from_id(identifier):
     for c in CONFIGS:
