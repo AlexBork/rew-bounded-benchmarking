@@ -35,7 +35,7 @@ def save_html(table_data, num_tool_configs, path):
     # Generates an html log page for the given result within path/LOGS_SUBDIR/
     def create_log_page(result_json):
         with open(result_json["log"], 'r') as logfile:
-            logs = logfile.read().split("#" * 40)
+            log = logfile.read()
         f_path = os.path.join(LOGS_SUBDIR, os.path.basename(result_json["log"])[:-4] + ".html")
         with open(os.path.join(path, f_path), 'w') as f:
             indention = 0
@@ -100,36 +100,29 @@ def save_html(table_data, num_tool_configs, path):
             indention -= 1
             write_line(f, indention, "</div>")
 
-            for log in logs:
-                pos = log.find("\n", log.find("Output:\n")) + 1
-                pos_end = log.find("#############################", pos)
-                if pos_end < 0:
-                    pos_end = len(log)
-                log_str = log[pos:pos_end].strip()
-                if len(log_str) != 0:
-                    write_line(f, indention, '<div class="box">')
-                    indention += 1
-                    write_line(f, indention, '<div class="boxlabelo"><div class="boxlabelc">Log</div></div>')
-                    f.write("\t" * indention + '<pre style="overflow:auto; padding-bottom: 1.5ex">')
-                    f.write(log_str)
-                    write_line(f, indention, '</pre>')
-                    indention -= 1
-                    write_line(f, indention, "</div>")
-
-                pos = log.find("##############################Output to stderr##############################\n")
-                if pos >= 0:
-                    pos = log.find("\n", pos) + 1
-                    write_line(f, indention, '<div class="box">')
-                    indention += 1
-                    write_line(f, indention, '<div class="boxlabelo"><div class="boxlabelc">STDERR</div></div>')
-                    f.write("\t" * indention + '<pre style="overflow:auto; padding-bottom: 1.5ex">')
-                    pos_end = log.find("#############################", pos)
-                    if pos_end < 0:
-                        pos_end = len(log)
-                    f.write(log[pos:pos_end].strip())
-                    write_line(f, indention, '</pre>')
-                    indention -= 1
-                    write_line(f, indention, "</div>")
+            pos1 = log.find("\n", log.find("Output:\n")) + 1
+            pos2 = log.find("##############################Output to stderr##############################\n")
+            pos_end = pos2 if pos2 >= 0 else len(log)
+            log_str = log[pos1:pos_end].strip()
+            if len(log_str) != 0:
+                write_line(f, indention, '<div class="box">')
+                indention += 1
+                write_line(f, indention, '<div class="boxlabelo"><div class="boxlabelc">Log</div></div>')
+                f.write("\t" * indention + '<pre style="overflow:auto; padding-bottom: 1.5ex">')
+                f.write(log_str)
+                write_line(f, indention, '</pre>')
+                indention -= 1
+                write_line(f, indention, "</div>")
+            if pos2 >= 0:
+                pos2 = log.find("\n", pos2) + 1
+                write_line(f, indention, '<div class="box">')
+                indention += 1
+                write_line(f, indention, '<div class="boxlabelo"><div class="boxlabelc">STDERR</div></div>')
+                f.write("\t" * indention + '<pre style="overflow:auto; padding-bottom: 1.5ex">')
+                f.write(log[pos2:].strip())
+                write_line(f, indention, '</pre>')
+                indention -= 1
+                write_line(f, indention, "</div>")
             write_line(f, indention, "</body>")
             write_line(f, indention, "</html>")
         return f_path
@@ -364,10 +357,9 @@ def parse_tool_output(execution_json):
     execution_json["benchmark"] = benchmarks.from_id(execution_json["benchmark-id"])
     
     assert execution_json["tool"] in TOOL_NAMES, "Error: Unknown tool '{}'".format(execution_json["tool"])
-    for tool in TOOLS:
-        if execution_json["tool"] == tool.name:
-            execution_json["configuration"] = tool.config_from_id(execution_json["configuration-id"])
-            tool.parse_logfile(log, execution_json)
+    tool = TOOL_NAMES[execution_json["tool"]]
+    execution_json["configuration"] = tool.config_from_id(execution_json["configuration-id"])
+    tool.parse_logfile(log, execution_json)
     
     # modify logfile
     NOTES_HEADING = "\n" + "#"*30 + " Notes " + "#"*30 + "\n"
@@ -395,7 +387,7 @@ def process_benchmark_instance_data(benchmark_instances, execution_json):
     if execution_json["benchmark"]["model"]["type"] == "pomdp":
         bench_data["observations"] = execution_json["input-model"]["observations"]
     bench_data["transitions"] = execution_json["input-model"]["transitions"]
-    if "num-epochs" in execution_json and execution_json["has-result"]:
+    if "num-epochs" in execution_json and "result" in execution_json:
         bench_data["epochs"] = [execution_json["num-epochs"]]
     bench_data["invocations"] = [execution_json["id"]]
     
@@ -453,11 +445,11 @@ def gather_execution_data(logdirs, silent=False):
 
     # warn for missing configs:
     if not silent:
-        for t in TOOLS:
-            if t.name not in list(exec_data.keys()) + []: print(f"WARN: no data for tool '{t.name}'") # no warning for tools in the given list
+        for t in TOOL_NAMES:
+            if t not in list(exec_data.keys()) + []: print(f"WARN: no data for tool '{t}'") # no warning for tools in the given list
             else:
-                for cfg in t.configs:
-                    if cfg["id"] not in list(exec_data[t.name].keys()) + ["split"]: print(f"WARN: no data for {t.name} config '{cfg['id']}'") #no warning for configs in the given list
+                for cfg in TOOL_NAMES[t].CONFIGS:
+                    if cfg["id"] not in list(exec_data[t].keys()) + ["split"]: print(f"WARN: no data for {t} config '{cfg['id']}'") #no warning for configs in the given list
     return exec_data, benchmark_instances
     
 def export_data(exec_data, benchmark_instances):
@@ -508,16 +500,7 @@ def export_data(exec_data, benchmark_instances):
         elif type(value) == str and data_kind == "name":
             v = f"\\model{{{value}}}"
         elif type(value) == str and data_kind == "par":
-            # strip away parameter names
-            val_list = re.split("[A-Za-z]+", value)[1:]
-            val_list = [str(int(val)) for val in val_list] # discard leading zeroes
-            par_list = re.findall("[A-Za-z]+", value)
-            assert(len(val_list) == len(par_list))
-            if "Unf" in par_list:
-                assert par_list[-1] == "Unf"
-                v = "{-}".join(val_list[:-1]) + f"_{{{val_list[-1]}}}"
-            else:
-                v = "{-}".join(val_list)
+            v = value.replace("_", "\_")
         elif type(value) == float:
             v = f"{value:.1f}"
         else:
@@ -561,7 +544,7 @@ def export_data(exec_data, benchmark_instances):
                     value = scatter_special_value(1)
                 elif kind in ["quantile"]:
                     value = math.inf
-            elif res["has-result"]:
+            elif "result" in res:
                 value = res[column[2]]
                 if "time" in column[2]:
                     if kind in ["html"]:
@@ -580,7 +563,9 @@ def export_data(exec_data, benchmark_instances):
             if kind == "html":
                 res = get_result(tool, column[1], inst)
                 if res is not None:
-                    value = [value, to_html(res)]
+                    value = [value, res]
+                if "result" in res:
+                    value[0] += to_html(" / {}".format(res["result"]))
         else: # column[0] is a key in benchmark_instances, column[1] is either not present or a function that applies a transformation
             if column[0] in benchmark_instances[inst]:
                 value = benchmark_instances[inst][column[0]]
@@ -599,16 +584,16 @@ def export_data(exec_data, benchmark_instances):
             if type(value) == Counter:
                 value = ", ".join([f"{k}: {v}" for k,v in value.items()])
             value = f"{value}"
-        assert value is not None, f"No value found for column {column}, and instance {inst} (kind {kind}, context {context})"
+        assert value is not None, f"No value found for column {column}, and instance {inst} (kind {kind})"
         return value
         
-    def create_cells(columns, cfgs, context, kind):
+    def create_cells(columns, cfgs, kind):
         if kind == "quantile":
             rows = get_instances_supported_by_all(cfgs)
             header = ["i"] + [f"{c[0]}.{c[1]}" for c in columns[-len(cfgs):]]
             cells = [header] + [[i+1] for i in range(len(rows))]
             for c in columns[-len(cfgs):]:
-                c_runtimes = sorted([get_cell_content(c, inst, kind, context) for inst in rows])
+                c_runtimes = sorted([get_cell_content(c, inst, kind) for inst in rows])
                 for j in range(len(c_runtimes)):
                     cells[j+1].append(c_runtimes[j] if c_runtimes[j] != math.inf else "nan")
             return cells
@@ -619,7 +604,7 @@ def export_data(exec_data, benchmark_instances):
             for inst in rows:
                 cells.append([])
                 for c in columns:
-                    cells[-1].append(get_cell_content(c, inst, kind, context))
+                    cells[-1].append(get_cell_content(c, inst, kind))
                 if kind == "latex":
                     # mark the fastest runtime
                     j_best = []
@@ -645,7 +630,7 @@ def export_data(exec_data, benchmark_instances):
         latex_col_aligns = "ccrrrcc"
         cfgs = []
         for tool in TOOLS:
-            cfgs += [[tool.name, c["id"]] for c in tool.configs]
+            cfgs += [[tool.NAME, c["id"]] for c in tool.CONFIGS]
         # extend columns with configuration data
         cols += [c + ["wallclock-time"] for c in cfgs]
         latex_cols += [config_from_id(c[0], c[1])["latex"] for c in cfgs]

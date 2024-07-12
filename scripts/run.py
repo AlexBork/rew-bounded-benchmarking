@@ -34,7 +34,8 @@ if __name__ == "__main__":
             invocation_indices = range(len(invocations))
         for i in invocation_indices:
             invocation = invocations[i]
-            print(f"Executing invocation #{i}: {invocation['id']}")
+            sys.stdout.write(f"Executing invocation #{i}: {invocation['id']}... ")
+            sys.stdout.flush()
             try:
                 execution = Execution(invocation)
                 execution_result = execution.run()
@@ -46,9 +47,9 @@ if __name__ == "__main__":
                 print("Continuing in 5 seconds")
                 sleep(5)
             except Exception:
-                print("ERROR while processing invocation #{}: {}".format(i, invocation['id']))
+                print("\nERROR while processing invocation #{}: {}".format(i, invocation['id']))
                 traceback.print_exc()
-            
+            print(f"done ({execution.wall_time:.2f}s).")
 
     
     
