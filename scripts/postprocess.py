@@ -564,8 +564,8 @@ def export_data(exec_data, benchmark_instances):
                 res = get_result(tool, column[1], inst)
                 if res is not None:
                     value = [value, res]
-                if "result" in res:
-                    value[0] += to_html(" / {}".format(res["result"]))
+                    if "result" in res:
+                        value[0] += to_html(" / {}".format(res["result"]))
         else: # column[0] is a key in benchmark_instances, column[1] is either not present or a function that applies a transformation
             if column[0] in benchmark_instances[inst]:
                 value = benchmark_instances[inst][column[0]]
