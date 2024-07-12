@@ -24,7 +24,7 @@ formula goal = (x = xMAX) & (y = yMAX);
 // Can be changed to model different "maps"
 // This is map 2 (middle highest, steps down toward outside)
 
-const double MP = (N-1)/2
+const double MP = (N-1)/2;
 
 formula northuphill = (y < floor(MP)) & (x < 2*MP - y) & (x > y);
 formula northdownhill = (y >= MP) & (y < yMAX) & (x <= y) & (x >= 2*MP - y);

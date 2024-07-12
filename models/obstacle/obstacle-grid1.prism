@@ -51,7 +51,7 @@ observable "cangosouth" = southenabled;
 observable "cangowest" = westenabled;
 
 module walker
-  x : [xMIN..xMAX] init xMin; // x coordinate, min is west, max is east
+  x : [xMIN..xMAX] init xMIN; // x coordinate, min is west, max is east
   y : [yMIN..yMAX] init floor((N-1)/2); // y coordinate, min is south, max is north
 
   // Moving around (uphill: chance to stay in place, downhill: chance to slip too far)

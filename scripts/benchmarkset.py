@@ -111,9 +111,11 @@ def create_all_instances():
     instances += create_model_instances(name, "rbrmax3")
 
     name = "service"
-    instances += create_model_instances(name, "rbrmax2")
-
-
+    open_parameters = ["B1", "B2"]
+    B1_values = [15,20,25,30]
+    B2_values = [10,20]
+    par_val_list = [[b1,b2] for b1,b2 in itertools.product(B1_values, B2_values) ]
+    instances += create_model_instances(name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list)
 
     return instances
 
