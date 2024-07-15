@@ -76,6 +76,15 @@ for i in [6,12]:
     uns_d_cfg["latex"] = f"unsd{i}"
     CONFIGS.append(uns_d_cfg)
 
+fully_obs = copy.deepcopy(base_cfg)
+fully_obs["id"] = "seqf"
+fully_obs["cmd"] += ["--check-fully-observable"]
+fully_obs["notes"] += ["Sequential approach with fully observable belief MDP"]
+fully_obs["latex"] = "seqf"
+CONFIGS.append(fully_obs)
+
+CONFIGS = sorted(CONFIGS, key=lambda x: x["id"])
+
 def config_from_id(identifier):
     for c in CONFIGS:
         if c["id"] == identifier: return c
@@ -125,15 +134,16 @@ def parse_logfile(log, inv):
         assert inv["memout"] or inv["timeout"], "Unable to find query output in {}".format(inv["id"])
         return
 
-    pos = log.find("Constructing the belief MDP...", pos)
-    assert pos>=0, "Unable to find belief MDP construction in {}".format(inv["id"])
-    inv["belief-mdp"] = OrderedDict()
-    pos = try_parse(log, pos, "States: \t", "\n", inv["belief-mdp"], "states", int)
-    pos = try_parse(log, pos, "Transitions: \t", "\n", inv["belief-mdp"], "transitions", int)
-    pos = try_parse(log, pos, "Choices: \t", "\n", inv["belief-mdp"], "choices", int)
-    pos = try_parse(log, pos, "Time for exploring beliefs: ", "s.", inv["belief-mdp"], "expl-time", float)
-    pos = try_parse(log, pos, "Time for building the belief MDP: ", "s.", inv["belief-mdp"], "build-time", float)
-    pos = try_parse(log, pos, "Time for analyzing the belief MDP: ", "s.", inv["belief-mdp"], "chk-time", float)
+    posBel = log.find("Constructing the belief MDP...", pos)
+    if posBel>=0:
+        pos=posBel
+        inv["belief-mdp"] = OrderedDict()
+        pos = try_parse(log, pos, "States: \t", "\n", inv["belief-mdp"], "states", int)
+        pos = try_parse(log, pos, "Transitions: \t", "\n", inv["belief-mdp"], "transitions", int)
+        pos = try_parse(log, pos, "Choices: \t", "\n", inv["belief-mdp"], "choices", int)
+        pos = try_parse(log, pos, "Time for exploring beliefs: ", "s.", inv["belief-mdp"], "expl-time", float)
+        pos = try_parse(log, pos, "Time for building the belief MDP: ", "s.", inv["belief-mdp"], "build-time", float)
+        pos = try_parse(log, pos, "Time for analyzing the belief MDP: ", "s.", inv["belief-mdp"], "chk-time", float)
 
     # pos = try_parse(log, pos, "#checked epochs: ", ".\n", inv, "num-epochs", int)
     # pos = try_parse(log, pos, "#checked epochs overall: ", ".\n", inv, "num-epochs", int)
