@@ -88,8 +88,8 @@ def create_all_instances():
     file_parameters = ["MAP", "N"]
     open_parameters = ["B1", "B2"]
     for MAP, N in itertools.product([1,2],[5]):
-        B1_VALUES = [25,50,75] if MAP==1 else [15]
-        B2_VALUES = [10,15,20,25] if MAP==1 else [7]
+        B1_values = [25,50,75] if MAP==1 else [15]
+        B2_values = [10,15,20,25] if MAP==1 else [7]
         par_val_list = [[MAP, N, b1,0] for b1 in B1_values]
         instances += create_model_instances(name, "rbrmax1", file_parameters, open_parameters , par_val_list, model_filename=f"{name}-grid{MAP}.prism")
         par_val_list = [[MAP, N, b1,b2] for b1,b2 in itertools.product(B1_values, B2_values)]
@@ -99,8 +99,8 @@ def create_all_instances():
     name = "obstacle"
     file_parameters = ["MAP", "N"]
     open_parameters = ["B1", "B2"]
-    B1_values = [50]
-    B2_values = [40]
+    B1_values = [10,15,20,25]
+    B2_values = [6,7,8]
     for MAP, N in itertools.product([1],[5]):
         par_val_list = [[MAP, N, b1,0] for b1 in B1_values]
         instances += create_model_instances(name, "rbrmax1", file_parameters, open_parameters , par_val_list, model_filename=f"{name}-grid{MAP}.prism")
@@ -110,19 +110,25 @@ def create_all_instances():
     name = "resources"
     file_parameters = ["MAP", "N"]
     open_parameters = ["B1", "B2", "B3"]
-    B1_values = [1,5,10,15,20]
+    B1_values = [1,5,10,15,20,30]
+    MULTIPLIERS = [12,15,17]
     Maps = ["resources", "enemy_resources"]
     for MAP, N in itertools.product([1,2],[5]):
-        par_val_list = [[MAP, N, b1,b1,b1*stepmul] for b1,stepmul in itertools.product(B1_values,[11,13,15])]
+        par_val_list = [[MAP, N, b1,b1,b1*stepmul] for b1,stepmul in itertools.product(B1_values,MULTIPLIERS)]
         instances += create_model_instances(name, "rbrmax3", file_parameters, open_parameters , par_val_list, model_filename=f"{Maps[MAP-1]}{N}_{N}.prism")
 
     name = "rover"
-    instances += create_model_instances(name, "rbrmax3")
+    open_parameters = ["B1", "B2", "B3"]
+    MULTIPLIERS = [1,5,10,20,50,100]
+    par_val_list = [[100*m,180*m,100*m] for m in MULTIPLIERS]
+    instances += create_model_instances(name, "rbrmax3", open_parameter_names=open_parameters, par_values_list=par_val_list)
 
     name = "service"
     open_parameters = ["B1", "B2"]
-    B1_values = [15,20,25,30]
-    B2_values = [10,20]
+    B1_values = [1000,1500,2000]
+    B2_values = [10,20,40,80]
+    par_val_list = [[b1,0] for b1 in B1_values]
+    instances += create_model_instances(name, "rbrmax1", open_parameter_names=open_parameters, par_values_list=par_val_list)
     par_val_list = [[b1,b2] for b1,b2 in itertools.product(B1_values, B2_values) ]
     instances += create_model_instances(name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list)
 
