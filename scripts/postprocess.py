@@ -342,7 +342,7 @@ def save_latex(table_data, cols, header, path):
 
 \toprule
 """)
-        latex_file.write(header + "\\\\ \\midrule\endhead\n")
+        latex_file.write(header + "\\\\ \\midrule\\endhead\n")
         for row in table_data[1:]:
             latex_file.write("\t&\t".join(row) + "\\\\\n")
         latex_file.write(r""" \bottomrule
@@ -486,7 +486,7 @@ def export_data(exec_data, benchmark_instances):
     def to_latex(value, data_kind = None):
         if type(value) == int:
             v = f"{value:.4g}"
-            if "e+" in v: v = "{} {{\cdot}} 10^{{{}}}".format(round(float(v[:v.find("e+")])), int(v[v.find("e+")+2:]))
+            if "e+" in v: v = "{} {{\\cdot}} 10^{{{}}}".format(round(float(v[:v.find("e+")])), int(v[v.find("e+")+2:]))
         elif type(value) == bool:
             v = "yes" if value else "no"
         elif type(value) == list:
@@ -500,7 +500,7 @@ def export_data(exec_data, benchmark_instances):
         elif type(value) == str and data_kind == "name":
             v = f"\\model{{{value}}}"
         elif type(value) == str and data_kind == "par":
-            v = value.replace("_", "\_")
+            v = value.replace("_", r"\_")
         elif type(value) == float:
             v = f"{value:.1f}"
         else:
