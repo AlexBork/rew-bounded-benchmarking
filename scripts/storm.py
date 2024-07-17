@@ -36,7 +36,7 @@ base_cfg["supported-obj-types"] = list(benchmarks.PROPERTY_TYPES.keys())
 base_cfg["supported-model-types"] = ["pomdp"]
 base_cfg["supported-model-formalisms"] = ["prism"]
 
-for i in [3,4]:
+for i in range(3,9):
     seq_c_cfg = copy.deepcopy(base_cfg)
     seq_c_cfg["id"] = f'seqc{i}'
     seq_c_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration unfold", f"--size-threshold {10**i}"]
@@ -56,7 +56,7 @@ for i in [3,4]:
     uns_c_cfg["latex"] = f"unsc{i}"
     CONFIGS.append(uns_c_cfg)
 
-for i in [6,12]:
+for i in [ 6 * j for j in range(1,7)]:
     seq_d_cfg = copy.deepcopy(base_cfg)
     seq_d_cfg["id"] = f'seqd{i}'
     seq_d_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
