@@ -78,16 +78,17 @@ for i in [ 6 * j for j in range(1,7)] + [2,3,4]:
 
 seq_fully_obs = copy.deepcopy(base_cfg)
 seq_fully_obs["id"] = "fseq"
-seq_fully_obs["cmd"] += ["--check-fully-observable"]
+seq_fully_obs["cmd"] += ["--check-fully-observable", "--reward-aware"]
 seq_fully_obs["notes"] += ["Sequential approach with fully observable belief MDP"]
 seq_fully_obs["latex"] = "fseq"
 CONFIGS.append(seq_fully_obs)
 
 unf_fully_obs = copy.deepcopy(base_cfg)
-seq_fully_obs["id"] = "funf"
-seq_fully_obs["cmd"] += ["--check-fully-observable", "--unfold-reward-bound"]
-seq_fully_obs["notes"] += ["Unfolding approach with fully observable belief MDP"]
-seq_fully_obs["latex"] = "funf"
+unf_fully_obs["id"] = "funf"
+unf_fully_obs["cmd"] += ["--check-fully-observable", "--unfold-reward-bound"]
+unf_fully_obs["notes"] += ["Unfolding approach with fully observable belief MDP"]
+unf_fully_obs["latex"] = "funf"
+CONFIGS.append(unf_fully_obs)
 
 CONFIGS = sorted(CONFIGS, key=lambda x: x["id"])
 
