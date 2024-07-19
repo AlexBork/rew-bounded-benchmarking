@@ -85,27 +85,17 @@ def create_all_instances():
     instances = []
 
     name = "incline"
-    file_parameters = ["MAP", "N"]
+    file_parameters = []
     open_parameters = ["B1", "B2"]
-    for MAP, N in itertools.product([1,2],[5]):
-        B1_values = [25,50,75] if MAP==1 else [15]
-        B2_values = [10,15,20,25] if MAP==1 else [7]
-        par_val_list = [[MAP, N, b1,0] for b1 in B1_values]
-        instances += create_model_instances(name, "rbrmax1", file_parameters, open_parameters , par_val_list, model_filename=f"{name}-grid{MAP}.prism")
-        par_val_list = [[MAP, N, b1,b2] for b1,b2 in itertools.product(B1_values, B2_values)]
-        instances += create_model_instances(name, "rbrmax2", file_parameters, open_parameters, par_val_list, model_filename=f"{name}-grid{MAP}.prism")
+    par_val_list = [[25,15], [75,15], [75,20]]
+    instances += create_model_instances(name, "rbrmax2", file_parameters, open_parameters, par_val_list, model_filename=f"{name}-grid2.prism")
 
 
     name = "obstacle"
-    file_parameters = ["MAP", "N"]
+    file_parameters = []
     open_parameters = ["B1", "B2"]
-    B1_values = [10,15,20,25]
-    B2_values = [6,7,8]
-    for MAP, N in itertools.product([1],[5]):
-        par_val_list = [[MAP, N, b1,0] for b1 in B1_values]
-        instances += create_model_instances(name, "rbrmax1", file_parameters, open_parameters , par_val_list, model_filename=f"{name}-grid{MAP}.prism")
-        par_val_list = [[MAP, N, b1,b2] for b1,b2 in itertools.product(B1_values, B2_values)]
-        instances += create_model_instances(name, "rbrmax2", file_parameters, open_parameters, par_val_list, model_filename=f"{name}-grid{MAP}.prism")
+    par_val_list = [[25,6], [25,7]]
+    instances += create_model_instances(name, "rbrmax2", file_parameters, open_parameters, par_val_list, model_filename=f"{name}-grid1.prism")
 
     name = "resources"
     file_parameters = ["MAP", "N"]
@@ -113,28 +103,23 @@ def create_all_instances():
     B1_values = [1,5,10,15,20,30,40,50]
     MULTIPLIERS = [12]
     Maps = ["resources", "enemy_resources"]
-    for MAP, N in itertools.product([1,2],[5]):
+    for MAP, N in itertools.product([2],[5]): # map 2 only
         par_val_list = [[MAP, N, b1,b1,b1*stepmul] for b1,stepmul in itertools.product(B1_values,MULTIPLIERS)]
         instances += create_model_instances(name, "rbrmax3", file_parameters, open_parameters , par_val_list, model_filename=f"{Maps[MAP-1]}{N}_{N}.prism")
 
     name = "rover"
     open_parameters = ["B1", "B2", "B3"]
-    MULTIPLIERS = [1,5,10,20,50,100]
-    par_val_list = [[100*m,180*m,100*m] for m in MULTIPLIERS]
+    MULTIPLIERS = [1,5,10,50,100,200]
+    par_val_list = [[10*m,18*m,10*m] for m in MULTIPLIERS]
     instances += create_model_instances(name, "rbrmax3", open_parameter_names=open_parameters, par_values_list=par_val_list)
 
     name = "service"
     open_parameters = ["B1", "B2"]
-    B1_values = [1000,1500,2000]
-    B2_values = [10,20,40,80]
-    par_val_list = [[b1,0] for b1 in B1_values]
-    instances += create_model_instances(name, "rbrmax1", open_parameter_names=open_parameters, par_values_list=par_val_list)
-    par_val_list = [[b1,b2] for b1,b2 in itertools.product(B1_values, B2_values) ]
+    par_val_list = [[600,0],[1000,0],[1500,0],[1500,10]]
     instances += create_model_instances(name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list)
 
     name = "water"
     open_parameters = ["B1", "B2"]
-    B2_values = [1,5,10,50,100]
     par_val_list = [[10,1],[12,1],[55,5],[57,5],[115,100],[590,50],[1190,100],[5990,500],[11990,1000]]
     instances += create_model_instances(name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list, model_filename="water_grid_repeat.prism")
 
