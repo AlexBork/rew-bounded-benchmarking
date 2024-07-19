@@ -56,32 +56,38 @@ for i in range(3,9):
     uns_c_cfg["latex"] = f"unsc{i}"
     CONFIGS.append(uns_c_cfg)
 
-for i in [ 6 * j for j in range(1,7)]:
+for i in [ 6 * j for j in range(1,7)] + [2,3,4]:
     seq_d_cfg = copy.deepcopy(base_cfg)
-    seq_d_cfg["id"] = f'seqd{i}'
+    seq_d_cfg["id"] = f'seqd{i:02}'
     seq_d_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     seq_d_cfg["notes"] += [f"Sequential approach with discretization and resolution {i}"]
-    seq_d_cfg["latex"] = f"seqd{i}"
+    seq_d_cfg["latex"] = f"seqd{i:02}"
     CONFIGS.append(seq_d_cfg)
     unr_d_cfg = copy.deepcopy(base_cfg)
-    unr_d_cfg["id"] = f'unrd{i}'
+    unr_d_cfg["id"] = f'unrd{i:02}'
     unr_d_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     unr_d_cfg["notes"] += [f"Unfolds reward bounds, reward aware, with discretization and resolution {i}"]
-    unr_d_cfg["latex"] = f"unrd{i}"
+    unr_d_cfg["latex"] = f"unrd{i:02}"
     CONFIGS.append(unr_d_cfg)
     uns_d_cfg = copy.deepcopy(base_cfg)
-    uns_d_cfg["id"] = f'unsd{i}'
+    uns_d_cfg["id"] = f'unsd{i:02}'
     uns_d_cfg["cmd"] += ["--revised", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     uns_d_cfg["notes"] += [f"Unfolds reward bounds, do not observer rewards, with discretization and resolution {i}"]
-    uns_d_cfg["latex"] = f"unsd{i}"
+    uns_d_cfg["latex"] = f"unsd{i:02}"
     CONFIGS.append(uns_d_cfg)
 
-fully_obs = copy.deepcopy(base_cfg)
-fully_obs["id"] = "seqf"
-fully_obs["cmd"] += ["--check-fully-observable"]
-fully_obs["notes"] += ["Sequential approach with fully observable belief MDP"]
-fully_obs["latex"] = "seqf"
-CONFIGS.append(fully_obs)
+seq_fully_obs = copy.deepcopy(base_cfg)
+seq_fully_obs["id"] = "fseq"
+seq_fully_obs["cmd"] += ["--check-fully-observable"]
+seq_fully_obs["notes"] += ["Sequential approach with fully observable belief MDP"]
+seq_fully_obs["latex"] = "fseq"
+CONFIGS.append(seq_fully_obs)
+
+unf_fully_obs = copy.deepcopy(base_cfg)
+seq_fully_obs["id"] = "funf"
+seq_fully_obs["cmd"] += ["--check-fully-observable", "--unfold-reward-bound"]
+seq_fully_obs["notes"] += ["Unfolding approach with fully observable belief MDP"]
+seq_fully_obs["latex"] = "funf"
 
 CONFIGS = sorted(CONFIGS, key=lambda x: x["id"])
 
