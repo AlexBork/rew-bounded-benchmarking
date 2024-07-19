@@ -110,8 +110,8 @@ def create_all_instances():
     name = "resources"
     file_parameters = ["MAP", "N"]
     open_parameters = ["B1", "B2", "B3"]
-    B1_values = [1,5,10,15,20,30]
-    MULTIPLIERS = [12,15,17]
+    B1_values = [1,5,10,15,20,30,40,50]
+    MULTIPLIERS = [12]
     Maps = ["resources", "enemy_resources"]
     for MAP, N in itertools.product([1,2],[5]):
         par_val_list = [[MAP, N, b1,b1,b1*stepmul] for b1,stepmul in itertools.product(B1_values,MULTIPLIERS)]
