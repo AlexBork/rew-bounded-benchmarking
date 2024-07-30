@@ -332,22 +332,17 @@ def save_html(table_data, num_tool_configs, path):
 def save_latex(table_data, cols, header, path):
     with open(path, 'w') as latex_file:
         latex_file.write(r"""
-% \setlength{\tabcolsep}{10pt}
-% \renewcommand{\arraystretch}{1.2}
-\begin{table}
-\caption{the caption}\label{thelabel}
 \begin{tabular}{@{}""")
         latex_file.write(cols)
         latex_file.write(r"""@{}}
 
 \toprule
 """)
-        latex_file.write(header + "\\\\ \\midrule\\endhead\n")
+        latex_file.write(header + "\\\\ \\midrule\n")
         for row in table_data[1:]:
             latex_file.write("\t&\t".join(row) + "\\\\\n")
         latex_file.write(r""" \bottomrule
 \end{tabular}
-\end{table}
 """)
 
 def parse_tool_output(execution_json):
@@ -388,7 +383,7 @@ def process_benchmark_instance_data(benchmark_instances, execution_json):
         bench_data["observations"] = execution_json["input-model"]["observations"]
     bench_data["transitions"] = execution_json["input-model"]["transitions"]
     if "num-epochs" in execution_json and "result" in execution_json:
-        bench_data["epochs"] = [execution_json["num-epochs"]]
+        bench_data["num-epochs"] = execution_json["num-epochs"]
     bench_data["invocations"] = [execution_json["id"]]
     
     # incorporate into existing data
@@ -451,11 +446,43 @@ def gather_execution_data(logdirs, silent=False):
                 for cfg in TOOL_NAMES[t].CONFIGS:
                     if cfg["id"] not in list(exec_data[t].keys()) + ["split"]: print(f"WARN: no data for {t} config '{cfg['id']}'") #no warning for configs in the given list
     return exec_data, benchmark_instances
-    
+
+def process_meta_configs(exec_data, benchmark_instances):
+    # gather data for meta-configurations
+    for tool in exec_data:
+        for metacfg in TOOL_NAMES[tool].META_CONFIGS:
+            benchmark_data = OrderedDict()
+            for benchmark in benchmark_instances:
+                best_cfg_id = None
+                for cfg_id in exec_data[tool]:
+                    if cfg_id in [c["id"] for c in TOOL_NAMES[tool].META_CONFIGS]: continue
+                    if not cfg_id.startswith(metacfg["cfgbase"]): continue
+                    if benchmark not in exec_data[tool][cfg_id]: print(f"Missing data for {tool}.{cfg_id}.{benchmark}")
+                    data = exec_data[tool][cfg_id][benchmark]
+                    if "maxtime" in metacfg and data["wallclock-time"] > metacfg["maxtime"]: continue
+                    if not "result" in data: continue
+                    result_str = data["result"]
+                    if best_cfg_id is None:
+                        best_cfg_id = cfg_id
+                        continue
+                    best_result_str = exec_data[tool][best_cfg_id][benchmark]["result"]
+                    assert result_str[0] in ["≥", "≤"], f"Unexpected result string: {result_str}"
+                    assert result_str[0] == best_result_str[0], f"inconsistent result strings: {result_str} vs. {best_result_str}"
+                    result_value = float(result_str[1:])
+                    best_result_value = float(best_result_str[1:])
+                    if result_value == best_result_value:
+                        if data["wallclock-time"] < exec_data[tool][best_cfg_id][benchmark]["wallclock-time"]:
+                            best_cfg_id = cfg_id
+                            continue
+                    if result_str[0] == "≥" and result_value > best_result_value: best_cfg_id = cfg_id
+                    elif result_str[0] == "≤" and result_value < best_result_value: best_cfg_id = cfg_id
+                if best_cfg_id is not None: benchmark_data[benchmark] = copy.deepcopy(exec_data[tool][best_cfg_id][benchmark])
+            exec_data[tool][metacfg["id"]] = benchmark_data
+
 def export_data(exec_data, benchmark_instances):
     SCATTER_MIN_VALUE, SCATTER_MAX_VALUE = 1, 1000
     QUANTILE_MIN_VALUE = 1
-    KINDS = ["default", "scatter", "quantile", "html", "latex"]
+    KINDS = ["default", "scatter", "quantile", "html", "latexbenchmarks", "latext10", "latext100", "latext1000"]
 
     def scatter_special_value(i): return round(SCATTER_MAX_VALUE * (math.sqrt(2)**i))
     
@@ -497,12 +524,17 @@ def export_data(exec_data, benchmark_instances):
                     v = "{}..{}".format(to_latex(min(value)), to_latex(max(value)))
         elif type(value) == str and value.startswith("(") and value.endswith(")"):
             v = "{}".format(value[1:-1])
+        elif type(value) == str and data_kind == "result" and value[:2] in ["≤ ", "≥ "]:
+            v = r"$\{}$ {}".format("le" if value[0] == "≤" else "ge", to_latex(float(value[2:]), ))
+            data_kind = None # do not add $ for the value
         elif type(value) == str and data_kind == "name":
             v = f"\\model{{{value}}}"
         elif type(value) == str and data_kind == "par":
             v = value.replace("_", r"\_")
         elif type(value) == float:
-            v = f"{value:.1f}"
+            v = f"{value:.3g}"
+            if "e+" in v: v = "{} {{$\\cdot$}} 10$^\\text{{{}}}$".format(round(float(v[:v.find("e+")])), int(v[v.find("e+")+2:]))
+            if "e-" in v: v = "{} {{$\\cdot$}} 10$^\\text{{-{}}}$".format(round(float(v[:v.find("e-")])), int(v[v.find("e-")+2:]))
         else:
             v = value
         return v if data_kind is None else f"${v}$"
@@ -519,26 +551,32 @@ def export_data(exec_data, benchmark_instances):
                     value = "NS"
                 elif kind in ["scatter"]:
                     value = scatter_special_value(2)
-                elif kind in ["latex"]:
+                elif kind.startswith("latex"):
                     value = ""
                 elif kind in ["quantile"]:
                     value = math.inf
             elif res["timeout"] == True:
-                if kind in ["default", "html", "latex"]:
+                if kind in ["default", "html"]:
+                    value = "TO"
+                elif kind.startswith("latex"):
                     value = "TO"
                 elif kind in ["scatter"]:
                     value = scatter_special_value(1) # TO
                 elif kind in ["quantile"]:
                     value = math.inf
             elif res["memout"]:
-                if kind in ["default", "html", "latex"]:
+                if kind in ["default", "html"]:
+                    value = "MO"
+                elif kind.startswith("latex"):
                     value = "MO"
                 elif kind in ["scatter"]:
                     value = scatter_special_value(1)
                 elif kind in ["quantile"]:
                     value = math.inf
             elif res["expected-error"]:
-                if kind in ["default", "html", "latex"]:
+                if kind in ["default", "html"]:
+                    value = "ERR"
+                elif kind.startswith("latex"):
                     value = "ERR"
                 elif kind in ["scatter"]:
                     value = scatter_special_value(1)
@@ -549,7 +587,7 @@ def export_data(exec_data, benchmark_instances):
                 if "time" in column[2]:
                     if kind in ["html"]:
                         value = f"{value:.1f}"
-                    elif kind in ["latex"]:
+                    elif kind.startswith("latex"):
                         if value < 1.0:
                             value = r"\textless 1"
                         elif value < 100:
@@ -560,6 +598,8 @@ def export_data(exec_data, benchmark_instances):
                         value = max(SCATTER_MIN_VALUE, min(SCATTER_MAX_VALUE, value))
                     elif kind in ["quantile"]:
                         value = max(QUANTILE_MIN_VALUE, value)
+                elif column[2] == "result" and kind.startswith("latex"):
+                    value = to_latex(value, "result")
             if kind == "html":
                 res = get_result(tool, column[1], inst)
                 if res is not None:
@@ -576,7 +616,7 @@ def export_data(exec_data, benchmark_instances):
                     value = "" 
             if len(column) > 1:
                 value = column[1](value)
-            elif kind in ["latex"]:
+            elif kind.startswith("latex"):
                 value = to_latex(value, column[0])
             elif kind in ["scatter"] and type(value) == list:
                 if len(value) == 0: value = "nan"
@@ -587,7 +627,7 @@ def export_data(exec_data, benchmark_instances):
         assert value is not None, f"No value found for column {column}, and instance {inst} (kind {kind})"
         return value
         
-    def create_cells(columns, cfgs, kind):
+    def create_cells(columns, cfgs, kind, latex_highlight_best_col_indices = None):
         if kind == "quantile":
             rows = get_instances_supported_by_all(cfgs)
             header = ["i"] + [f"{c[0]}.{c[1]}" for c in columns[-len(cfgs):]]
@@ -598,58 +638,75 @@ def export_data(exec_data, benchmark_instances):
                     cells[j+1].append(c_runtimes[j] if c_runtimes[j] != math.inf else "nan")
             return cells
         else:
-            header = [c[0] for c in columns[:-len(cfgs)]] + [f"{c[0]}.{c[1]}" for c in columns[-len(cfgs):]]
-            rows = get_instances_supported_by_some(cfgs)
+            header = [c[0] for c in columns[:-len(cfgs)]]
+            if len(cfgs) > 0: header += [f"{c[0]}.{c[1]}" for c in columns[-len(cfgs):]]
+            rows = get_instances_supported_by_some(cfgs) if len(cfgs) > 0 else get_instances_supported_by_all(cfgs)
             cells = [header]
             for inst in rows:
                 cells.append([])
                 for c in columns:
                     cells[-1].append(get_cell_content(c, inst, kind))
-                if kind == "latex":
-                    # mark the fastest runtime
-                    j_best = []
-                    val_best = None
-                    for j in range(len(columns) - len(cfgs), len(columns)):
-                        try:
-                            val_curr = 0.0 if r"\textless" in cells[-1][j] else float(cells[-1][j])
-                            if val_best is None or val_best >= val_curr:
-                                if val_best == val_curr:
-                                    j_best.append(j)
-                                else:
-                                    j_best =[j]
-                                    val_best = val_curr
-                        except ValueError: continue
-                    for j in j_best:
+                if kind.startswith("latex") and latex_highlight_best_col_indices is not None:
+                    # mark the best bounds
+                    best_lower, best_upper = [], []
+                    for j in latex_highlight_best_col_indices:
+                        res_j = get_cell_content(columns[j], inst, "default")
+                        if res_j[:2] not in ["≤ ", "≥ "]: continue
+                        is_upper = res_j[:2] == "≤ "
+                        if float(res_j[2:]) == (1.0 if is_upper else 0.0): continue
+                        if is_upper and len(best_upper) == 0: best_upper = [j]
+                        elif not is_upper and len(best_lower) == 0: best_lower = [j]
+                        else:
+                            res_best = get_cell_content(columns[best_upper[0] if is_upper else best_lower[0]], inst, "default")
+                            assert res_best[:2] ==  res_j[:2], f"Unexpected result bound type: {res_best} vs. {res_j}"
+                            res_j = float(res_j[2:])
+                            res_best = float(res_best[2:])
+                            if is_upper and res_j < res_best: best_upper = [j]
+                            elif not is_upper and res_j > res_best: best_lower = [j]
+                            elif res_j == res_best:
+                                if is_upper: best_upper.append(j)
+                                else: best_lower.append(j)
+                    for j in best_lower + best_upper:
                         cells[-1][j] = f"\\textbf{{{cells[-1][j]}}}"                        
             return cells
     
     def export_data_for_kind(kind):
-        # benchmark info columns
-        cols = [["name"], ["par"], ["states"], ["choices"], ["observations"], ["property"], ["dim"]]
-        latex_cols = [r"\multicolumn{2}{c}{model}", r"$|S|$", r"$|Act|$", r"$|Z|$", "Prop", "dim"]
-        latex_col_aligns = "ccrrrcc"
-        cfgs = []
-        for tool in TOOLS:
-            cfgs += [[tool.NAME, c["id"]] for c in tool.CONFIGS]
-        # extend columns with configuration data
-        cols += [c + ["wallclock-time"] for c in cfgs]
-        latex_cols += [config_from_id(c[0], c[1])["latex"] for c in cfgs]
-        latex_col_aligns += "r" * len(cfgs)
-        latex_header = "\n& ".join(latex_cols)
-        
-        # create and export different kinds of data
-        cells = create_cells(cols, cfgs, kind)
-        if kind in ["default", "scatter", "quantile"]:
-            save_csv(cells, os.path.join(OUT_DIR, f"{kind}.csv"))
-        elif kind == "html":
-            save_html(cells, len(cfgs), os.path.join(OUT_DIR, f"table"))
-        elif kind == "latex":
-            save_latex(cells, latex_col_aligns, latex_header, os.path.join(OUT_DIR, f"table.tex"))
+        # get the columns relevant for this kind
+        if kind.startswith("latex"):
+            if kind.startswith("latext"):
+                cols = [["name"], ["states"], ["dim"], ["num-epochs"]]
+                timelimit = kind[len("latext"):]
+                cfgs = [ [storm.NAME, f"{cfgbase}{timelimit}s"] for cfgbase in ["unsc", "unsd", "unrc", "unrd", "seqc", "seqd"]]
+                cols += [[c[0], c[1], "result"] for c in cfgs]
+                latex_cols = [r"Model", r"$|S|$", r"$k$", r"$|\epochs|$", r"unf", r"ca-unf", r"ca-seq"]
+                latex_col_aligns = "c" * len(latex_cols)
+                cells = create_cells(cols, cfgs, kind, [6,7,8,9])
+            else:
+                cols = [["name"], ["states"], ["choices"], ["observations"], ["dim"], ["num-epochs"]]
+                latex_cols = [r"model", r"$|S|$", r"$|Act|$", r"$|Z|$", r"$k$", r"$|\epochs|$"]
+                latex_col_aligns = "crrrrr"
+                cfgs = []
+                cells = create_cells(cols, cfgs, kind)
+            latex_header = "\n& ".join(latex_cols)
+            save_latex(cells, latex_col_aligns, latex_header, os.path.join(OUT_DIR, "table{}.tex".format(kind[len("latex"):])))
         else:
-            assert False, f"Unhandled kind: {kind}"
-    
+            cols = [["name"], ["par"], ["states"], ["choices"], ["observations"], ["property"], ["dim"], ["num-epochs"]]
+            cfgs = [ [tool.NAME, c["id"]] for tool in TOOLS  for c in tool.CONFIGS + tool.META_CONFIGS ]
+            cols += [[c[0], c[1], "wallclock-time"] for c in cfgs]
+            # create and export different kinds of data
+            cells = create_cells(cols, cfgs, kind)
+            if kind in ["default", "scatter", "quantile"]:
+                save_csv(cells, os.path.join(OUT_DIR, f"{kind}.csv"))
+            elif kind == "html":
+                save_html(cells, len(cfgs), os.path.join(OUT_DIR, f"table"))
+            else:
+                assert False, f"Unhandled kind: {kind}"
+
     # invoke generation for all kinds
     for kind in KINDS: export_data_for_kind(kind)
+
+    # create csv file for time vs. result plots
+
     
  
 if __name__ == "__main__":
@@ -667,11 +724,13 @@ if __name__ == "__main__":
     print("")
     
     exec_data, benchmark_instances = gather_execution_data(logdirs)
+    benchmark_instances = OrderedDict(sorted(benchmark_instances.items(), key=lambda item: item[0]))
+    process_meta_configs(exec_data, benchmark_instances)
+
     if not os.path.exists(OUT_DIR): os.makedirs(OUT_DIR)
     save_json(exec_data, os.path.join(OUT_DIR, "execution-data.json"))
     save_json(benchmark_instances, os.path.join(OUT_DIR, "benchmark-data.json"))
     
-    benchmark_instances = OrderedDict(sorted(benchmark_instances.items(), key=lambda item: item[0]))
     print("Found Data for {} benchmarks".format(len(benchmark_instances)))
     
     export_data(exec_data, benchmark_instances)

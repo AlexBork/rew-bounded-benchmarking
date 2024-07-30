@@ -27,7 +27,7 @@ default_executable = "$BENCH_HOME/bin/storm-pomdp"
 # Configuration data
 # IDs shall not have a "_" or "."
 CONFIGS = []
- 
+
 base_cfg = OrderedDict()
 base_cfg["tool"] = NAME
 base_cfg["cmd"] = ["--timemem", "--statistics"]
@@ -92,8 +92,18 @@ CONFIGS.append(unf_fully_obs)
 
 CONFIGS = sorted(CONFIGS, key=lambda x: x["id"])
 
+META_CONFIGS = []
+for timelimit in [10, 100, 1000]:
+    for cfgbase in ["seqc", "unrc", "unsc", "seqd", "unrd", "unsd"]:
+        metacfg = OrderedDict()
+        metacfg["id"] = f"{cfgbase}{timelimit}s"
+        metacfg["cfgbase"] = cfgbase
+        metacfg["maxtime"] = timelimit
+        metacfg["latex"] = f"{cfgbase}\\_{timelimit}s"
+        META_CONFIGS.append(metacfg)
+
 def config_from_id(identifier):
-    for c in CONFIGS:
+    for c in CONFIGS + META_CONFIGS:
         if c["id"] == identifier: return c
     assert False, f"Configuration identifier {identifier} is not known for {NAME}."
     
@@ -152,7 +162,7 @@ def parse_logfile(log, inv):
         pos = try_parse(log, pos, "Time for building the belief MDP: ", "s.", inv["belief-mdp"], "build-time", float)
         pos = try_parse(log, pos, "Time for analyzing the belief MDP: ", "s.", inv["belief-mdp"], "chk-time", float)
 
-    # pos = try_parse(log, pos, "#checked epochs: ", ".\n", inv, "num-epochs", int)
+    pos = try_parse(log, pos, "#checked epochs: ", ".\n", inv, "num-epochs", int)
     # pos = try_parse(log, pos, "#checked epochs overall: ", ".\n", inv, "num-epochs", int)
     # pos = try_parse(log, pos, "Number of checked epochs: ", ".\n", inv, "num-epochs", int)
     # Total check time: 0.028s
