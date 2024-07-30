@@ -87,20 +87,20 @@ def create_all_instances():
     name = "incline"
     file_parameters = []
     open_parameters = ["B1", "B2"]
-    par_val_list = [[25,15], [75,15], [75,20]]
-    instances += create_model_instances(name, "rbrmax2", file_parameters, open_parameters, par_val_list, model_filename=f"{name}-grid2.prism")
+    par_val_list = [[75,20]] # also interesting: [25,15], [75,15],
+    instances += create_model_instances(name, "rbrmax2", file_parameters, open_parameters, par_val_list, model_filename=f"{name}-grid1.prism")
 
 
     name = "obstacle"
     file_parameters = []
     open_parameters = ["B1", "B2"]
-    par_val_list = [[25,6], [25,7]]
+    par_val_list = [[25,7]]
     instances += create_model_instances(name, "rbrmax2", file_parameters, open_parameters, par_val_list, model_filename=f"{name}-grid1.prism")
 
     name = "resources"
     file_parameters = ["MAP", "N"]
     open_parameters = ["B1", "B2", "B3"]
-    B1_values = [1,5,10,15,20,30,40,50]
+    B1_values = [5,15,40] #[1,5,10,15,20,30,40,50]
     MULTIPLIERS = [12]
     Maps = ["resources", "enemy_resources"]
     for MAP, N in itertools.product([2],[5]): # map 2 only
@@ -109,18 +109,18 @@ def create_all_instances():
 
     name = "rover"
     open_parameters = ["B1", "B2", "B3"]
-    MULTIPLIERS = [1,5,10,50,100,200]
+    MULTIPLIERS = [20,40,60]
     par_val_list = [[10*m,18*m,10*m] for m in MULTIPLIERS]
     instances += create_model_instances(name, "rbrmax3", open_parameter_names=open_parameters, par_values_list=par_val_list)
 
     name = "service"
-    open_parameters = ["B1", "B2"]
-    par_val_list = [[600,0],[1000,0],[1500,0],[1500,10]]
-    instances += create_model_instances(name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list)
+    open_parameters = ["B1"]
+    par_val_list = [[570], [1000]]
+    instances += create_model_instances(name, "rbrmax1", open_parameter_names=open_parameters, par_values_list=par_val_list)
 
     name = "water"
     open_parameters = ["B1", "B2"]
-    par_val_list = [[10,1],[12,1],[55,5],[57,5],[115,100],[590,50],[1190,100],[5990,500],[11990,1000]]
+    par_val_list = [[590,50],[1190,100],[1790,150],[11990,1000]]
     instances += create_model_instances(name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list, model_filename="water_grid_repeat.prism")
 
     # instances = [i for i in instances if i["name"] in ["water"]]

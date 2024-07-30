@@ -36,43 +36,43 @@ base_cfg["supported-obj-types"] = list(benchmarks.PROPERTY_TYPES.keys())
 base_cfg["supported-model-types"] = ["pomdp"]
 base_cfg["supported-model-formalisms"] = ["prism"]
 
-for i in range(3,9):
+for i in range(8,33):
     seq_c_cfg = copy.deepcopy(base_cfg)
     seq_c_cfg["id"] = f'seqc{i}'
-    seq_c_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration unfold", f"--size-threshold {10**i}"]
-    seq_c_cfg["notes"] += [f"Sequential approach with cutoffs and size threshold 10^{i}"]
+    seq_c_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration unfold", f"--size-threshold {2**i}"]
+    seq_c_cfg["notes"] += [f"Sequential approach, cost aware, with cutoffs and size threshold 2^{i}"]
     seq_c_cfg["latex"] = f"seqc{i}"
     CONFIGS.append(seq_c_cfg)
     unr_c_cfg = copy.deepcopy(base_cfg)
     unr_c_cfg["id"] = f'unrc{i}'
-    unr_c_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration unfold", f"--size-threshold {10**i}"]
-    unr_c_cfg["notes"] += [f"Unfolds reward bounds, reward aware, with cutoffs and size threshold 10^{i}"]
+    unr_c_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration unfold", f"--size-threshold {2**i}"]
+    unr_c_cfg["notes"] += [f"Unfolds cost bounds, cost aware, with cutoffs and size threshold 2^{i}"]
     unr_c_cfg["latex"] = f"unrc{i}"
     CONFIGS.append(unr_c_cfg)
     uns_c_cfg = copy.deepcopy(base_cfg)
     uns_c_cfg["id"] = f'unsc{i}'
-    uns_c_cfg["cmd"] += ["--revised", "--unfold-reward-bound", "--belief-exploration unfold", f"--size-threshold {10**i}"]
-    uns_c_cfg["notes"] += [f"Unfolds reward bounds, do not observer rewards, with cutoffs and size threshold 10^{i}"]
+    uns_c_cfg["cmd"] += ["--revised", "--unfold-reward-bound", "--belief-exploration unfold", f"--size-threshold {2**i}"]
+    uns_c_cfg["notes"] += [f"Unfolds cost bounds, do not observe costs, with cutoffs and size threshold 2^{i}"]
     uns_c_cfg["latex"] = f"unsc{i}"
     CONFIGS.append(uns_c_cfg)
 
-for i in [ 6 * j for j in range(1,7)] + [2,3,4]:
+for i in sorted(set([i*j for i,j in itertools.product([1,2,3,4,5,6,7],[1])])):
     seq_d_cfg = copy.deepcopy(base_cfg)
     seq_d_cfg["id"] = f'seqd{i:02}'
     seq_d_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
-    seq_d_cfg["notes"] += [f"Sequential approach with discretization and resolution {i}"]
+    seq_d_cfg["notes"] += [f"Sequential approach, cost aware, with discretization and resolution {i}"]
     seq_d_cfg["latex"] = f"seqd{i:02}"
     CONFIGS.append(seq_d_cfg)
     unr_d_cfg = copy.deepcopy(base_cfg)
     unr_d_cfg["id"] = f'unrd{i:02}'
     unr_d_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
-    unr_d_cfg["notes"] += [f"Unfolds reward bounds, reward aware, with discretization and resolution {i}"]
+    unr_d_cfg["notes"] += [f"Unfolds cost bounds, cost aware, with discretization and resolution {i}"]
     unr_d_cfg["latex"] = f"unrd{i:02}"
     CONFIGS.append(unr_d_cfg)
     uns_d_cfg = copy.deepcopy(base_cfg)
     uns_d_cfg["id"] = f'unsd{i:02}'
     uns_d_cfg["cmd"] += ["--revised", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
-    uns_d_cfg["notes"] += [f"Unfolds reward bounds, do not observer rewards, with discretization and resolution {i}"]
+    uns_d_cfg["notes"] += [f"Unfolds cost bounds, do not observe costs, with discretization and resolution {i}"]
     uns_d_cfg["latex"] = f"unsd{i:02}"
     CONFIGS.append(uns_d_cfg)
 
