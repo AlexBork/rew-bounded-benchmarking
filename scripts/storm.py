@@ -92,9 +92,11 @@ CONFIGS.append(unf_fully_obs)
 
 CONFIGS = sorted(CONFIGS, key=lambda x: x["id"])
 
+META_CONFIG_TIMELIMITS = [10, 100, 1000]
+BASE_CONFIGS = ["unsc", "unsd", "unrc", "unrd", "seqc", "seqd"]
 META_CONFIGS = []
-for timelimit in [10, 100, 1000]:
-    for cfgbase in ["seqc", "unrc", "unsc", "seqd", "unrd", "unsd"]:
+for timelimit in META_CONFIG_TIMELIMITS:
+    for cfgbase in BASE_CONFIGS:
         metacfg = OrderedDict()
         metacfg["id"] = f"{cfgbase}{timelimit}s"
         metacfg["cfgbase"] = cfgbase
@@ -150,6 +152,15 @@ def parse_logfile(log, inv):
     if pos < 0:
         assert inv["memout"] or inv["timeout"], "Unable to find query output in {}".format(inv["id"])
         return
+
+    posUnf = log.find("Perform explicit unfolding of reward bounds.", pos)
+    if posUnf >= 0:
+        pos = posUnf
+        inv["unfolding-pomdp"] = OrderedDict()
+        pos = try_parse(log, pos, "States: \t", "\n", inv["unfolding-pomdp"], "states", int)
+        pos = try_parse(log, pos, "Transitions: \t", "\n", inv["unfolding-pomdp"], "transitions", int)
+        pos = try_parse(log, pos, "Choices: \t", "\n", inv["unfolding-pomdp"], "choices", int)
+        pos = try_parse(log, pos, "Observations: \t", "\n", inv["unfolding-pomdp"], "observations", int)
 
     posBel = log.find("Constructing the belief MDP...", pos)
     if posBel>=0:

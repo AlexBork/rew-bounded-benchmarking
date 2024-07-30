@@ -22,16 +22,16 @@ def save_csv(csv_data, path : str, delim='\t'):
     with open(path, 'w') as csv_file:
         writer = csv.writer(csv_file, delimiter=delim)
         writer.writerows(csv_data)
-        
+
 def save_html(table_data, num_tool_configs, path):
     SHOW_UNSUPPORTED = True # Also add entries for benchmarks that are known to be unsupported
     LOGS_SUBDIR = "logs"
     if not os.path.exists(os.path.join(path, LOGS_SUBDIR)): os.makedirs(os.path.join(path, LOGS_SUBDIR))
-    
+
     # Aux function for writing in files with proper indention
     def write_line(file, indention, content):
         file.write("\t"*indention + content + "\n")
-        
+
     # Generates an html log page for the given result within path/LOGS_SUBDIR/
     def create_log_page(result_json):
         with open(result_json["log"], 'r') as logfile:
@@ -126,7 +126,7 @@ def save_html(table_data, num_tool_configs, path):
             write_line(f, indention, "</body>")
             write_line(f, indention, "</html>")
         return f_path
-    
+
     num_cols = len(table_data[0])
     first_tool_col = num_cols - num_tool_configs
 
@@ -210,7 +210,7 @@ def save_html(table_data, num_tool_configs, path):
                     logpage = create_log_page(cell_content[1])
                     style_classes = dict(TO="timeout", ERR="error", INC="incorrect", MO="memout", NS="unsupported")
                     link_attributes = "class='{}'".format(style_classes[cell_content[0]]) if cell_content[0] in style_classes else ""
-                    cell_content = "<a href='{}' {}>{}</a>".format(logpage, link_attributes, cell_content[0])                        
+                    cell_content = "<a href='{}' {}>{}</a>".format(logpage, link_attributes, cell_content[0])
                 write_line(tablefile, indention, f'<td>{cell_content}</td>')
             indention -= 1
             write_line(tablefile, indention, '</tr>')
@@ -326,8 +326,8 @@ def save_html(table_data, num_tool_configs, path):
     	position: relative; top: -3.17ex; left: -0.5ex; padding: 0px 0.5ex; background-color: #FFFFFF; display: inline-block;
     }
     """)
-    
-    
+
+
 
 def save_latex(table_data, cols, header, path):
     with open(path, 'w') as latex_file:
@@ -350,19 +350,19 @@ def parse_tool_output(execution_json):
         log = logfile.read()
     execution_json["notes"] = [execution_json["invocation-note"]]
     execution_json["benchmark"] = benchmarks.from_id(execution_json["benchmark-id"])
-    
+
     assert execution_json["tool"] in TOOL_NAMES, "Error: Unknown tool '{}'".format(execution_json["tool"])
     tool = TOOL_NAMES[execution_json["tool"]]
     execution_json["configuration"] = tool.config_from_id(execution_json["configuration-id"])
     tool.parse_logfile(log, execution_json)
-    
+
     # modify logfile
     NOTES_HEADING = "\n" + "#"*30 + " Notes " + "#"*30 + "\n"
     posEnd = log.find(NOTES_HEADING)
     if posEnd >= 0: log = log[:posEnd]
     if len(execution_json["notes"]) > 0: log += NOTES_HEADING + "\n".join(execution_json["notes"]) + "\n"
     with open(execution_json["log"], 'w') as logfile:
-        logfile.write(log)   
+        logfile.write(log)
 
 # stores benchmark-instance specific data from the execution. Reports inconsistencies with other executions on the same instance
 def process_benchmark_instance_data(benchmark_instances, execution_json):
@@ -384,14 +384,16 @@ def process_benchmark_instance_data(benchmark_instances, execution_json):
     bench_data["transitions"] = execution_json["input-model"]["transitions"]
     if "num-epochs" in execution_json and "result" in execution_json:
         bench_data["num-epochs"] = execution_json["num-epochs"]
+    if "unfolding-pomdp" in execution_json and "states" in execution_json["unfolding-pomdp"]:
+        bench_data["unf-states"] = execution_json["unfolding-pomdp"]["states"]
     bench_data["invocations"] = [execution_json["id"]]
-    
+
     # incorporate into existing data
     if not bench_id in benchmark_instances:
         benchmark_instances[bench_id] = bench_data
     else:
         # ensure consistency
-        for key in ["id", "name", "formalism", "type", "par", "property", "dim", "states", "choices", "observations", "transitions", "num-epochs"]:
+        for key in ["id", "name", "formalism", "type", "par", "property", "dim", "states", "choices", "observations", "transitions", "num-epochs", "unf-states"]:
             if key in bench_data:
                 if key in benchmark_instances[bench_id]:
                     if benchmark_instances[bench_id][key] != bench_data[key]:
@@ -409,7 +411,7 @@ def process_benchmark_instance_data(benchmark_instances, execution_json):
 def gather_execution_data(logdirs, silent=False):
     exec_data = OrderedDict() # Tool -> Config -> Benchmark -> Data
     benchmark_instances = OrderedDict() # ID -> data
-    
+
     for logdir_input in logdirs:
         logdir = os.path.expanduser(logdir_input)
         if not os.path.isdir(logdir):
@@ -482,28 +484,28 @@ def process_meta_configs(exec_data, benchmark_instances):
 def export_data(exec_data, benchmark_instances):
     SCATTER_MIN_VALUE, SCATTER_MAX_VALUE = 1, 1000
     QUANTILE_MIN_VALUE = 1
-    KINDS = ["default", "scatter", "quantile", "html", "latexbenchmarks", "latext10", "latext100", "latext1000"]
+    KINDS = ["default", "scatter", "quantile", "html", "latexbenchmarks"] + [f"latext{t}" for t in storm.META_CONFIG_TIMELIMITS]
 
     def scatter_special_value(i): return round(SCATTER_MAX_VALUE * (math.sqrt(2)**i))
-    
+
     def get_result(tool, config, inst_id):
         if tool in exec_data and config in exec_data[tool] and inst_id in exec_data[tool][config]:
             return exec_data[tool][config][inst_id]
-                
+
     def get_result_if_supported(tool, config, inst_id):
         res = get_result(tool, config, inst_id)
         if res is not None and not res["not-supported"]:
             return res
-    
+
     def get_instances_num_supported(cfgs):
         res = Counter()
         for i in benchmarks.INSTANCES:
             res[i["id"]] = len([c for c in cfgs if get_result_if_supported(c[0], c[1], i["id"]) is not None])
         return res
-    
+
     def get_instances_supported_by_some(cfgs):
         return [i[0] for i in get_instances_num_supported(cfgs).items() if i[1] > 0]
-              
+
     def get_instances_supported_by_all(cfgs):
         return [i[0] for i in get_instances_num_supported(cfgs).items() if i[1] == len(cfgs)]
 
@@ -538,7 +540,7 @@ def export_data(exec_data, benchmark_instances):
         else:
             v = value
         return v if data_kind is None else f"${v}$"
-            
+
     def get_cell_content(column, inst, kind):
         assert kind in KINDS, f"Invalid kind for cell content: {kind}"
         value = None
@@ -552,7 +554,7 @@ def export_data(exec_data, benchmark_instances):
                 elif kind in ["scatter"]:
                     value = scatter_special_value(2)
                 elif kind.startswith("latex"):
-                    value = ""
+                    value = "-"
                 elif kind in ["quantile"]:
                     value = math.inf
             elif res["timeout"] == True:
@@ -613,7 +615,7 @@ def export_data(exec_data, benchmark_instances):
                 if kind in ["scatter", "quantile"]:
                     value = "nan"
                 else:
-                    value = "" 
+                    value = "?"
             if len(column) > 1:
                 value = column[1](value)
             elif kind.startswith("latex"):
@@ -626,7 +628,7 @@ def export_data(exec_data, benchmark_instances):
             value = f"{value}"
         assert value is not None, f"No value found for column {column}, and instance {inst} (kind {kind})"
         return value
-        
+
     def create_cells(columns, cfgs, kind, latex_highlight_best_col_indices = None):
         if kind == "quantile":
             rows = get_instances_supported_by_all(cfgs)
@@ -640,7 +642,7 @@ def export_data(exec_data, benchmark_instances):
         else:
             header = [c[0] for c in columns[:-len(cfgs)]]
             if len(cfgs) > 0: header += [f"{c[0]}.{c[1]}" for c in columns[-len(cfgs):]]
-            rows = get_instances_supported_by_some(cfgs) if len(cfgs) > 0 else get_instances_supported_by_all(cfgs)
+            rows = [i["id"] for i in benchmarks.INSTANCES]
             cells = [header]
             for inst in rows:
                 cells.append([])
@@ -667,20 +669,89 @@ def export_data(exec_data, benchmark_instances):
                                 if is_upper: best_upper.append(j)
                                 else: best_lower.append(j)
                     for j in best_lower + best_upper:
-                        cells[-1][j] = f"\\textbf{{{cells[-1][j]}}}"                        
+                        cells[-1][j] = f"\\textbf{{{cells[-1][j]}}}"
             return cells
-    
+
+    def merge_cells_latex(cells, merge_cols):
+        cols_to_remove = [r for l,r in merge_cols]
+        new_cells = [cells[0]]
+        for row in cells[1:]: # skip header
+            row_cpy = copy.deepcopy(row)
+            for l,r in merge_cols:
+                lower = row_cpy[l]
+                upper = row_cpy[r]
+                if lower == "-": result = upper
+                elif upper == "-": result = lower
+                else:
+                    assert r"$\ge$" in lower, f"Unexpected content for result cell: {lower}"
+                    assert r"$\le$" in upper, f"Unexpected content for result cell: {upper}"
+                    result = "[{},~{}]".format(lower.replace(r"$\ge$", ""), upper.replace(r"$\le$", ""))
+                row_cpy[l] = result
+            new_cells.append([row_cpy[i] for i in range(len(row_cpy)) if i not in cols_to_remove])
+        return new_cells
+
+    def get_time_result_list_for_plot(cfgbase, inst_id):
+        datalist = []
+        is_increasing = False
+        is_decreasing = False
+        for cfg in [c for c in storm.CONFIGS if c["id"].startswith(cfgbase)]:
+            res = get_result_if_supported(storm.NAME, cfg["id"], inst_id)
+            if res is not None and "result" in res:
+                assert res["result"][:2] in ["≤ ", "≥ "], f"Unexpected result string: {res['result']}"
+                is_increasing = is_increasing or res["result"][:2] == "≥ " # lower bounds should be increasing over time
+                is_decreasing = is_decreasing or res["result"][:2] == "≤ " # upper bounds should be decreasing over time
+                assert not is_increasing or not is_decreasing, f"Unexpected result string: {res['result']}"
+                datalist.append((res["wallclock-time"], float(res["result"][2:])))
+        datalist = sorted(datalist)
+        if len(datalist) == 0: return []
+        result = [(0.01, 0.0 if is_increasing else 1.0)]
+        for t,r in datalist:
+            prev_r = result[-1][1]
+            # discard bounds that are worse than what is already known
+            if is_increasing and prev_r > r: continue
+            if is_decreasing and prev_r < r: continue
+            result.append((t,prev_r)) # results in a 'stair' form for the plot
+            result.append((t,r))
+        result.append((3600, result[-1][1]))
+        return result
+
+    def create_time_result_csv():
+        header = []
+        column_contents = []
+        for cfgbase, inst_id in itertools.product(storm.BASE_CONFIGS, benchmark_instances.keys()):
+            header += [f"{cfgbase}.{inst_id}.{postfix}" for postfix in ["time", "result"]]
+            column_contents.append(get_time_result_list_for_plot(cfgbase, inst_id))
+            print("Found time results for {} {}:\n\t{}".format(cfgbase, inst_id, "\n\t".join([f"{t}: {r}" for t,r in column_contents[-1]])))
+
+        table = [header]
+        num_rows = max([len(c) for c in column_contents])
+        for row_index in range(num_rows):
+            row = []
+            for col in column_contents:
+                if row_index < len(col):
+                    row += [col[row_index][0], col[row_index][1]]
+                else:
+                    row += ["", ""]
+            table.append(row)
+
+        save_csv(table, os.path.join(OUT_DIR, "time_result.csv"))
+        with open(os.path.join(OUT_DIR, "time_result.tex"), 'w') as f:
+            for inst in benchmark_instances.keys():
+                f.write(r"\begin{figure}[t]" + "\\defaulttimeresplot{{{}}}{{0}}{{1}}\\caption{{{}}}".format(inst, inst.replace("_", r"\_")) + r"\end{figure}" + "\n")
+
+
     def export_data_for_kind(kind):
         # get the columns relevant for this kind
         if kind.startswith("latex"):
             if kind.startswith("latext"):
-                cols = [["name"], ["states"], ["dim"], ["num-epochs"]]
+                cols = [["name"], ["states"], ["dim"], ["num-epochs"], ["unf-states"]]
                 timelimit = kind[len("latext"):]
-                cfgs = [ [storm.NAME, f"{cfgbase}{timelimit}s"] for cfgbase in ["unsc", "unsd", "unrc", "unrd", "seqc", "seqd"]]
+                cfgs = [ [storm.NAME, f"{cfgbase}{timelimit}s"] for cfgbase in storm.BASE_CONFIGS ]
                 cols += [[c[0], c[1], "result"] for c in cfgs]
-                latex_cols = [r"Model", r"$|S|$", r"$k$", r"$|\epochs|$", r"unf", r"ca-unf", r"ca-seq"]
+                latex_cols = [r"Model", r"$|S|$", r"$k$", r"$|\epochs|$",r"$|S_\mathsf{un}|$", r"unf", r"ca-unf", r"ca-seq"]
                 latex_col_aligns = "c" * len(latex_cols)
-                cells = create_cells(cols, cfgs, kind, [6,7,8,9])
+                cells = create_cells(cols, cfgs, kind, [7,8,9,10])
+                cells = merge_cells_latex(cells, [[5,6],[7,8],[9,10]])
             else:
                 cols = [["name"], ["states"], ["choices"], ["observations"], ["dim"], ["num-epochs"]]
                 latex_cols = [r"model", r"$|S|$", r"$|Act|$", r"$|Z|$", r"$k$", r"$|\epochs|$"]
@@ -704,11 +775,10 @@ def export_data(exec_data, benchmark_instances):
 
     # invoke generation for all kinds
     for kind in KINDS: export_data_for_kind(kind)
+    create_time_result_csv()
 
-    # create csv file for time vs. result plots
 
-    
- 
+
 if __name__ == "__main__":
     print("Benchmarking tool.")
     print("This script gathers data of executions and exports them in various ways.")
@@ -722,7 +792,7 @@ if __name__ == "__main__":
 
     print("Selected log dir(s): {}".format(", ".join(logdirs)))
     print("")
-    
+
     exec_data, benchmark_instances = gather_execution_data(logdirs)
     benchmark_instances = OrderedDict(sorted(benchmark_instances.items(), key=lambda item: item[0]))
     process_meta_configs(exec_data, benchmark_instances)
@@ -730,7 +800,7 @@ if __name__ == "__main__":
     if not os.path.exists(OUT_DIR): os.makedirs(OUT_DIR)
     save_json(exec_data, os.path.join(OUT_DIR, "execution-data.json"))
     save_json(benchmark_instances, os.path.join(OUT_DIR, "benchmark-data.json"))
-    
+
     print("Found Data for {} benchmarks".format(len(benchmark_instances)))
-    
+
     export_data(exec_data, benchmark_instances)
