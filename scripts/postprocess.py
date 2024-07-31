@@ -513,7 +513,11 @@ def export_data(exec_data, benchmark_instances):
         return html.escape(str(text))
 
     def to_latex(value, data_kind = None):
-        if type(value) == int:
+        if data_kind == "time":
+            if value < 1.0: v = r"\textless 1"
+            elif value < 100: v = f"{value:.1f}"
+            else: v = f"{value:.0f}"
+        elif type(value) == int:
             v = f"{value:.4g}"
             if "e+" in v: v = "{} {{\\cdot}} 10^{{{}}}".format(round(float(v[:v.find("e+")])), int(v[v.find("e+")+2:]))
         elif type(value) == bool:
@@ -530,16 +534,17 @@ def export_data(exec_data, benchmark_instances):
             v = r"$\{}$ {}".format("le" if value[0] == "≤" else "ge", to_latex(float(value[2:]), ))
             data_kind = None # do not add $ for the value
         elif type(value) == str and data_kind == "name":
+            value = value.replace("resources", "resrc").replace("obstacle", "obstcl").replace("service", "serv")
             v = f"\\model{{{value}}}"
         elif type(value) == str and data_kind == "par":
             v = value.replace("_", r"\_")
         elif type(value) == float:
             v = f"{value:.3g}"
-            if "e+" in v: v = "{} {{$\\cdot$}} 10$^\\text{{{}}}$".format(round(float(v[:v.find("e+")])), int(v[v.find("e+")+2:]))
-            if "e-" in v: v = "{} {{$\\cdot$}} 10$^\\text{{-{}}}$".format(round(float(v[:v.find("e-")])), int(v[v.find("e-")+2:]))
+            if "e+" in v: v = "{}{{$\\cdot$}}10$^\\text{{{}}}$".format(round(float(v[:v.find("e+")])), int(v[v.find("e+")+2:]))
+            if "e-" in v: v = "{}{{$\\cdot$}}10$^\\text{{-{}}}$".format(round(float(v[:v.find("e-")])), int(v[v.find("e-")+2:]))
         else:
             v = value
-        return v if data_kind is None else f"${v}$"
+        return v if data_kind is None or data_kind == "time" else f"${v}$"
 
     def get_cell_content(column, inst, kind):
         assert kind in KINDS, f"Invalid kind for cell content: {kind}"
@@ -590,12 +595,7 @@ def export_data(exec_data, benchmark_instances):
                     if kind in ["html"]:
                         value = f"{value:.1f}"
                     elif kind.startswith("latex"):
-                        if value < 1.0:
-                            value = r"\textless 1"
-                        elif value < 100:
-                            value = f"{value:.1f}"
-                        else:
-                            value = f"{value:.0f}"
+                        value = to_latex(value, "time")
                     elif kind in ["scatter"]:
                         value = max(SCATTER_MIN_VALUE, min(SCATTER_MAX_VALUE, value))
                     elif kind in ["quantile"]:
@@ -607,7 +607,14 @@ def export_data(exec_data, benchmark_instances):
                 if res is not None:
                     value = [value, res]
                     if "result" in res:
-                        value[0] += to_html(" / {}".format(res["result"]))
+                        value[0] = to_html("{} / {}".format(res["result"], value[0]))
+            elif kind.startswith("latex"):
+                res = get_result(tool, column[1], inst)
+                if res is None or "result" not in res or res["result"] in ["≥ 0", "≤ 1"]:
+                    value = r"\multicolumn{1}{c}{-}"
+                else:
+                    assert res["result"][:2] in ["≤ ", "≥ "]
+                    value = "{} ({}s)".format(to_latex(float(res["result"][2:])), value)
         else: # column[0] is a key in benchmark_instances, column[1] is either not present or a function that applies a transformation
             if column[0] in benchmark_instances[inst]:
                 value = benchmark_instances[inst][column[0]]
@@ -649,27 +656,55 @@ def export_data(exec_data, benchmark_instances):
                 for c in columns:
                     cells[-1].append(get_cell_content(c, inst, kind))
                 if kind.startswith("latex") and latex_highlight_best_col_indices is not None:
-                    # mark the best bounds
-                    best_lower, best_upper = [], []
+                    # mark the best results
+                    best_lower_indices, best_upper_indices = [], []
+                    best_lower_result, best_upper_result = None, None
+                    # first find the ones with the best bounds
                     for j in latex_highlight_best_col_indices:
-                        res_j = get_cell_content(columns[j], inst, "default")
+                        execdata_j = get_result(columns[j][0], columns[j][1], inst)
+                        if execdata_j is None or "result" not in execdata_j: continue
+                        res_j = execdata_j["result"]
                         if res_j[:2] not in ["≤ ", "≥ "]: continue
                         is_upper = res_j[:2] == "≤ "
                         if float(res_j[2:]) == (1.0 if is_upper else 0.0): continue
-                        if is_upper and len(best_upper) == 0: best_upper = [j]
-                        elif not is_upper and len(best_lower) == 0: best_lower = [j]
+                        if is_upper and len(best_upper_indices) == 0:
+                            best_upper_indices = [j]
+                            best_upper_result = res_j
+                        elif not is_upper and len(best_lower_indices) == 0:
+                            best_lower_indices = [j]
+                            best_lower_result = res_j
                         else:
-                            res_best = get_cell_content(columns[best_upper[0] if is_upper else best_lower[0]], inst, "default")
+                            res_best = best_upper_result if is_upper else best_lower_result
                             assert res_best[:2] ==  res_j[:2], f"Unexpected result bound type: {res_best} vs. {res_j}"
                             res_j = float(res_j[2:])
                             res_best = float(res_best[2:])
-                            if is_upper and res_j < res_best: best_upper = [j]
-                            elif not is_upper and res_j > res_best: best_lower = [j]
+                            if is_upper and res_j < res_best:
+                                best_upper_indices = [j]
+                                best_upper_result = res_j
+                            elif not is_upper and res_j > res_best:
+                                best_lower_indices = [j]
+                                best_lower_result = res_j
                             elif res_j == res_best:
-                                if is_upper: best_upper.append(j)
-                                else: best_lower.append(j)
-                    for j in best_lower + best_upper:
-                        cells[-1][j] = f"\\textbf{{{cells[-1][j]}}}"
+                                if is_upper: best_upper_indices.append(j)
+                                else: best_lower_indices.append(j)
+                    # now filter to find the best runtimes
+                    for indices in [best_lower_indices, best_upper_indices]:
+                        best_time = None
+                        best_indices = []
+                        for j in indices:
+                            time_j = get_cell_content(columns[j], inst, "default")
+                            assert(type(time_j) == float), f"Unexpected content for time cell: {time_j}"
+                            if best_time is None:
+                                best_time = time_j
+                                best_indices = [j]
+                            elif to_latex(time_j, "time") == to_latex(best_time, "time"):
+                                best_indices.append(j)
+                            elif time_j < best_time:
+                                best_time = time_j
+                                best_indices = [j]
+                        for j in best_indices:
+                            cells[-1][j] = f"\\textbf{{{cells[-1][j]}}}"
+
             return cells
 
     def merge_cells_latex(cells, merge_cols):
@@ -737,7 +772,7 @@ def export_data(exec_data, benchmark_instances):
         save_csv(table, os.path.join(OUT_DIR, "time_result.csv"))
         with open(os.path.join(OUT_DIR, "time_result.tex"), 'w') as f:
             for inst in benchmark_instances.keys():
-                f.write(r"\begin{figure}[t]" + "\\defaulttimeresplot{{{}}}{{0}}{{1}}\\caption{{{}}}".format(inst, inst.replace("_", r"\_")) + r"\end{figure}" + "\n")
+                f.write(r"\begin{figure}[t]" + "\\defaulttimeresplot{{{}}}{{0.1}}{{3600}}\\caption{{{}}}".format(inst, inst.replace("_", r"\_")) + r"\end{figure}" + "\n")
 
 
     def export_data_for_kind(kind):
@@ -747,11 +782,11 @@ def export_data(exec_data, benchmark_instances):
                 cols = [["name"], ["states"], ["dim"], ["num-epochs"], ["unf-states"]]
                 timelimit = kind[len("latext"):]
                 cfgs = [ [storm.NAME, f"{cfgbase}{timelimit}s"] for cfgbase in storm.BASE_CONFIGS ]
-                cols += [[c[0], c[1], "result"] for c in cfgs]
-                latex_cols = [r"Model", r"$|S|$", r"$k$", r"$|\epochs|$",r"$|S_\mathsf{un}|$", r"unf", r"ca-unf", r"ca-seq"]
-                latex_col_aligns = "c" * len(latex_cols)
+                cols += [[c[0], c[1], "wallclock-time"] for c in cfgs]
+                latex_cols = [r"Model", r"$|S|$", r"$k$", r"$|\epochs|$",r"$|S_\mathsf{un}|$", r"\multicolumn{2}{c}{unf}", r"\multicolumn{2}{c}{ca-unf}", r"\multicolumn{2}{c}{ca-seq}"]
+                latex_col_aligns = "r" * len(cols)
                 cells = create_cells(cols, cfgs, kind, [7,8,9,10])
-                cells = merge_cells_latex(cells, [[5,6],[7,8],[9,10]])
+                # cells = merge_cells_latex(cells, [[5,6],[7,8],[9,10]])
             else:
                 cols = [["name"], ["states"], ["choices"], ["observations"], ["dim"], ["num-epochs"]]
                 latex_cols = [r"model", r"$|S|$", r"$|Act|$", r"$|Z|$", r"$k$", r"$|\epochs|$"]

@@ -92,7 +92,7 @@ CONFIGS.append(unf_fully_obs)
 
 CONFIGS = sorted(CONFIGS, key=lambda x: x["id"])
 
-META_CONFIG_TIMELIMITS = [10, 100, 1000]
+META_CONFIG_TIMELIMITS = [10, 100, 1000, 1800]
 BASE_CONFIGS = ["unsc", "unsd", "unrc", "unrd", "seqc", "seqd"]
 META_CONFIGS = []
 for timelimit in META_CONFIG_TIMELIMITS:
