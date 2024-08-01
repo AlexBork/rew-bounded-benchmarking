@@ -783,7 +783,7 @@ def export_data(exec_data, benchmark_instances):
                 timelimit = kind[len("latext"):]
                 cfgs = [ [storm.NAME, f"{cfgbase}{timelimit}s"] for cfgbase in storm.BASE_CONFIGS ]
                 cols += [[c[0], c[1], "wallclock-time"] for c in cfgs]
-                latex_cols = [r"Model", r"$|S|$", r"$k$", r"$|\epochs|$",r"$|S_\mathsf{un}|$", r"\multicolumn{2}{c}{unf}", r"\multicolumn{2}{c}{ca-unf}", r"\multicolumn{2}{c}{ca-seq}"]
+                latex_cols = [r"Model", r"$|S|$", r"$k$", r"$|\epochs|$",r"$|S_\mathsf{un}|$", r"\multicolumn{2}{c}{\config{unfold}: \config{cut} / \config{discr}}", r"\multicolumn{2}{c}{\config{ca-unfold}: \config{cut} / \config{discr}}", r"\multicolumn{2}{c}{\config{ca-bel-seq}: \config{cut} / \config{discr}}"]
                 latex_col_aligns = "r" * len(cols)
                 cells = create_cells(cols, cfgs, kind, [7,8,9,10])
                 # cells = merge_cells_latex(cells, [[5,6],[7,8],[9,10]])
