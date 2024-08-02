@@ -71,18 +71,16 @@ for i in sorted(set([i*j for i,j in itertools.product([1,2,3,4,5,6,7],[1,2,3,4,5
     CONFIGS.append(uns_d_cfg)
 
 # Check fully observable models (not relevant)
-# seq_fully_obs = copy.deepcopy(base_cfg)
-# seq_fully_obs["id"] = "fseq"
-# seq_fully_obs["cmd"] += ["--check-fully-observable", "--reward-aware"]
-# seq_fully_obs["notes"] += ["Sequential approach with fully observable belief MDP"]
-# seq_fully_obs["latex"] = "fseq"
-# CONFIGS.append(seq_fully_obs)
-#
+seq_fully_obs = copy.deepcopy(base_cfg)
+seq_fully_obs["id"] = "mdpseq"
+seq_fully_obs["cmd"] += ["--check-fully-observable", "--reward-aware"]
+seq_fully_obs["notes"] += ["Sequential approach on the underlying (fully observable) observable MDP"]
+CONFIGS.append(seq_fully_obs)
+
 # unf_fully_obs = copy.deepcopy(base_cfg)
 # unf_fully_obs["id"] = "funf"
 # unf_fully_obs["cmd"] += ["--check-fully-observable", "--unfold-reward-bound"]
-# unf_fully_obs["notes"] += ["Unfolding approach with fully observable belief MDP"]
-# unf_fully_obs["latex"] = "funf"
+# unf_fully_obs["notes"] += ["Unfolding approach with fully observable  MDP"]
 # CONFIGS.append(unf_fully_obs)
 
 CONFIGS = sorted(CONFIGS, key=lambda x: x["id"])
