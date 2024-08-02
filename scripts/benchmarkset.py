@@ -85,27 +85,21 @@ def create_all_instances():
     instances = []
 
     name = "incline"
-    file_parameters = []
     open_parameters = ["B1", "B2"]
     par_val_list = [[75,20]] # also interesting: [25,15], [75,15],
-    instances += create_model_instances(name, "rbrmax2", file_parameters, open_parameters, par_val_list, model_filename=f"{name}-grid1.prism")
+    instances += create_model_instances(name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list)
 
-
-    name = "obstacle"
-    file_parameters = []
+    name = "obstcl"
     open_parameters = ["B1", "B2"]
     par_val_list = [[25,7]]
-    instances += create_model_instances(name, "rbrmax2", file_parameters, open_parameters, par_val_list, model_filename=f"{name}-grid1.prism")
+    instances += create_model_instances(name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list)
 
-    name = "resources"
-    file_parameters = ["MAP", "N"]
+    name = "resrc"
     open_parameters = ["B1", "B2", "B3"]
     B1_values = [5,15] #[1,5,10,15,20,30,40,50]
     MULTIPLIERS = [12]
-    Maps = ["resources", "enemy_resources"]
-    for MAP, N in itertools.product([2],[5]): # map 2 only
-        par_val_list = [[MAP, N, b1,b1,b1*stepmul] for b1,stepmul in itertools.product(B1_values,MULTIPLIERS)]
-        instances += create_model_instances(name, "rbrmax3", file_parameters, open_parameters , par_val_list, model_filename=f"{Maps[MAP-1]}{N}_{N}.prism")
+    par_val_list = [[b1,b1,b1*stepmul] for b1,stepmul in itertools.product(B1_values,MULTIPLIERS)]
+    instances += create_model_instances(name, "rbrmax3", open_parameter_names=open_parameters, par_values_list=par_val_list)
 
     name = "rover"
     open_parameters = ["B1", "B2", "B3"]
@@ -113,7 +107,7 @@ def create_all_instances():
     par_val_list = [[10*m,18*m,10*m] for m in MULTIPLIERS]
     instances += create_model_instances(name, "rbrmax3", open_parameter_names=open_parameters, par_values_list=par_val_list)
 
-    name = "service"
+    name = "serv"
     open_parameters = ["B1"]
     par_val_list = [[570], [1000]]
     instances += create_model_instances(name, "rbrmax1", open_parameter_names=open_parameters, par_values_list=par_val_list)

@@ -38,70 +38,64 @@ base_cfg["supported-model-formalisms"] = ["prism"]
 
 for i in range(8,33):
     seq_c_cfg = copy.deepcopy(base_cfg)
-    seq_c_cfg["id"] = f'seqc{i}'
+    seq_c_cfg["id"] = f'belseqc{i:02}'
     seq_c_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration unfold", f"--size-threshold {2**i}"]
     seq_c_cfg["notes"] += [f"Sequential approach, cost aware, with cutoffs and size threshold 2^{i}"]
-    seq_c_cfg["latex"] = f"seqc{i}"
     CONFIGS.append(seq_c_cfg)
     unr_c_cfg = copy.deepcopy(base_cfg)
-    unr_c_cfg["id"] = f'unrc{i}'
+    unr_c_cfg["id"] = f'caunfc{i:02}'
     unr_c_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration unfold", f"--size-threshold {2**i}"]
     unr_c_cfg["notes"] += [f"Unfolds cost bounds, cost aware, with cutoffs and size threshold 2^{i}"]
-    unr_c_cfg["latex"] = f"unrc{i}"
     CONFIGS.append(unr_c_cfg)
     uns_c_cfg = copy.deepcopy(base_cfg)
-    uns_c_cfg["id"] = f'unsc{i}'
+    uns_c_cfg["id"] = f'unfc{i:02}'
     uns_c_cfg["cmd"] += ["--revised", "--unfold-reward-bound", "--belief-exploration unfold", f"--size-threshold {2**i}"]
-    uns_c_cfg["notes"] += [f"Unfolds cost bounds, do not observe costs, with cutoffs and size threshold 2^{i}"]
-    uns_c_cfg["latex"] = f"unsc{i}"
+    uns_c_cfg["notes"] += [f"Unfolds cost bounds, not cost-aware, with cutoffs and size threshold 2^{i}"]
     CONFIGS.append(uns_c_cfg)
 
-for i in sorted(set([i*j for i,j in itertools.product([1,2,3,4,5,6,7],[1])])):
+for i in sorted(set([i*j for i,j in itertools.product([1,2,3,4,5,6,7],[1,2,3,4,5,6,7])])):
     seq_d_cfg = copy.deepcopy(base_cfg)
-    seq_d_cfg["id"] = f'seqd{i:02}'
+    seq_d_cfg["id"] = f'belseqd{i:02}'
     seq_d_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     seq_d_cfg["notes"] += [f"Sequential approach, cost aware, with discretization and resolution {i}"]
-    seq_d_cfg["latex"] = f"seqd{i:02}"
     CONFIGS.append(seq_d_cfg)
     unr_d_cfg = copy.deepcopy(base_cfg)
-    unr_d_cfg["id"] = f'unrd{i:02}'
+    unr_d_cfg["id"] = f'caunfd{i:02}'
     unr_d_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     unr_d_cfg["notes"] += [f"Unfolds cost bounds, cost aware, with discretization and resolution {i}"]
-    unr_d_cfg["latex"] = f"unrd{i:02}"
     CONFIGS.append(unr_d_cfg)
     uns_d_cfg = copy.deepcopy(base_cfg)
-    uns_d_cfg["id"] = f'unsd{i:02}'
+    uns_d_cfg["id"] = f'unfd{i:02}'
     uns_d_cfg["cmd"] += ["--revised", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
-    uns_d_cfg["notes"] += [f"Unfolds cost bounds, do not observe costs, with discretization and resolution {i}"]
-    uns_d_cfg["latex"] = f"unsd{i:02}"
+    uns_d_cfg["notes"] += [f"Unfolds cost bounds, not cost-aware, with discretization and resolution {i}"]
     CONFIGS.append(uns_d_cfg)
 
-seq_fully_obs = copy.deepcopy(base_cfg)
-seq_fully_obs["id"] = "fseq"
-seq_fully_obs["cmd"] += ["--check-fully-observable", "--reward-aware"]
-seq_fully_obs["notes"] += ["Sequential approach with fully observable belief MDP"]
-seq_fully_obs["latex"] = "fseq"
-CONFIGS.append(seq_fully_obs)
-
-unf_fully_obs = copy.deepcopy(base_cfg)
-unf_fully_obs["id"] = "funf"
-unf_fully_obs["cmd"] += ["--check-fully-observable", "--unfold-reward-bound"]
-unf_fully_obs["notes"] += ["Unfolding approach with fully observable belief MDP"]
-unf_fully_obs["latex"] = "funf"
-CONFIGS.append(unf_fully_obs)
+# Check fully observable models (not relevant)
+# seq_fully_obs = copy.deepcopy(base_cfg)
+# seq_fully_obs["id"] = "fseq"
+# seq_fully_obs["cmd"] += ["--check-fully-observable", "--reward-aware"]
+# seq_fully_obs["notes"] += ["Sequential approach with fully observable belief MDP"]
+# seq_fully_obs["latex"] = "fseq"
+# CONFIGS.append(seq_fully_obs)
+#
+# unf_fully_obs = copy.deepcopy(base_cfg)
+# unf_fully_obs["id"] = "funf"
+# unf_fully_obs["cmd"] += ["--check-fully-observable", "--unfold-reward-bound"]
+# unf_fully_obs["notes"] += ["Unfolding approach with fully observable belief MDP"]
+# unf_fully_obs["latex"] = "funf"
+# CONFIGS.append(unf_fully_obs)
 
 CONFIGS = sorted(CONFIGS, key=lambda x: x["id"])
 
 META_CONFIG_TIMELIMITS = [10, 100, 1000, 1800]
-BASE_CONFIGS = ["unsc", "unsd", "unrc", "unrd", "seqc", "seqd"]
+BASE_CONFIGS = ["unfc", "unfd", "caunfc", "caunfd", "belseqc", "belseqd"]
 META_CONFIGS = []
 for timelimit in META_CONFIG_TIMELIMITS:
     for cfgbase in BASE_CONFIGS:
         metacfg = OrderedDict()
-        metacfg["id"] = f"{cfgbase}{timelimit}s"
+        metacfg["id"] = f"{cfgbase}-best-in-{timelimit}s"
         metacfg["cfgbase"] = cfgbase
         metacfg["maxtime"] = timelimit
-        metacfg["latex"] = f"{cfgbase}\\_{timelimit}s"
         META_CONFIGS.append(metacfg)
 
 def config_from_id(identifier):
