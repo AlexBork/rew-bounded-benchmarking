@@ -1,0 +1,19 @@
+{
+	"id": "storm.belseqd14.serv_rbrmax1_B11000",
+	"benchmark-id": "serv_rbrmax1_B11000",
+	"tool": "storm",
+	"configuration-id": "belseqd14",
+	"invocation-note": "Storm-pomdp. Sequential approach, cost aware, with discretization and resolution 14",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 14 --triangulationmode static"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.belseqd14.serv_rbrmax1_B11000.log",
+	"wallclock-time": 304.17831110954285,
+	"timeout": false,
+	"execution-error": true,
+	"return-codes": [
+		-9
+	]
+}

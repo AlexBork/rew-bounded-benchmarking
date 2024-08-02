@@ -1,0 +1,19 @@
+{
+	"id": "storm.belseqc31.incline_rbrmax2_B175-B220",
+	"benchmark-id": "incline_rbrmax2_B175-B220",
+	"tool": "storm",
+	"configuration-id": "belseqc31",
+	"invocation-note": "Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^31",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const B1=75,B2=20 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 2147483648"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.belseqc31.incline_rbrmax2_B175-B220.log",
+	"wallclock-time": 192.0975992679596,
+	"timeout": false,
+	"execution-error": true,
+	"return-codes": [
+		-9
+	]
+}

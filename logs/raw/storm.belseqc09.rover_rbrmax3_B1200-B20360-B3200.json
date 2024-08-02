@@ -1,0 +1,19 @@
+{
+	"id": "storm.belseqc09.rover_rbrmax3_B1200-B20360-B3200",
+	"benchmark-id": "rover_rbrmax3_B1200-B20360-B3200",
+	"tool": "storm",
+	"configuration-id": "belseqc09",
+	"invocation-note": "Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^9",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=200,B2=360,B3=200 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 512"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.belseqc09.rover_rbrmax3_B1200-B20360-B3200.log",
+	"wallclock-time": 13.595017910003662,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

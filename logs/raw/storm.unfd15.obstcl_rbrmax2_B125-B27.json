@@ -1,0 +1,19 @@
+{
+	"id": "storm.unfd15.obstcl_rbrmax2_B125-B27",
+	"benchmark-id": "obstcl_rbrmax2_B125-B27",
+	"tool": "storm",
+	"configuration-id": "unfd15",
+	"invocation-note": "Storm-pomdp. Unfolds cost bounds, not cost-aware, with discretization and resolution 15",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/obstcl/obstcl.prism --prop $BENCH_HOME/models/obstcl/obstcl.props rbrmax2 -const B1=25,B2=7 --timemem --statistics --revised --unfold-reward-bound --belief-exploration discretize --resolution 15 --triangulationmode static"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.unfd15.obstcl_rbrmax2_B125-B27.log",
+	"wallclock-time": 5.945865154266357,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

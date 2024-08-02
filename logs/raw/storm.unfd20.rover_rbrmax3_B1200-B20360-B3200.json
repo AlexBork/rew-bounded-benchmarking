@@ -1,0 +1,19 @@
+{
+	"id": "storm.unfd20.rover_rbrmax3_B1200-B20360-B3200",
+	"benchmark-id": "rover_rbrmax3_B1200-B20360-B3200",
+	"tool": "storm",
+	"configuration-id": "unfd20",
+	"invocation-note": "Storm-pomdp. Unfolds cost bounds, not cost-aware, with discretization and resolution 20",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=200,B2=360,B3=200 --timemem --statistics --revised --unfold-reward-bound --belief-exploration discretize --resolution 20 --triangulationmode static"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.unfd20.rover_rbrmax3_B1200-B20360-B3200.log",
+	"wallclock-time": 202.32265877723694,
+	"timeout": false,
+	"execution-error": true,
+	"return-codes": [
+		-9
+	]
+}

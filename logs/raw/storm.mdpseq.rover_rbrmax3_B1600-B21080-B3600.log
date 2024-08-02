@@ -1,0 +1,55 @@
+Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=600,B2=1080,B3=600 --timemem --statistics --check-fully-observable --reward-aware
+Wallclock time:	442.09573245048523
+Return code:	0
+Output:
+Storm-POMDP 1.8.2 (dev)
+
+Date: Sat Aug  3 00:19:48 2024
+Command line arguments: --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const 'B1=600,B2=1080,B3=600' --timemem --statistics --check-fully-observable --reward-aware
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.188s.
+
+Time for model construction: 0.719s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	16
+Transitions: 	30
+Choices: 	20
+Observations: 	9
+Reward Models:  value, time, energy
+State Labels: 	3 labels
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * done -> 1 item(s)
+Choice Labels: 	6 labels
+   * done -> 2 item(s)
+   * task_done -> 14 item(s)
+   * task1_start -> 1 item(s)
+   * task2_start -> 1 item(s)
+   * task4_start -> 1 item(s)
+   * task3_start -> 1 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"value"}>=600 , rew{"time"}<=1080 , rew{"energy"}<=600 }(done)]'
+Analyzing the formula on the fully observable MDP ... Epoch model for epoch <0, _, _> is cyclic.
+---------------------------------
+Statistics:
+---------------------------------
+          #checked epochs: 19568501.
+             overall Time: 376.526s.
+Epoch Model building Time: 78.364s.
+Epoch Model checking Time: 66.452s.
+---------------------------------
+
+Result: 0.9510782147
+Time for POMDP analysis: 438.526s.
+
+Performance statistics:
+  * peak memory usage: 1095MB
+  * CPU time: 436.346s
+  * wallclock time: 439.743s
+
+
+############################## Notes ##############################
+Storm-pomdp. Sequential approach on the underlying (fully observable) observable MDP

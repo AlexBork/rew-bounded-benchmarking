@@ -1,0 +1,108 @@
+Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=5,B2=5,B3=60 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 262144
+Wallclock time:	4.333575487136841
+Return code:	0
+Output:
+Storm-POMDP 1.8.2 (dev)
+
+Date: Fri Aug  2 21:05:40 2024
+Command line arguments: --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const 'B1=5,B2=5,B3=60' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 262144
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.031s.
+
+Time for model construction: 0.108s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	721
+Transitions: 	5041
+Choices: 	2881
+Observations: 	155
+Reward Models:  steps, gold, gem
+State Labels: 	3 labels
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * ((x = 3) & (y = 1)) -> 16 item(s)
+Choice Labels: 	5 labels
+   * place -> 1 item(s)
+   * right -> 720 item(s)
+   * left -> 720 item(s)
+   * up -> 720 item(s)
+   * down -> 720 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"gold"}>=5 , rew{"gem"}>=5 , rew{"steps"}<=60 }((x = 3) & (y = 1))]'
+Perform explicit unfolding of reward bounds.
+Unfolding POMDP Information:
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	239874
+Transitions: 	1640083
+Choices: 	959487
+Observations: 	157
+Reward Models:  none
+State Labels: 	2 labels
+   * init -> 1 item(s)
+   * goal -> 1 item(s)
+Choice Labels: 	5 labels
+   * down -> 239871 item(s)
+   * up -> 239871 item(s)
+   * left -> 239871 item(s)
+   * right -> 239871 item(s)
+   * place -> 1 item(s)
+-------------------------------------------------------------- 
+Transformed formula: Pmax=? [true U "goal"]
+Time for explicit reward bound unfolding: 0.943s.
+Exploring the belief MDP... 
+Exploring the belief space...
+Exploration stopped before all beliefs were explored. 262145 beliefs discovered. 159367 beliefs explored.
+Constructing the belief MDP...
+-------------------------------------------------------------- 
+Model type: 	MDP (sparse)
+States: 	262147
+Transitions: 	976287
+Choices: 	740245
+Reward Models:  none
+State Labels: 	3 labels
+   * target -> 1 item(s)
+   * init -> 1 item(s)
+   * bottom -> 1 item(s)
+Choice Labels: 	none
+-------------------------------------------------------------- 
+Time for exploring beliefs: 0.605s.
+Time for building the belief MDP: 0.242s.
+Time for analyzing the belief MDP: 0.023s.
+##### POMDP Approximation Statistics ######
+# Input model: 
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	239874
+Transitions: 	1640083
+Choices: 	959487
+Observations: 	157
+Reward Models:  none
+State Labels: 	2 labels
+   * init -> 1 item(s)
+   * goal -> 1 item(s)
+Choice Labels: 	5 labels
+   * down -> 239871 item(s)
+   * up -> 239871 item(s)
+   * left -> 239871 item(s)
+   * right -> 239871 item(s)
+   * place -> 1 item(s)
+-------------------------------------------------------------- 
+# Max. Number of states with same observation: 3614
+# Pre-computations detected that the belief MDP is finite.
+# Total check time: 2.627s
+##########################################
+
+Result: ≥ 2.173926299e-20
+Time for POMDP analysis: 2.633s.
+
+Performance statistics:
+  * peak memory usage: 418MB
+  * CPU time: 3.514s
+  * wallclock time: 3.745s
+
+
+############################## Notes ##############################
+Storm-pomdp. Unfolds cost bounds, not cost-aware, with cutoffs and size threshold 2^18

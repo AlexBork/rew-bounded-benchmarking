@@ -1,0 +1,19 @@
+{
+	"id": "storm.belseqd36.rover_rbrmax3_B1600-B21080-B3600",
+	"benchmark-id": "rover_rbrmax3_B1600-B21080-B3600",
+	"tool": "storm",
+	"configuration-id": "belseqd36",
+	"invocation-note": "Storm-pomdp. Sequential approach, cost aware, with discretization and resolution 36",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=600,B2=1080,B3=600 --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 36 --triangulationmode static"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.belseqd36.rover_rbrmax3_B1600-B21080-B3600.log",
+	"wallclock-time": 478.2784938812256,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

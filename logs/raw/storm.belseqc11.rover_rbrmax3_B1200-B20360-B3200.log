@@ -1,0 +1,100 @@
+Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=200,B2=360,B3=200 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 2048
+Wallclock time:	13.161535739898682
+Return code:	0
+Output:
+Storm-POMDP 1.8.2 (dev)
+
+Date: Fri Aug  2 21:06:21 2024
+Command line arguments: --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const 'B1=200,B2=360,B3=200' --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 2048
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.002s.
+
+Time for model construction: 0.015s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	16
+Transitions: 	30
+Choices: 	20
+Observations: 	9
+Reward Models:  value, time, energy
+State Labels: 	3 labels
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * done -> 1 item(s)
+Choice Labels: 	6 labels
+   * done -> 2 item(s)
+   * task_done -> 14 item(s)
+   * task1_start -> 1 item(s)
+   * task2_start -> 1 item(s)
+   * task4_start -> 1 item(s)
+   * task3_start -> 1 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"value"}>=200 , rew{"time"}<=360 , rew{"energy"}<=200 }(done)]'
+Exploring the belief MDP... 
+Exploring the belief space...
+Constructing the belief MDP...
+-------------------------------------------------------------- 
+Model type: 	MDP (sparse)
+States: 	23
+Transitions: 	128
+Choices: 	79
+Reward Models:  energy, time, value
+State Labels: 	3 labels
+   * target -> 1 item(s)
+   * init -> 1 item(s)
+   * bottom -> 1 item(s)
+Choice Labels: 	none
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"value"}>=200 , rew{"time"}<=360 , rew{"energy"}<=200 }"target"]' on the belief MDP...
+Transformation of transition rewards resulted in a model with 36 states. 1.565217391 times more states than the original belief MDP.
+Merging of sink states resulted in a model with 35 states.
+Epoch model for epoch <0, _, _> is cyclic.
+---------------------------------
+Statistics:
+---------------------------------
+          #checked epochs: 710046.
+             overall Time: 11.523s.
+Epoch Model building Time: 2.249s.
+Epoch Model checking Time: 2.546s.
+---------------------------------
+Time for exploring beliefs: 0.000s.
+Time for building the belief MDP: 0.000s.
+Time for analyzing the belief MDP: 13.109s.
+##### POMDP Approximation Statistics ######
+# Input model: 
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	16
+Transitions: 	30
+Choices: 	20
+Observations: 	9
+Reward Models:  energy, time, value
+State Labels: 	3 labels
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * done -> 1 item(s)
+Choice Labels: 	6 labels
+   * done -> 2 item(s)
+   * task_done -> 14 item(s)
+   * task1_start -> 1 item(s)
+   * task2_start -> 1 item(s)
+   * task4_start -> 1 item(s)
+   * task3_start -> 1 item(s)
+-------------------------------------------------------------- 
+# Max. Number of states with same observation: 2
+# Total check time: 13.109s
+##########################################
+
+Result: ≥ 0.8609527907
+Time for POMDP analysis: 13.109s.
+
+Performance statistics:
+  * peak memory usage: 93MB
+  * CPU time: 13.094s
+  * wallclock time: 13.141s
+
+
+############################## Notes ##############################
+Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^11

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>storm.belseqc25 - resrc_rbrmax3_B105-B205-B3060</title>
+	<link rel="stylesheet" type="text/css" href=../style.css>
+</head>
+<body>
+<h1>storm.belseqc25</h1>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Benchmark</div></div>
+	<table style="margin-bottom: 0.75ex;">
+		<tr><td>id:</td><td>resrc_rbrmax3_B105-B205-B3060 (POMDP)</td></tr>
+	</table>
+</div>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Invocation (belseqc25)</div></div>
+	<pre style="overflow: auto; padding-bottom: 1.5ex; padding-top: 1ex; font-size: 15px; margin-bottom: 0ex;  margin-top: 0ex;">$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=5,B2=5,B3=60 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 33554432</pre>
+	Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^25
+</div>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Execution</div></div>
+	<table style="margin-bottom: 0.75ex;">
+		<tr><td>Walltime:</td><td style="tt">210.59674286842346s</td></tr>
+		<tr><td>Return code:</td><td style="tt; color: red;">-9</td></tr>
+		<tr><td>Note(s):</td><td>Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^25</td></tr>
+	</table>
+</div>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Log</div></div>
+	<pre style="overflow:auto; padding-bottom: 1.5ex">Storm-POMDP 1.8.2 (dev)
+
+Date: Fri Aug  2 21:05:35 2024
+Command line arguments: --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const 'B1=5,B2=5,B3=60' --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 33554432
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.005s.
+
+Time for model construction: 0.022s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	721
+Transitions: 	5041
+Choices: 	2881
+Observations: 	155
+Reward Models:  steps, gold, gem
+State Labels: 	3 labels
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * ((x = 3) & (y = 1)) -> 16 item(s)
+Choice Labels: 	5 labels
+   * place -> 1 item(s)
+   * right -> 720 item(s)
+   * left -> 720 item(s)
+   * up -> 720 item(s)
+   * down -> 720 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"gold"}>=5 , rew{"gem"}>=5 , rew{"steps"}<=60 }((x = 3) & (y = 1))]'
+Exploring the belief MDP... 
+Exploring the belief space...
+Exploration stopped before all beliefs were explored. 33554434 beliefs discovered. 22030771 beliefs explored.
+Constructing the belief MDP...
+-------------------------------------------------------------- 
+Model type: 	MDP (sparse)
+States: 	33554435
+Transitions: 	131056021
+Choices: 	99646745
+Reward Models:  steps, gem, gold
+State Labels: 	3 labels
+   * target -> 2025210 item(s)
+   * init -> 1 item(s)
+   * bottom -> 1 item(s)
+Choice Labels: 	none
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"gold"}>=5 , rew{"gem"}>=5 , rew{"steps"}<=60 }"target"]' on the belief MDP...
+
+
+############################## Notes ##############################
+Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^25	</pre>
+</div>
+</body>
+</html>

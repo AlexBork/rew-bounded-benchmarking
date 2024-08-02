@@ -1,0 +1,19 @@
+{
+	"id": "storm.mdpseq.incline_rbrmax2_B175-B220",
+	"benchmark-id": "incline_rbrmax2_B175-B220",
+	"tool": "storm",
+	"configuration-id": "mdpseq",
+	"invocation-note": "Storm-pomdp. Sequential approach on the underlying (fully observable) observable MDP",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const B1=75,B2=20 --timemem --statistics --check-fully-observable --reward-aware"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-03",
+	"log": "storm.mdpseq.incline_rbrmax2_B175-B220.log",
+	"wallclock-time": 0.07644343376159668,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

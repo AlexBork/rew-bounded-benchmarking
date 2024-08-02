@@ -1,0 +1,19 @@
+{
+	"id": "storm.unfc30.resrc_rbrmax3_B115-B215-B3180",
+	"benchmark-id": "resrc_rbrmax3_B115-B215-B3180",
+	"tool": "storm",
+	"configuration-id": "unfc30",
+	"invocation-note": "Storm-pomdp. Unfolds cost bounds, not cost-aware, with cutoffs and size threshold 2^30",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=15,B2=15,B3=180 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 1073741824"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.unfc30.resrc_rbrmax3_B115-B215-B3180.log",
+	"wallclock-time": 400.4138398170471,
+	"timeout": false,
+	"execution-error": true,
+	"return-codes": [
+		-9
+	]
+}

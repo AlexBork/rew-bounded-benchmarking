@@ -1,0 +1,19 @@
+{
+	"id": "storm.caunfc27.serv_rbrmax1_B10570",
+	"benchmark-id": "serv_rbrmax1_B10570",
+	"tool": "storm",
+	"configuration-id": "caunfc27",
+	"invocation-note": "Storm-pomdp. Unfolds cost bounds, cost aware, with cutoffs and size threshold 2^27",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 134217728"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.caunfc27.serv_rbrmax1_B10570.log",
+	"wallclock-time": 201.11941480636597,
+	"timeout": false,
+	"execution-error": true,
+	"return-codes": [
+		-9
+	]
+}

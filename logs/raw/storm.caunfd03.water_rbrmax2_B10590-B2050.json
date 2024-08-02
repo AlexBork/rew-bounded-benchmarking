@@ -1,0 +1,19 @@
+{
+	"id": "storm.caunfd03.water_rbrmax2_B10590-B2050",
+	"benchmark-id": "water_rbrmax2_B10590-B2050",
+	"tool": "storm",
+	"configuration-id": "caunfd03",
+	"invocation-note": "Storm-pomdp. Unfolds cost bounds, cost aware, with discretization and resolution 3",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const B1=590,B2=50 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration discretize --resolution 3 --triangulationmode static"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.caunfd03.water_rbrmax2_B10590-B2050.log",
+	"wallclock-time": 12.122727632522583,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

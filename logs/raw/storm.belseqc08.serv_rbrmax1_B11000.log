@@ -1,0 +1,108 @@
+Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 256
+Wallclock time:	1.2043609619140625
+Return code:	0
+Output:
+Storm-POMDP 1.8.2 (dev)
+
+Date: Fri Aug  2 21:18:12 2024
+Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 256
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.021s.
+
+Time for model construction: 0.784s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	76928
+Transitions: 	714112
+Choices: 	568576
+Observations: 	6016
+Reward Models:  time
+State Labels: 	4 labels
+   * unexplored -> 384 item(s)
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * taskdone -> 384 item(s)
+Choice Labels: 	9 labels
+   * north -> 61824 item(s)
+   * east -> 61824 item(s)
+   * south -> 61824 item(s)
+   * wait_delay -> 14720 item(s)
+   * west -> 61824 item(s)
+   * check_water -> 76544 item(s)
+   * deliver_water -> 76544 item(s)
+   * get_water -> 76544 item(s)
+   * interact -> 76544 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true Urew{"time"}<=1000 "taskdone"]'
+Exploring the belief MDP... 
+Exploring the belief space...
+Exploration stopped before all beliefs were explored. 261 beliefs discovered. 75 beliefs explored.
+Constructing the belief MDP...
+-------------------------------------------------------------- 
+Model type: 	MDP (sparse)
+States: 	262
+Transitions: 	974
+Choices: 	727
+Reward Models:  time
+State Labels: 	3 labels
+   * target -> 0 item(s)
+   * init -> 1 item(s)
+   * bottom -> 1 item(s)
+Choice Labels: 	none
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true Urew{"time"}<=1000 "target"]' on the belief MDP...
+Transformation of transition rewards resulted in a model with 336 states. 1.282442748 times more states than the original belief MDP.
+Merging of sink states resulted in a model with 1 states.
+---------------------------------
+Statistics:
+---------------------------------
+          #checked epochs: 1.
+             overall Time: 0.000s.
+Epoch Model building Time: 0.000s.
+Epoch Model checking Time: 0.000s.
+---------------------------------
+Time for exploring beliefs: 0.014s.
+Time for building the belief MDP: 0.000s.
+Time for analyzing the belief MDP: 0.003s.
+##### POMDP Approximation Statistics ######
+# Input model: 
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	76928
+Transitions: 	714112
+Choices: 	568576
+Observations: 	6016
+Reward Models:  time
+State Labels: 	4 labels
+   * unexplored -> 384 item(s)
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * taskdone -> 384 item(s)
+Choice Labels: 	9 labels
+   * north -> 61824 item(s)
+   * east -> 61824 item(s)
+   * south -> 61824 item(s)
+   * wait_delay -> 14720 item(s)
+   * west -> 61824 item(s)
+   * check_water -> 76544 item(s)
+   * deliver_water -> 76544 item(s)
+   * get_water -> 76544 item(s)
+   * interact -> 76544 item(s)
+-------------------------------------------------------------- 
+# Max. Number of states with same observation: 21
+# Total check time: 0.052s
+##########################################
+
+Result: ≥ 0
+Time for POMDP analysis: 0.059s.
+
+Performance statistics:
+  * peak memory usage: 163MB
+  * CPU time: 0.935s
+  * wallclock time: 1.069s
+
+
+############################## Notes ##############################
+Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^8

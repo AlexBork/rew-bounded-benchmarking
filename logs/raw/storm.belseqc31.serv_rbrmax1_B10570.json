@@ -1,0 +1,19 @@
+{
+	"id": "storm.belseqc31.serv_rbrmax1_B10570",
+	"benchmark-id": "serv_rbrmax1_B10570",
+	"tool": "storm",
+	"configuration-id": "belseqc31",
+	"invocation-note": "Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^31",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 2147483648"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.belseqc31.serv_rbrmax1_B10570.log",
+	"wallclock-time": 188.8512728214264,
+	"timeout": false,
+	"execution-error": true,
+	"return-codes": [
+		-9
+	]
+}

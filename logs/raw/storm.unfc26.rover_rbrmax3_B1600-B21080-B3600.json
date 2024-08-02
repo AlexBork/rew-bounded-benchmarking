@@ -1,0 +1,19 @@
+{
+	"id": "storm.unfc26.rover_rbrmax3_B1600-B21080-B3600",
+	"benchmark-id": "rover_rbrmax3_B1600-B21080-B3600",
+	"tool": "storm",
+	"configuration-id": "unfc26",
+	"invocation-note": "Storm-pomdp. Unfolds cost bounds, not cost-aware, with cutoffs and size threshold 2^26",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=600,B2=1080,B3=600 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 67108864"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.unfc26.rover_rbrmax3_B1600-B21080-B3600.log",
+	"wallclock-time": 90.45198369026184,
+	"timeout": false,
+	"execution-error": true,
+	"return-codes": [
+		-9
+	]
+}

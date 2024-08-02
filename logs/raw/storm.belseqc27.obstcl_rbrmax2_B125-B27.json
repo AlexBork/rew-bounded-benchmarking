@@ -1,0 +1,19 @@
+{
+	"id": "storm.belseqc27.obstcl_rbrmax2_B125-B27",
+	"benchmark-id": "obstcl_rbrmax2_B125-B27",
+	"tool": "storm",
+	"configuration-id": "belseqc27",
+	"invocation-note": "Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^27",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/obstcl/obstcl.prism --prop $BENCH_HOME/models/obstcl/obstcl.props rbrmax2 -const B1=25,B2=7 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 134217728"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.belseqc27.obstcl_rbrmax2_B125-B27.log",
+	"wallclock-time": 220.56227445602417,
+	"timeout": false,
+	"execution-error": true,
+	"return-codes": [
+		-9
+	]
+}

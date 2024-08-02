@@ -1,0 +1,44 @@
+Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 8 --triangulationmode static
+Wallclock time:	235.87154340744019
+Return code:	-9
+Output:
+Storm-POMDP 1.8.2 (dev)
+
+Date: Fri Aug  2 21:18:15 2024
+Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 8 --triangulationmode static
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.027s.
+
+Time for model construction: 0.806s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	76928
+Transitions: 	714112
+Choices: 	568576
+Observations: 	6016
+Reward Models:  time
+State Labels: 	4 labels
+   * unexplored -> 384 item(s)
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * taskdone -> 384 item(s)
+Choice Labels: 	9 labels
+   * north -> 61824 item(s)
+   * east -> 61824 item(s)
+   * south -> 61824 item(s)
+   * wait_delay -> 14720 item(s)
+   * west -> 61824 item(s)
+   * check_water -> 76544 item(s)
+   * deliver_water -> 76544 item(s)
+   * get_water -> 76544 item(s)
+   * interact -> 76544 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true Urew{"time"}<=1000 "taskdone"]'
+Exploring the belief MDP... 
+Exploring the belief space...
+
+
+############################## Notes ##############################
+Storm-pomdp. Sequential approach, cost aware, with discretization and resolution 8

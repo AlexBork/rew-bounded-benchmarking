@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>storm.belseqc22 - incline_rbrmax2_B175-B220</title>
+	<link rel="stylesheet" type="text/css" href=../style.css>
+</head>
+<body>
+<h1>storm.belseqc22</h1>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Benchmark</div></div>
+	<table style="margin-bottom: 0.75ex;">
+		<tr><td>id:</td><td>incline_rbrmax2_B175-B220 (POMDP)</td></tr>
+	</table>
+</div>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Invocation (belseqc22)</div></div>
+	<pre style="overflow: auto; padding-bottom: 1.5ex; padding-top: 1ex; font-size: 15px; margin-bottom: 0ex;  margin-top: 0ex;">$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const B1=75,B2=20 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 4194304</pre>
+	Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^22
+</div>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Execution</div></div>
+	<table style="margin-bottom: 0.75ex;">
+		<tr><td>Walltime:</td><td style="tt">1417.9851231575012s</td></tr>
+		<tr><td>Return code:</td><td style="tt">0</td></tr>
+		<tr><td>Note(s):</td><td>Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^22</td></tr>
+	</table>
+</div>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Log</div></div>
+	<pre style="overflow:auto; padding-bottom: 1.5ex">Storm-POMDP 1.8.2 (dev)
+
+Date: Fri Aug  2 21:05:17 2024
+Command line arguments: --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const 'B1=75,B2=20' --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 4194304
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.187s.
+
+Time for model construction: 0.631s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	25
+Transitions: 	109
+Choices: 	79
+Observations: 	9
+Reward Models:  steps, energy
+State Labels: 	4 labels
+   * unexplored -> 1 item(s)
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * goal -> 1 item(s)
+Choice Labels: 	4 labels
+   * north -> 20 item(s)
+   * east -> 20 item(s)
+   * south -> 19 item(s)
+   * west -> 19 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"energy"}<=75 , rew{"steps"}<=20 }"goal"]'
+Exploring the belief MDP... 
+Exploring the belief space...
+Exploration stopped before all beliefs were explored. 4194306 beliefs discovered. 2301981 beliefs explored.
+Constructing the belief MDP...
+-------------------------------------------------------------- 
+Model type: 	MDP (sparse)
+States: 	4194307
+Transitions: 	14835216
+Choices: 	10027070
+Reward Models:  steps, energy
+State Labels: 	3 labels
+   * target -> 2 item(s)
+   * init -> 1 item(s)
+   * bottom -> 1 item(s)
+Choice Labels: 	none
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"energy"}<=75 , rew{"steps"}<=20 }"target"]' on the belief MDP...
+Transformation of transition rewards resulted in a model with 6496287 states. 1.548834408 times more states than the original belief MDP.
+Merging of sink states resulted in a model with 4603962 states.
+Epoch model for epoch <_, _> is cyclic.
+---------------------------------
+Statistics:
+---------------------------------
+          #checked epochs: 497.
+             overall Time: 1371.753s.
+Epoch Model building Time: 1309.427s.
+Epoch Model checking Time: 62.323s.
+---------------------------------
+Time for exploring beliefs: 11.199s.
+Time for building the belief MDP: 6.432s.
+Time for analyzing the belief MDP: 1393.605s.
+##### POMDP Approximation Statistics ######
+# Input model: 
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	25
+Transitions: 	109
+Choices: 	79
+Observations: 	9
+Reward Models:  energy, steps
+State Labels: 	4 labels
+   * unexplored -> 1 item(s)
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * goal -> 1 item(s)
+Choice Labels: 	4 labels
+   * north -> 20 item(s)
+   * east -> 20 item(s)
+   * south -> 19 item(s)
+   * west -> 19 item(s)
+-------------------------------------------------------------- 
+# Max. Number of states with same observation: 9
+# Total check time: 1413.767s
+##########################################
+
+Result: ≥ 0.989364624
+Time for POMDP analysis: 1413.790s.
+
+Performance statistics:
+  * peak memory usage: 8755MB
+  * CPU time: 1406.862s
+  * wallclock time: 1415.294s
+
+
+############################## Notes ##############################
+Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^22	</pre>
+</div>
+</body>
+</html>

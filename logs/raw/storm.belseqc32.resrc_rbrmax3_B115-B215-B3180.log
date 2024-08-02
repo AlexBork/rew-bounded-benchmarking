@@ -1,0 +1,39 @@
+Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=15,B2=15,B3=180 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 4294967296
+Wallclock time:	267.2894506454468
+Return code:	-9
+Output:
+Storm-POMDP 1.8.2 (dev)
+
+Date: Fri Aug  2 21:05:47 2024
+Command line arguments: --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const 'B1=15,B2=15,B3=180' --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 4294967296
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.214s.
+
+Time for model construction: 0.764s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	721
+Transitions: 	5041
+Choices: 	2881
+Observations: 	155
+Reward Models:  steps, gold, gem
+State Labels: 	3 labels
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * ((x = 3) & (y = 1)) -> 16 item(s)
+Choice Labels: 	5 labels
+   * place -> 1 item(s)
+   * right -> 720 item(s)
+   * left -> 720 item(s)
+   * up -> 720 item(s)
+   * down -> 720 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"gold"}>=15 , rew{"gem"}>=15 , rew{"steps"}<=180 }((x = 3) & (y = 1))]'
+Exploring the belief MDP... 
+Exploring the belief space...
+
+
+############################## Notes ##############################
+Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^32

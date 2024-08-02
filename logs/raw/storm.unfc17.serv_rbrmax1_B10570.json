@@ -1,0 +1,19 @@
+{
+	"id": "storm.unfc17.serv_rbrmax1_B10570",
+	"benchmark-id": "serv_rbrmax1_B10570",
+	"tool": "storm",
+	"configuration-id": "unfc17",
+	"invocation-note": "Storm-pomdp. Unfolds cost bounds, not cost-aware, with cutoffs and size threshold 2^17",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 131072"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.unfc17.serv_rbrmax1_B10570.log",
+	"wallclock-time": 1.836721420288086,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

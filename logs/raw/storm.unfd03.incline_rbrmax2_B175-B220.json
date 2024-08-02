@@ -1,0 +1,19 @@
+{
+	"id": "storm.unfd03.incline_rbrmax2_B175-B220",
+	"benchmark-id": "incline_rbrmax2_B175-B220",
+	"tool": "storm",
+	"configuration-id": "unfd03",
+	"invocation-note": "Storm-pomdp. Unfolds cost bounds, not cost-aware, with discretization and resolution 3",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const B1=75,B2=20 --timemem --statistics --revised --unfold-reward-bound --belief-exploration discretize --resolution 3 --triangulationmode static"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.unfd03.incline_rbrmax2_B175-B220.log",
+	"wallclock-time": 0.1180880069732666,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>storm.caunfd20 - water_rbrmax2_B11790-B2150</title>
+	<link rel="stylesheet" type="text/css" href=../style.css>
+</head>
+<body>
+<h1>storm.caunfd20</h1>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Benchmark</div></div>
+	<table style="margin-bottom: 0.75ex;">
+		<tr><td>id:</td><td>water_rbrmax2_B11790-B2150 (POMDP)</td></tr>
+	</table>
+</div>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Invocation (caunfd20)</div></div>
+	<pre style="overflow: auto; padding-bottom: 1.5ex; padding-top: 1ex; font-size: 15px; margin-bottom: 0ex;  margin-top: 0ex;">$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const B1=1790,B2=150 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration discretize --resolution 20 --triangulationmode static</pre>
+	Storm-pomdp. Unfolds cost bounds, cost aware, with discretization and resolution 20
+</div>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Execution</div></div>
+	<table style="margin-bottom: 0.75ex;">
+		<tr><td>Walltime:</td><td style="tt">157.75547766685486s</td></tr>
+		<tr><td>Return code:</td><td style="tt">0</td></tr>
+		<tr><td>Note(s):</td><td>Storm-pomdp. Unfolds cost bounds, cost aware, with discretization and resolution 20</td></tr>
+	</table>
+</div>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Log</div></div>
+	<pre style="overflow:auto; padding-bottom: 1.5ex">Storm-POMDP 1.8.2 (dev)
+
+Date: Fri Aug  2 21:21:25 2024
+Command line arguments: --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const 'B1=1790,B2=150' --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration discretize --resolution 20 --triangulationmode static
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.002s.
+
+Time for model construction: 0.014s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	34
+Transitions: 	132
+Choices: 	130
+Observations: 	5
+Reward Models:  homeReached, energy
+State Labels: 	2 labels
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+Choice Labels: 	5 labels
+   * flip -> 2 item(s)
+   * north -> 32 item(s)
+   * east -> 32 item(s)
+   * west -> 32 item(s)
+   * south -> 32 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"energy"}<=1790 , rew{"homeReached"}>=150 }true]'
+Perform explicit unfolding of reward bounds.
+Unfolding POMDP Information:
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	5307023
+Transitions: 	20608244
+Choices: 	20298323
+Observations: 	785957
+Reward Models:  none
+State Labels: 	2 labels
+   * init -> 1 item(s)
+   * goal -> 1 item(s)
+Choice Labels: 	5 labels
+   * south -> 4997100 item(s)
+   * west -> 4997100 item(s)
+   * east -> 4997100 item(s)
+   * north -> 4997100 item(s)
+   * flip -> 309921 item(s)
+-------------------------------------------------------------- 
+Transformed formula: Pmax=? [true U "goal"]
+Time for explicit reward bound unfolding: 19.420s.
+Exploring the belief MDP... 
+Exploring the belief space...
+Constructing the belief MDP...
+-------------------------------------------------------------- 
+Model type: 	MDP (sparse)
+States: 	7945238
+Transitions: 	32877804
+Choices: 	30388088
+Reward Models:  none
+State Labels: 	3 labels
+   * target -> 1 item(s)
+   * init -> 1 item(s)
+   * bottom -> 1 item(s)
+Choice Labels: 	none
+-------------------------------------------------------------- 
+Time for exploring beliefs: 14.374s.
+Time for building the belief MDP: 1.401s.
+Time for analyzing the belief MDP: 18.608s.
+##### POMDP Approximation Statistics ######
+# Input model: 
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	5307023
+Transitions: 	20608244
+Choices: 	20298323
+Observations: 	785957
+Reward Models:  none
+State Labels: 	2 labels
+   * init -> 1 item(s)
+   * goal -> 1 item(s)
+Choice Labels: 	5 labels
+   * south -> 4997100 item(s)
+   * west -> 4997100 item(s)
+   * east -> 4997100 item(s)
+   * north -> 4997100 item(s)
+   * flip -> 309921 item(s)
+-------------------------------------------------------------- 
+# Max. Number of states with same observation: 14
+# Pre-computations detected that the belief MDP is finite.
+# Total check time: 136.586s
+##########################################
+
+Result: ≤ 0.180755753
+Time for POMDP analysis: 137.928s.
+
+Performance statistics:
+  * peak memory usage: 12749MB
+  * CPU time: 153.429s
+  * wallclock time: 157.555s
+
+
+############################## Notes ##############################
+Storm-pomdp. Unfolds cost bounds, cost aware, with discretization and resolution 20	</pre>
+</div>
+</body>
+</html>

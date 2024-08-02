@@ -1,0 +1,19 @@
+{
+	"id": "storm.caunfc25.rover_rbrmax3_B1200-B20360-B3200",
+	"benchmark-id": "rover_rbrmax3_B1200-B20360-B3200",
+	"tool": "storm",
+	"configuration-id": "caunfc25",
+	"invocation-note": "Storm-pomdp. Unfolds cost bounds, cost aware, with cutoffs and size threshold 2^25",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=200,B2=360,B3=200 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 33554432"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.caunfc25.rover_rbrmax3_B1200-B20360-B3200.log",
+	"wallclock-time": 188.39254450798035,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

@@ -1,0 +1,67 @@
+Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=15,B2=15,B3=180 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 524288
+Wallclock time:	1800.283346414566
+Return code:	None
+Output:
+Storm-POMDP 1.8.2 (dev)
+
+Date: Fri Aug  2 21:05:42 2024
+Command line arguments: --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const 'B1=15,B2=15,B3=180' --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 524288
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.005s.
+
+Time for model construction: 0.022s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	721
+Transitions: 	5041
+Choices: 	2881
+Observations: 	155
+Reward Models:  steps, gold, gem
+State Labels: 	3 labels
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * ((x = 3) & (y = 1)) -> 16 item(s)
+Choice Labels: 	5 labels
+   * place -> 1 item(s)
+   * right -> 720 item(s)
+   * left -> 720 item(s)
+   * up -> 720 item(s)
+   * down -> 720 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"gold"}>=15 , rew{"gem"}>=15 , rew{"steps"}<=180 }((x = 3) & (y = 1))]'
+Exploring the belief MDP... 
+Exploring the belief space...
+Exploration stopped before all beliefs were explored. 524290 beliefs discovered. 336286 beliefs explored.
+Constructing the belief MDP...
+-------------------------------------------------------------- 
+Model type: 	MDP (sparse)
+States: 	524291
+Transitions: 	2018711
+Choices: 	1533146
+Reward Models:  steps, gem, gold
+State Labels: 	3 labels
+   * target -> 32111 item(s)
+   * init -> 1 item(s)
+   * bottom -> 1 item(s)
+Choice Labels: 	none
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"gold"}>=15 , rew{"gem"}>=15 , rew{"steps"}<=180 }"target"]' on the belief MDP...
+Transformation of transition rewards resulted in a model with 860575 states. 1.641407157 times more states than the original belief MDP.
+Merging of sink states resulted in a model with 629396 states.
+Epoch model for epoch <_, _, _> is cyclic.
+Epoch model for epoch <_, 0, _> is cyclic.
+Epoch model for epoch <0, _, _> is cyclic.
+Epoch model for epoch <0, 0, _> is cyclic.
+
+##############################Output to stderr##############################
+ERROR: The program received signal 15 and will be aborted in 3s.
+Received signal 11
+
+
+----------
+Computation aborted after 1800.283346414566 seconds since the total time limit of 1800 seconds was exceeded.
+
+############################## Notes ##############################
+Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^19

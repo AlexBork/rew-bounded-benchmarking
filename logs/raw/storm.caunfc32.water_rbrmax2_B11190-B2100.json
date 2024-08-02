@@ -1,0 +1,19 @@
+{
+	"id": "storm.caunfc32.water_rbrmax2_B11190-B2100",
+	"benchmark-id": "water_rbrmax2_B11190-B2100",
+	"tool": "storm",
+	"configuration-id": "caunfc32",
+	"invocation-note": "Storm-pomdp. Unfolds cost bounds, cost aware, with cutoffs and size threshold 2^32",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const B1=1190,B2=100 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 4294967296"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.caunfc32.water_rbrmax2_B11190-B2100.log",
+	"wallclock-time": 89.3423502445221,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

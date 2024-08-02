@@ -1,0 +1,19 @@
+{
+	"id": "storm.mdpseq.serv_rbrmax1_B11000",
+	"benchmark-id": "serv_rbrmax1_B11000",
+	"tool": "storm",
+	"configuration-id": "mdpseq",
+	"invocation-note": "Storm-pomdp. Sequential approach on the underlying (fully observable) observable MDP",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --check-fully-observable --reward-aware"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-03",
+	"log": "storm.mdpseq.serv_rbrmax1_B11000.log",
+	"wallclock-time": 6.224663019180298,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

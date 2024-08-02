@@ -1,0 +1,102 @@
+Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=5,B2=5,B3=60 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 8192
+Wallclock time:	2.3367998600006104
+Return code:	0
+Output:
+Storm-POMDP 1.8.2 (dev)
+
+Date: Fri Aug  2 21:05:37 2024
+Command line arguments: --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const 'B1=5,B2=5,B3=60' --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 8192
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.027s.
+
+Time for model construction: 0.027s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	721
+Transitions: 	5041
+Choices: 	2881
+Observations: 	155
+Reward Models:  steps, gold, gem
+State Labels: 	3 labels
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * ((x = 3) & (y = 1)) -> 16 item(s)
+Choice Labels: 	5 labels
+   * place -> 1 item(s)
+   * right -> 720 item(s)
+   * left -> 720 item(s)
+   * up -> 720 item(s)
+   * down -> 720 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"gold"}>=5 , rew{"gem"}>=5 , rew{"steps"}<=60 }((x = 3) & (y = 1))]'
+Exploring the belief MDP... 
+Exploring the belief space...
+Exploration stopped before all beliefs were explored. 8193 beliefs discovered. 5146 beliefs explored.
+Constructing the belief MDP...
+-------------------------------------------------------------- 
+Model type: 	MDP (sparse)
+States: 	8194
+Transitions: 	31231
+Choices: 	23629
+Reward Models:  steps, gem, gold
+State Labels: 	3 labels
+   * target -> 494 item(s)
+   * init -> 1 item(s)
+   * bottom -> 1 item(s)
+Choice Labels: 	none
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"gold"}>=5 , rew{"gem"}>=5 , rew{"steps"}<=60 }"target"]' on the belief MDP...
+Transformation of transition rewards resulted in a model with 13338 states. 1.627776422 times more states than the original belief MDP.
+Merging of sink states resulted in a model with 9699 states.
+Epoch model for epoch <_, _, _> is cyclic.
+Epoch model for epoch <_, 0, _> is cyclic.
+Epoch model for epoch <0, _, _> is cyclic.
+Epoch model for epoch <0, 0, _> is cyclic.
+---------------------------------
+Statistics:
+---------------------------------
+          #checked epochs: 2107.
+             overall Time: 1.740s.
+Epoch Model building Time: 1.130s.
+Epoch Model checking Time: 0.605s.
+---------------------------------
+Time for exploring beliefs: 0.020s.
+Time for building the belief MDP: 0.003s.
+Time for analyzing the belief MDP: 1.850s.
+##### POMDP Approximation Statistics ######
+# Input model: 
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	721
+Transitions: 	5041
+Choices: 	2881
+Observations: 	155
+Reward Models:  gem, gold, steps
+State Labels: 	3 labels
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * ((x = 3) & (y = 1)) -> 16 item(s)
+Choice Labels: 	5 labels
+   * place -> 1 item(s)
+   * right -> 720 item(s)
+   * left -> 720 item(s)
+   * up -> 720 item(s)
+   * down -> 720 item(s)
+-------------------------------------------------------------- 
+# Max. Number of states with same observation: 8
+# Total check time: 1.877s
+##########################################
+
+Result: ≥ 0.03125
+Time for POMDP analysis: 1.878s.
+
+Performance statistics:
+  * peak memory usage: 94MB
+  * CPU time: 1.890s
+  * wallclock time: 2.023s
+
+
+############################## Notes ##############################
+Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^13

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>storm.unfd04 - rover_rbrmax3_B1200-B20360-B3200</title>
+	<link rel="stylesheet" type="text/css" href=../style.css>
+</head>
+<body>
+<h1>storm.unfd04</h1>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Benchmark</div></div>
+	<table style="margin-bottom: 0.75ex;">
+		<tr><td>id:</td><td>rover_rbrmax3_B1200-B20360-B3200 (POMDP)</td></tr>
+	</table>
+</div>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Invocation (unfd04)</div></div>
+	<pre style="overflow: auto; padding-bottom: 1.5ex; padding-top: 1ex; font-size: 15px; margin-bottom: 0ex;  margin-top: 0ex;">$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=200,B2=360,B3=200 --timemem --statistics --revised --unfold-reward-bound --belief-exploration discretize --resolution 4 --triangulationmode static</pre>
+	Storm-pomdp. Unfolds cost bounds, not cost-aware, with discretization and resolution 4
+</div>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Execution</div></div>
+	<table style="margin-bottom: 0.75ex;">
+		<tr><td>Walltime:</td><td style="tt">314.57032918930054s</td></tr>
+		<tr><td>Return code:</td><td style="tt; color: red;">-9</td></tr>
+		<tr><td>Note(s):</td><td>Storm-pomdp. Unfolds cost bounds, not cost-aware, with discretization and resolution 4</td></tr>
+	</table>
+</div>
+<div class="box">
+	<div class="boxlabelo"><div class="boxlabelc">Log</div></div>
+	<pre style="overflow:auto; padding-bottom: 1.5ex">Storm-POMDP 1.8.2 (dev)
+
+Date: Fri Aug  2 21:06:25 2024
+Command line arguments: --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const 'B1=200,B2=360,B3=200' --timemem --statistics --revised --unfold-reward-bound --belief-exploration discretize --resolution 4 --triangulationmode static
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.001s.
+
+Time for model construction: 0.014s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	16
+Transitions: 	30
+Choices: 	20
+Observations: 	9
+Reward Models:  value, time, energy
+State Labels: 	3 labels
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * done -> 1 item(s)
+Choice Labels: 	6 labels
+   * done -> 2 item(s)
+   * task_done -> 14 item(s)
+   * task1_start -> 1 item(s)
+   * task2_start -> 1 item(s)
+   * task4_start -> 1 item(s)
+   * task3_start -> 1 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true U^{rew{"value"}>=200 , rew{"time"}<=360 , rew{"energy"}<=200 }(done)]'
+Perform explicit unfolding of reward bounds.
+Unfolding POMDP Information:
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	11142432
+Transitions: 	20897800
+Choices: 	13929680
+Observations: 	11
+Reward Models:  none
+State Labels: 	2 labels
+   * init -> 1 item(s)
+   * goal -> 1 item(s)
+Choice Labels: 	6 labels
+   * task3_start -> 696812 item(s)
+   * task4_start -> 696812 item(s)
+   * task2_start -> 696812 item(s)
+   * task1_start -> 696812 item(s)
+   * task_done -> 9755368 item(s)
+   * done -> 1387062 item(s)
+-------------------------------------------------------------- 
+Transformed formula: Pmax=? [true U "goal"]
+Time for explicit reward bound unfolding: 21.326s.
+Exploring the belief MDP... 
+Exploring the belief space...
+
+
+############################## Notes ##############################
+Storm-pomdp. Unfolds cost bounds, not cost-aware, with discretization and resolution 4	</pre>
+</div>
+</body>
+</html>

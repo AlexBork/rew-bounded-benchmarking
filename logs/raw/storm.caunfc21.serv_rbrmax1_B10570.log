@@ -1,0 +1,121 @@
+Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 2097152
+Wallclock time:	18.421793460845947
+Return code:	0
+Output:
+Storm-POMDP 1.8.2 (dev)
+
+Date: Fri Aug  2 21:18:11 2024
+Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 2097152
+Current working directory: $BENCH_HOME/experiments
+
+Time for model input parsing: 0.026s.
+
+Time for model construction: 0.911s.
+
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	76928
+Transitions: 	714112
+Choices: 	568576
+Observations: 	6016
+Reward Models:  time
+State Labels: 	4 labels
+   * unexplored -> 384 item(s)
+   * deadlock -> 0 item(s)
+   * init -> 1 item(s)
+   * taskdone -> 384 item(s)
+Choice Labels: 	9 labels
+   * north -> 61824 item(s)
+   * east -> 61824 item(s)
+   * south -> 61824 item(s)
+   * wait_delay -> 14720 item(s)
+   * west -> 61824 item(s)
+   * check_water -> 76544 item(s)
+   * deliver_water -> 76544 item(s)
+   * get_water -> 76544 item(s)
+   * interact -> 76544 item(s)
+-------------------------------------------------------------- 
+Analyzing property 'Pmax=? [true Urew{"time"}<=570 "taskdone"]'
+Perform explicit unfolding of reward bounds.
+Unfolding POMDP Information:
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	19237
+Transitions: 	176962
+Choices: 	143112
+Observations: 	234626
+Reward Models:  none
+State Labels: 	2 labels
+   * init -> 1 item(s)
+   * goal -> 1 item(s)
+Choice Labels: 	9 labels
+   * interact -> 19235 item(s)
+   * get_water -> 19235 item(s)
+   * deliver_water -> 19235 item(s)
+   * check_water -> 19235 item(s)
+   * west -> 15645 item(s)
+   * wait_delay -> 3590 item(s)
+   * south -> 15645 item(s)
+   * east -> 15645 item(s)
+   * north -> 15645 item(s)
+-------------------------------------------------------------- 
+Transformed formula: Pmax=? [true U "goal"]
+Time for explicit reward bound unfolding: 0.118s.
+Exploring the belief MDP... 
+Exploring the belief space...
+Exploration stopped before all beliefs were explored. 2097156 beliefs discovered. 424641 beliefs explored.
+Constructing the belief MDP...
+-------------------------------------------------------------- 
+Model type: 	MDP (sparse)
+States: 	2097158
+Transitions: 	8028351
+Choices: 	5067322
+Reward Models:  none
+State Labels: 	3 labels
+   * target -> 1 item(s)
+   * init -> 1 item(s)
+   * bottom -> 1 item(s)
+Choice Labels: 	none
+-------------------------------------------------------------- 
+Time for exploring beliefs: 8.429s.
+Time for building the belief MDP: 5.577s.
+Time for analyzing the belief MDP: 0.611s.
+##### POMDP Approximation Statistics ######
+# Input model: 
+-------------------------------------------------------------- 
+Model type: 	POMDP (sparse)
+States: 	19237
+Transitions: 	176962
+Choices: 	143112
+Observations: 	234626
+Reward Models:  none
+State Labels: 	2 labels
+   * init -> 1 item(s)
+   * goal -> 1 item(s)
+Choice Labels: 	9 labels
+   * interact -> 19235 item(s)
+   * get_water -> 19235 item(s)
+   * deliver_water -> 19235 item(s)
+   * check_water -> 19235 item(s)
+   * west -> 15645 item(s)
+   * wait_delay -> 3590 item(s)
+   * south -> 15645 item(s)
+   * east -> 15645 item(s)
+   * north -> 15645 item(s)
+-------------------------------------------------------------- 
+# Max. Number of states with same observation: 21
+# Pre-computations detected that the belief MDP is finite.
+# Total check time: 16.620s
+##########################################
+
+Result: ≥ 0.006787092738
+Time for POMDP analysis: 16.622s.
+
+Performance statistics:
+  * peak memory usage: 2062MB
+  * CPU time: 16.982s
+  * wallclock time: 17.988s
+
+
+############################## Notes ##############################
+Storm-pomdp. Unfolds cost bounds, cost aware, with cutoffs and size threshold 2^21

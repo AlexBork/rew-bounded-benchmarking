@@ -1,0 +1,19 @@
+{
+	"id": "storm.caunfd24.resrc_rbrmax3_B115-B215-B3180",
+	"benchmark-id": "resrc_rbrmax3_B115-B215-B3180",
+	"tool": "storm",
+	"configuration-id": "caunfd24",
+	"invocation-note": "Storm-pomdp. Unfolds cost bounds, cost aware, with discretization and resolution 24",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=15,B2=15,B3=180 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration discretize --resolution 24 --triangulationmode static"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.caunfd24.resrc_rbrmax3_B115-B215-B3180.log",
+	"wallclock-time": 160.35660791397095,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"id": "storm.mdpseq.water_rbrmax2_B11190-B2100",
+	"benchmark-id": "water_rbrmax2_B11190-B2100",
+	"tool": "storm",
+	"configuration-id": "mdpseq",
+	"invocation-note": "Storm-pomdp. Sequential approach on the underlying (fully observable) observable MDP",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const B1=1190,B2=100 --timemem --statistics --check-fully-observable --reward-aware"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-03",
+	"log": "storm.mdpseq.water_rbrmax2_B11190-B2100.log",
+	"wallclock-time": 3.200523853302002,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

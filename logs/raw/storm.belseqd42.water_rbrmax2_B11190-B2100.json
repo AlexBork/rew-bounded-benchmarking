@@ -1,0 +1,19 @@
+{
+	"id": "storm.belseqd42.water_rbrmax2_B11190-B2100",
+	"benchmark-id": "water_rbrmax2_B11190-B2100",
+	"tool": "storm",
+	"configuration-id": "belseqd42",
+	"invocation-note": "Storm-pomdp. Sequential approach, cost aware, with discretization and resolution 42",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const B1=1190,B2=100 --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 42 --triangulationmode static"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.belseqd42.water_rbrmax2_B11190-B2100.log",
+	"wallclock-time": 1.9083902835845947,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

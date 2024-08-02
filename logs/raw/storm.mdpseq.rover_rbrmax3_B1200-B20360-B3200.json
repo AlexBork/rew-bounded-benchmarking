@@ -1,0 +1,19 @@
+{
+	"id": "storm.mdpseq.rover_rbrmax3_B1200-B20360-B3200",
+	"benchmark-id": "rover_rbrmax3_B1200-B20360-B3200",
+	"tool": "storm",
+	"configuration-id": "mdpseq",
+	"invocation-note": "Storm-pomdp. Sequential approach on the underlying (fully observable) observable MDP",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=200,B2=360,B3=200 --timemem --statistics --check-fully-observable --reward-aware"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-03",
+	"log": "storm.mdpseq.rover_rbrmax3_B1200-B20360-B3200.log",
+	"wallclock-time": 16.870418310165405,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"id": "storm.belseqc18.water_rbrmax2_B11790-B2150",
+	"benchmark-id": "water_rbrmax2_B11790-B2150",
+	"tool": "storm",
+	"configuration-id": "belseqc18",
+	"invocation-note": "Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^18",
+	"commands": [
+		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const B1=1790,B2=150 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 262144"
+	],
+	"time-limit": 1800,
+	"log-dir": "logs2024-08-02",
+	"log": "storm.belseqc18.water_rbrmax2_B11790-B2150.log",
+	"wallclock-time": 4.48793625831604,
+	"timeout": false,
+	"execution-error": false,
+	"return-codes": [
+		0
+	]
+}
