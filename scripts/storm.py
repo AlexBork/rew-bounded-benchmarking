@@ -165,10 +165,10 @@ def parse_logfile(log, inv):
         pos = try_parse(log, pos, "Time for building the belief MDP: ", "s.", inv["belief-mdp"], "build-time", float)
         pos = try_parse(log, pos, "Time for analyzing the belief MDP: ", "s.", inv["belief-mdp"], "chk-time", float)
 
+    # intentionally, this is now only parsed if the belief MDP is *not* constructed.
+    # this is because the belief MDP might be incomplete and thus the reported number of checked epochs might be lower
     pos = try_parse(log, pos, "#checked epochs: ", ".\n", inv, "num-epochs", int)
-    # pos = try_parse(log, pos, "#checked epochs overall: ", ".\n", inv, "num-epochs", int)
-    # pos = try_parse(log, pos, "Number of checked epochs: ", ".\n", inv, "num-epochs", int)
-    # Total check time: 0.028s
+
     pos = try_parse(log, pos, "\nResult: ", "\n", inv, "result", str)
     pos = try_parse(log, pos, "Time for POMDP analysis: ", "s.", inv, "total-chk-time", float)
 

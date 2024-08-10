@@ -385,7 +385,10 @@ def process_benchmark_instance_data(benchmark_instances, execution_json):
     if "num-epochs" in execution_json and "result" in execution_json:
         bench_data["num-epochs"] = execution_json["num-epochs"]
     if "unfolding-pomdp" in execution_json and "states" in execution_json["unfolding-pomdp"]:
-        bench_data["unf-states"] = execution_json["unfolding-pomdp"]["states"]
+        if "--reward-aware" in " ".join(execution_json["commands"]):
+            bench_data["caunf-states"] = execution_json["unfolding-pomdp"]["states"]
+        else:
+            bench_data["unf-states"] = execution_json["unfolding-pomdp"]["states"]
     bench_data["invocations"] = [execution_json["id"]]
 
     # incorporate into existing data
@@ -393,11 +396,11 @@ def process_benchmark_instance_data(benchmark_instances, execution_json):
         benchmark_instances[bench_id] = bench_data
     else:
         # ensure consistency
-        for key in ["id", "name", "formalism", "type", "par", "property", "dim", "states", "choices", "observations", "transitions", "num-epochs", "unf-states"]:
+        for key in ["id", "name", "formalism", "type", "par", "property", "dim", "states", "choices", "observations", "transitions", "num-epochs", "unf-states", "caunf-states"]:
             if key in bench_data:
                 if key in benchmark_instances[bench_id]:
                     if benchmark_instances[bench_id][key] != bench_data[key]:
-                        print("WARN: Inconsistency with field {} between invocations \n\t{}\nand\t{}".format(key, benchmark_instances[bench_id]["invocations"], bench_data["invocations"]))
+                        print("WARN: Inconsistency with field {}: '{}' vs '{}'  between any of \n\t{}\nand\t{}".format(key,benchmark_instances[bench_id][key], bench_data[key], benchmark_instances[bench_id]["invocations"], bench_data["invocations"]))
                 else:
                     benchmark_instances[bench_id][key] = bench_data[key]
         # append data
@@ -756,7 +759,6 @@ def export_data(exec_data, benchmark_instances):
         for cfgbase, inst_id in itertools.product(storm.BASE_CONFIGS, benchmark_instances.keys()):
             header += [f"{cfgbase}.{inst_id}.{postfix}" for postfix in ["time", "result"]]
             column_contents.append(get_time_result_list_for_plot(cfgbase, inst_id))
-            print("Found time results for {} {}:\n\t{}".format(cfgbase, inst_id, "\n\t".join([f"{t}: {r}" for t,r in column_contents[-1]])))
 
         table = [header]
         num_rows = max([len(c) for c in column_contents])
@@ -796,7 +798,7 @@ def export_data(exec_data, benchmark_instances):
             latex_header = "\n& ".join(latex_cols)
             save_latex(cells, latex_col_aligns, latex_header, os.path.join(OUT_DIR, "table{}.tex".format(kind[len("latex"):])))
         else:
-            cols = [["name"], ["par"], ["states"], ["choices"], ["observations"], ["property"], ["dim"], ["num-epochs"]]
+            cols = [["name"], ["par"], ["states"], ["choices"], ["observations"], ["property"], ["dim"], ["num-epochs"], ["unf-states"], ["caunf-states"]]
             cfgs = [ [tool.NAME, c["id"]] for tool in TOOLS  for c in tool.CONFIGS + tool.META_CONFIGS ]
             cols += [[c[0], c[1], "wallclock-time"] for c in cfgs]
             # create and export different kinds of data
@@ -811,8 +813,6 @@ def export_data(exec_data, benchmark_instances):
     # invoke generation for all kinds
     for kind in KINDS: export_data_for_kind(kind)
     create_time_result_csv()
-
-
 
 if __name__ == "__main__":
     print("Benchmarking tool.")
