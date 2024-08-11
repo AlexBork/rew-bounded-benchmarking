@@ -1,10 +1,10 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const B1=590,B2=50 --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 28 --triangulationmode static
-Wallclock time:	0.48948097229003906
+Wallclock time:	0.4864368438720703
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:42 2024
+Date: Sat Aug 10 07:45:30 2024
 Command line arguments: --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const 'B1=590,B2=50' --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 28 --triangulationmode static
 Current working directory: $BENCH_HOME/experiments
 
@@ -52,13 +52,13 @@ Merging of sink states resulted in a model with 164 states.
 Statistics:
 ---------------------------------
           #checked epochs: 28917.
-             overall Time: 0.422s.
+             overall Time: 0.421s.
 Epoch Model building Time: 0.217s.
-Epoch Model checking Time: 0.119s.
+Epoch Model checking Time: 0.118s.
 ---------------------------------
 Time for exploring beliefs: 0.000s.
 Time for building the belief MDP: 0.000s.
-Time for analyzing the belief MDP: 0.441s.
+Time for analyzing the belief MDP: 0.439s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -80,16 +80,16 @@ Choice Labels: 	5 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 14
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 0.441s
+# Total check time: 0.440s
 ##########################################
 
 Result: ≤ 0.1662965193
-Time for POMDP analysis: 0.441s.
+Time for POMDP analysis: 0.440s.
 
 Performance statistics:
-  * peak memory usage: 65MB
-  * CPU time: 0.456s
-  * wallclock time: 0.465s
+  * peak memory usage: 67MB
+  * CPU time: 0.459s
+  * wallclock time: 0.462s
 
 
 ############################## Notes ##############################

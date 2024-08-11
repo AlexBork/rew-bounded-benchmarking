@@ -8,9 +8,9 @@
 		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 262144"
 	],
 	"time-limit": 1800,
-	"log-dir": "logs2024-08-02",
+	"log-dir": "logs2024-08-10",
 	"log": "storm.belseqc18.serv_rbrmax1_B10570.log",
-	"wallclock-time": 2.9320833683013916,
+	"wallclock-time": 2.488070249557495,
 	"timeout": false,
 	"execution-error": false,
 	"return-codes": [

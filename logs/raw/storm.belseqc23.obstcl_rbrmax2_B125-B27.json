@@ -8,9 +8,9 @@
 		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/obstcl/obstcl.prism --prop $BENCH_HOME/models/obstcl/obstcl.props rbrmax2 -const B1=25,B2=7 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 8388608"
 	],
 	"time-limit": 1800,
-	"log-dir": "logs2024-08-02",
+	"log-dir": "logs2024-08-10",
 	"log": "storm.belseqc23.obstcl_rbrmax2_B125-B27.log",
-	"wallclock-time": 503.0560839176178,
+	"wallclock-time": 419.65645146369934,
 	"timeout": false,
 	"execution-error": false,
 	"return-codes": [

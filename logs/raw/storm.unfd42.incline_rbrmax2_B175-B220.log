@@ -1,10 +1,10 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const B1=75,B2=20 --timemem --statistics --revised --unfold-reward-bound --belief-exploration discretize --resolution 42 --triangulationmode static
-Wallclock time:	159.1646568775177
+Wallclock time:	146.81507754325867
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:23 2024
+Date: Sat Aug 10 07:31:38 2024
 Command line arguments: --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const 'B1=75,B2=20' --timemem --statistics --revised --unfold-reward-bound --belief-exploration discretize --resolution 42 --triangulationmode static
 Current working directory: $BENCH_HOME/experiments
 
@@ -66,9 +66,9 @@ State Labels: 	3 labels
    * bottom -> 1 item(s)
 Choice Labels: 	none
 -------------------------------------------------------------- 
-Time for exploring beliefs: 130.497s.
-Time for building the belief MDP: 9.951s.
-Time for analyzing the belief MDP: 13.111s.
+Time for exploring beliefs: 120.069s.
+Time for building the belief MDP: 9.228s.
+Time for analyzing the belief MDP: 12.189s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -89,16 +89,16 @@ Choice Labels: 	4 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 731
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 159.070s
+# Total check time: 146.704s
 ##########################################
 
 Result: ≤ 0.989364624
-Time for POMDP analysis: 159.071s.
+Time for POMDP analysis: 146.704s.
 
 Performance statistics:
-  * peak memory usage: 12970MB
-  * CPU time: 155.953s
-  * wallclock time: 159.094s
+  * peak memory usage: 12973MB
+  * CPU time: 143.549s
+  * wallclock time: 146.726s
 
 
 ############################## Notes ##############################

@@ -8,9 +8,9 @@
 		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=5,B2=5,B3=60 --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 15 --triangulationmode static"
 	],
 	"time-limit": 1800,
-	"log-dir": "logs2024-08-02",
+	"log-dir": "logs2024-08-10",
 	"log": "storm.belseqd15.resrc_rbrmax3_B105-B205-B3060.log",
-	"wallclock-time": 1.400754690170288,
+	"wallclock-time": 1.224595069885254,
 	"timeout": false,
 	"execution-error": false,
 	"return-codes": [

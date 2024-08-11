@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 512
-Wallclock time:	1.4069344997406006
+Wallclock time:	2.726991891860962
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:06 2024
+Date: Sat Aug 10 07:41:13 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 512
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.038s.
+Time for model input parsing: 0.030s.
 
-Time for model construction: 0.889s.
+Time for model construction: 1.033s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -63,7 +63,7 @@ Statistics:
 Epoch Model building Time: 0.000s.
 Epoch Model checking Time: 0.000s.
 ---------------------------------
-Time for exploring beliefs: 0.016s.
+Time for exploring beliefs: 0.020s.
 Time for building the belief MDP: 0.000s.
 Time for analyzing the belief MDP: 0.004s.
 ##### POMDP Approximation Statistics ######
@@ -92,16 +92,16 @@ Choice Labels: 	9 labels
    * interact -> 76544 item(s)
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 21
-# Total check time: 0.062s
+# Total check time: 0.082s
 ##########################################
 
 Result: ≥ 0
-Time for POMDP analysis: 0.068s.
+Time for POMDP analysis: 0.091s.
 
 Performance statistics:
-  * peak memory usage: 161MB
-  * CPU time: 1.011s
-  * wallclock time: 1.215s
+  * peak memory usage: 164MB
+  * CPU time: 1.255s
+  * wallclock time: 1.421s
 
 
 ############################## Notes ##############################

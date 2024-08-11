@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=15,B2=15,B3=180 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 2048
-Wallclock time:	70.96836543083191
+Wallclock time:	68.42287302017212
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:47 2024
+Date: Sat Aug 10 07:32:38 2024
 Command line arguments: --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const 'B1=15,B2=15,B3=180' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 2048
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.030s.
+Time for model input parsing: 0.004s.
 
-Time for model construction: 0.112s.
+Time for model construction: 0.021s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -51,7 +51,7 @@ Choice Labels: 	5 labels
    * place -> 1 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 25.925s.
+Time for explicit reward bound unfolding: 26.404s.
 Exploring the belief MDP... 
 Exploring the belief space...
 Exploration stopped before all beliefs were explored. 2049 beliefs discovered. 1251 beliefs explored.
@@ -92,16 +92,16 @@ Choice Labels: 	5 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 76854
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 43.301s
+# Total check time: 41.609s
 ##########################################
 
 Result: ≥ 4.010948145e-84
-Time for POMDP analysis: 43.464s.
+Time for POMDP analysis: 41.767s.
 
 Performance statistics:
-  * peak memory usage: 9724MB
-  * CPU time: 66.552s
-  * wallclock time: 69.871s
+  * peak memory usage: 9725MB
+  * CPU time: 65.513s
+  * wallclock time: 68.328s
 
 
 ############################## Notes ##############################

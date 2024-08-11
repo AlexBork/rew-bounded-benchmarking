@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const B1=1190,B2=100 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 256
-Wallclock time:	43.68861722946167
+Wallclock time:	39.898046255111694
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:20:49 2024
+Date: Sat Aug 10 07:46:37 2024
 Command line arguments: --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const 'B1=1190,B2=100' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 256
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.024s.
+Time for model input parsing: 0.001s.
 
-Time for model construction: 0.093s.
+Time for model construction: 0.014s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -50,7 +50,7 @@ Choice Labels: 	5 labels
    * flip -> 136621 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 9.802s.
+Time for explicit reward bound unfolding: 8.570s.
 Exploring the belief MDP... 
 Exploring the belief space...
 Exploration stopped before all beliefs were explored. 258 beliefs discovered. 124 beliefs explored.
@@ -91,16 +91,16 @@ Choice Labels: 	5 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 970900
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 33.216s
+# Total check time: 31.012s
 ##########################################
 
 Result: ≥ 4.119208362e-278
-Time for POMDP analysis: 33.427s.
+Time for POMDP analysis: 31.211s.
 
 Performance statistics:
-  * peak memory usage: 3785MB
-  * CPU time: 41.955s
-  * wallclock time: 43.463s
+  * peak memory usage: 3786MB
+  * CPU time: 38.639s
+  * wallclock time: 39.832s
 
 
 ############################## Notes ##############################

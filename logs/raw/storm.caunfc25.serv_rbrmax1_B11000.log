@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 33554432
-Wallclock time:	149.22515058517456
+Wallclock time:	145.98569440841675
 Return code:	-9
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:16 2024
+Date: Sat Aug 10 07:43:43 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 33554432
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.186s.
+Time for model input parsing: 0.004s.
 
-Time for model construction: 1.016s.
+Time for model construction: 0.717s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -37,33 +37,34 @@ Choice Labels: 	9 labels
 -------------------------------------------------------------- 
 Analyzing property 'Pmax=? [true Urew{"time"}<=1000 "taskdone"]'
 Perform explicit unfolding of reward bounds.
+Use reward-aware unfolding.
 Unfolding POMDP Information:
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
-States: 	239394
-Transitions: 	2217912
-Choices: 	1784443
-Observations: 	403074
+States: 	735099
+Transitions: 	6890445
+Choices: 	5493838
+Observations: 	42114
 Reward Models:  none
 State Labels: 	2 labels
    * init -> 1 item(s)
    * goal -> 1 item(s)
 Choice Labels: 	9 labels
-   * interact -> 239392 item(s)
-   * get_water -> 239392 item(s)
-   * deliver_water -> 239392 item(s)
-   * check_water -> 239392 item(s)
-   * west -> 195827 item(s)
-   * wait_delay -> 43565 item(s)
-   * south -> 195827 item(s)
-   * east -> 195827 item(s)
-   * north -> 195827 item(s)
+   * interact -> 735097 item(s)
+   * get_water -> 735097 item(s)
+   * deliver_water -> 735097 item(s)
+   * check_water -> 735097 item(s)
+   * west -> 606117 item(s)
+   * wait_delay -> 128980 item(s)
+   * south -> 606117 item(s)
+   * east -> 606117 item(s)
+   * north -> 606117 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 1.337s.
+Time for explicit reward bound unfolding: 4.259s.
 Exploring the belief MDP... 
 Exploring the belief space...
-Exploration stopped before all beliefs were explored. 33554436 beliefs discovered. 6533947 beliefs explored.
+Exploration stopped before all beliefs were explored. 33554437 beliefs discovered. 6667362 beliefs explored.
 Constructing the belief MDP...
 
 

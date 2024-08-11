@@ -21,7 +21,7 @@
 <div class="box">
 	<div class="boxlabelo"><div class="boxlabelc">Execution</div></div>
 	<table style="margin-bottom: 0.75ex;">
-		<tr><td>Walltime:</td><td style="tt">3.200523853302002s</td></tr>
+		<tr><td>Walltime:</td><td style="tt">2.1298153400421143s</td></tr>
 		<tr><td>Return code:</td><td style="tt">0</td></tr>
 		<tr><td>Note(s):</td><td>Storm-pomdp. Sequential approach on the underlying (fully observable) observable MDP</td></tr>
 	</table>
@@ -30,13 +30,13 @@
 	<div class="boxlabelo"><div class="boxlabelc">Log</div></div>
 	<pre style="overflow:auto; padding-bottom: 1.5ex">Storm-POMDP 1.8.2 (dev)
 
-Date: Sat Aug  3 00:19:46 2024
+Date: Sat Aug 10 07:46:37 2024
 Command line arguments: --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const 'B1=1190,B2=100' --timemem --statistics --check-fully-observable --reward-aware
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.056s.
+Time for model input parsing: 0.002s.
 
-Time for model construction: 0.188s.
+Time for model construction: 0.014s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -60,18 +60,18 @@ Analyzing the formula on the fully observable MDP ... --------------------------
 Statistics:
 ---------------------------------
           #checked epochs: 115342.
-             overall Time: 2.022s.
-Epoch Model building Time: 1.327s.
-Epoch Model checking Time: 0.303s.
+             overall Time: 2.008s.
+Epoch Model building Time: 1.313s.
+Epoch Model checking Time: 0.302s.
 ---------------------------------
 
 Result: 1
-Time for POMDP analysis: 2.104s.
+Time for POMDP analysis: 2.083s.
 
 Performance statistics:
-  * peak memory usage: 67MB
-  * CPU time: 2.117s
-  * wallclock time: 2.379s
+  * peak memory usage: 66MB
+  * CPU time: 2.094s
+  * wallclock time: 2.104s
 
 
 ############################## Notes ##############################

@@ -21,7 +21,7 @@
 <div class="box">
 	<div class="boxlabelo"><div class="boxlabelc">Execution</div></div>
 	<table style="margin-bottom: 0.75ex;">
-		<tr><td>Walltime:</td><td style="tt">1.8845901489257812s</td></tr>
+		<tr><td>Walltime:</td><td style="tt">1.8776371479034424s</td></tr>
 		<tr><td>Return code:</td><td style="tt">0</td></tr>
 		<tr><td>Note(s):</td><td>Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^28</td></tr>
 	</table>
@@ -30,13 +30,13 @@
 	<div class="boxlabelo"><div class="boxlabelc">Log</div></div>
 	<pre style="overflow:auto; padding-bottom: 1.5ex">Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:20:29 2024
+Date: Sat Aug 10 07:46:19 2024
 Command line arguments: --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const 'B1=1190,B2=100' --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 268435456
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.001s.
+Time for model input parsing: 0.002s.
 
-Time for model construction: 0.014s.
+Time for model construction: 0.016s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -78,13 +78,13 @@ Merging of sink states resulted in a model with 164 states.
 Statistics:
 ---------------------------------
           #checked epochs: 115342.
-             overall Time: 1.773s.
-Epoch Model building Time: 0.882s.
-Epoch Model checking Time: 0.489s.
+             overall Time: 1.756s.
+Epoch Model building Time: 0.877s.
+Epoch Model checking Time: 0.482s.
 ---------------------------------
 Time for exploring beliefs: 0.000s.
 Time for building the belief MDP: 0.000s.
-Time for analyzing the belief MDP: 1.848s.
+Time for analyzing the belief MDP: 1.830s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -106,16 +106,16 @@ Choice Labels: 	5 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 14
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 1.849s
+# Total check time: 1.831s
 ##########################################
 
 Result: ≥ 0.178673254
-Time for POMDP analysis: 1.849s.
+Time for POMDP analysis: 1.831s.
 
 Performance statistics:
-  * peak memory usage: 68MB
-  * CPU time: 1.863s
-  * wallclock time: 1.867s
+  * peak memory usage: 66MB
+  * CPU time: 1.847s
+  * wallclock time: 1.853s
 
 
 ############################## Notes ##############################

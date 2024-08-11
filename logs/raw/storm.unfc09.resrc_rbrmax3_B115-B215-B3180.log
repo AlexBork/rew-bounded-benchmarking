@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=15,B2=15,B3=180 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 512
-Wallclock time:	71.04646182060242
+Wallclock time:	74.1940221786499
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:47 2024
+Date: Sat Aug 10 07:32:38 2024
 Command line arguments: --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const 'B1=15,B2=15,B3=180' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 512
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.030s.
+Time for model input parsing: 0.004s.
 
-Time for model construction: 0.112s.
+Time for model construction: 0.024s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -51,7 +51,7 @@ Choice Labels: 	5 labels
    * place -> 1 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 25.984s.
+Time for explicit reward bound unfolding: 30.315s.
 Exploring the belief MDP... 
 Exploring the belief space...
 Exploration stopped before all beliefs were explored. 513 beliefs discovered. 309 beliefs explored.
@@ -92,16 +92,16 @@ Choice Labels: 	5 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 76854
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 43.317s
+# Total check time: 43.406s
 ##########################################
 
 Result: ≥ 1.337967044e-85
-Time for POMDP analysis: 43.480s.
+Time for POMDP analysis: 43.571s.
 
 Performance statistics:
-  * peak memory usage: 9725MB
-  * CPU time: 66.667s
-  * wallclock time: 69.969s
+  * peak memory usage: 9720MB
+  * CPU time: 68.187s
+  * wallclock time: 74.083s
 
 
 ############################## Notes ##############################

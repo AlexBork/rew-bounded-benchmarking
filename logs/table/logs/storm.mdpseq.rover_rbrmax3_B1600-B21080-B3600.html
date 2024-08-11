@@ -21,7 +21,7 @@
 <div class="box">
 	<div class="boxlabelo"><div class="boxlabelc">Execution</div></div>
 	<table style="margin-bottom: 0.75ex;">
-		<tr><td>Walltime:</td><td style="tt">442.09573245048523s</td></tr>
+		<tr><td>Walltime:</td><td style="tt">460.3459007740021s</td></tr>
 		<tr><td>Return code:</td><td style="tt">0</td></tr>
 		<tr><td>Note(s):</td><td>Storm-pomdp. Sequential approach on the underlying (fully observable) observable MDP</td></tr>
 	</table>
@@ -30,13 +30,13 @@
 	<div class="boxlabelo"><div class="boxlabelc">Log</div></div>
 	<pre style="overflow:auto; padding-bottom: 1.5ex">Storm-POMDP 1.8.2 (dev)
 
-Date: Sat Aug  3 00:19:48 2024
+Date: Sat Aug 10 07:40:52 2024
 Command line arguments: --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const 'B1=600,B2=1080,B3=600' --timemem --statistics --check-fully-observable --reward-aware
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.188s.
+Time for model input parsing: 0.003s.
 
-Time for model construction: 0.719s.
+Time for model construction: 0.016s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -63,18 +63,18 @@ Analyzing the formula on the fully observable MDP ... Epoch model for epoch <0, 
 Statistics:
 ---------------------------------
           #checked epochs: 19568501.
-             overall Time: 376.526s.
-Epoch Model building Time: 78.364s.
-Epoch Model checking Time: 66.452s.
+             overall Time: 396.583s.
+Epoch Model building Time: 87.334s.
+Epoch Model checking Time: 68.744s.
 ---------------------------------
 
 Result: 0.9510782147
-Time for POMDP analysis: 438.526s.
+Time for POMDP analysis: 460.037s.
 
 Performance statistics:
-  * peak memory usage: 1095MB
-  * CPU time: 436.346s
-  * wallclock time: 439.743s
+  * peak memory usage: 1080MB
+  * CPU time: 457.732s
+  * wallclock time: 460.261s
 
 
 ############################## Notes ##############################

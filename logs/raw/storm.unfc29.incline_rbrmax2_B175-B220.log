@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const B1=75,B2=20 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 536870912
-Wallclock time:	30.06485891342163
+Wallclock time:	29.441102743148804
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:23 2024
+Date: Sat Aug 10 07:31:38 2024
 Command line arguments: --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const 'B1=75,B2=20' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 536870912
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.002s.
+Time for model input parsing: 0.001s.
 
-Time for model construction: 0.014s.
+Time for model construction: 0.013s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -66,9 +66,9 @@ State Labels: 	3 labels
    * bottom -> 1 item(s)
 Choice Labels: 	none
 -------------------------------------------------------------- 
-Time for exploring beliefs: 23.227s.
-Time for building the belief MDP: 1.727s.
-Time for analyzing the belief MDP: 1.312s.
+Time for exploring beliefs: 22.885s.
+Time for building the belief MDP: 1.648s.
+Time for analyzing the belief MDP: 1.248s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -89,16 +89,16 @@ Choice Labels: 	4 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 731
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 29.931s
+# Total check time: 29.307s
 ##########################################
 
 Result: ≥ 0.989364624
-Time for POMDP analysis: 29.931s.
+Time for POMDP analysis: 29.307s.
 
 Performance statistics:
-  * peak memory usage: 3588MB
-  * CPU time: 29.134s
-  * wallclock time: 30.016s
+  * peak memory usage: 3590MB
+  * CPU time: 28.550s
+  * wallclock time: 29.391s
 
 
 ############################## Notes ##############################

@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 24 --triangulationmode static
-Wallclock time:	1804.3171582221985
-Return code:	None
+Wallclock time:	280.95384407043457
+Return code:	-9
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:09 2024
+Date: Sat Aug 10 07:42:15 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 24 --triangulationmode static
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.018s.
+Time for model input parsing: 0.025s.
 
-Time for model construction: 0.843s.
+Time for model construction: 0.781s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -39,13 +39,6 @@ Analyzing property 'Pmax=? [true Urew{"time"}<=570 "taskdone"]'
 Exploring the belief MDP... 
 Exploring the belief space...
 
-##############################Output to stderr##############################
-ERROR: The program received signal 15 and will be aborted in 3s.
-Received signal 14
-
-
-----------
-Computation aborted after 1804.3171582221985 seconds since the total time limit of 1800 seconds was exceeded.
 
 ############################## Notes ##############################
 Storm-pomdp. Sequential approach, cost aware, with discretization and resolution 24

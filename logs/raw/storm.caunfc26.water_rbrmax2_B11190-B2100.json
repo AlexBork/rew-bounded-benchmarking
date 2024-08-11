@@ -8,9 +8,9 @@
 		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const B1=1190,B2=100 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 67108864"
 	],
 	"time-limit": 1800,
-	"log-dir": "logs2024-08-02",
+	"log-dir": "logs2024-08-10",
 	"log": "storm.caunfc26.water_rbrmax2_B11190-B2100.log",
-	"wallclock-time": 60.989105463027954,
+	"wallclock-time": 102.94756984710693,
 	"timeout": false,
 	"execution-error": false,
 	"return-codes": [

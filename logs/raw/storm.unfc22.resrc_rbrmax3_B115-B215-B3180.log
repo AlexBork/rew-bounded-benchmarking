@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=15,B2=15,B3=180 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 4194304
-Wallclock time:	97.7808027267456
+Wallclock time:	87.17074799537659
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:06:05 2024
+Date: Sat Aug 10 07:32:47 2024
 Command line arguments: --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const 'B1=15,B2=15,B3=180' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 4194304
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.016s.
+Time for model input parsing: 0.004s.
 
-Time for model construction: 0.024s.
+Time for model construction: 0.021s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -51,7 +51,7 @@ Choice Labels: 	5 labels
    * place -> 1 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 27.921s.
+Time for explicit reward bound unfolding: 26.016s.
 Exploring the belief MDP... 
 Exploring the belief space...
 Exploration stopped before all beliefs were explored. 4194305 beliefs discovered. 2477776 beliefs explored.
@@ -68,9 +68,9 @@ State Labels: 	3 labels
    * bottom -> 1 item(s)
 Choice Labels: 	none
 -------------------------------------------------------------- 
-Time for exploring beliefs: 13.233s.
-Time for building the belief MDP: 5.383s.
-Time for analyzing the belief MDP: 0.266s.
+Time for exploring beliefs: 11.430s.
+Time for building the belief MDP: 4.669s.
+Time for analyzing the belief MDP: 0.250s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -92,16 +92,16 @@ Choice Labels: 	5 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 76854
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 68.841s
+# Total check time: 60.710s
 ##########################################
 
 Result: ≥ 2.122096437e-76
-Time for POMDP analysis: 69.005s.
+Time for POMDP analysis: 60.880s.
 
 Performance statistics:
-  * peak memory usage: 9723MB
-  * CPU time: 93.689s
-  * wallclock time: 97.297s
+  * peak memory usage: 9725MB
+  * CPU time: 83.892s
+  * wallclock time: 86.998s
 
 
 ############################## Notes ##############################

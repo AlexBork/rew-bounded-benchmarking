@@ -8,9 +8,9 @@
 		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --check-fully-observable --reward-aware"
 	],
 	"time-limit": 1800,
-	"log-dir": "logs2024-08-03",
+	"log-dir": "logs2024-08-10",
 	"log": "storm.mdpseq.serv_rbrmax1_B11000.log",
-	"wallclock-time": 6.224663019180298,
+	"wallclock-time": 3.651007890701294,
 	"timeout": false,
 	"execution-error": false,
 	"return-codes": [

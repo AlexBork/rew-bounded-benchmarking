@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const B1=1190,B2=100 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 134217728
-Wallclock time:	297.7350082397461
+Wallclock time:	305.928750038147
 Return code:	-9
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:20:49 2024
+Date: Sat Aug 10 07:47:17 2024
 Command line arguments: --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const 'B1=1190,B2=100' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 134217728
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.002s.
+Time for model input parsing: 0.030s.
 
-Time for model construction: 0.015s.
+Time for model construction: 0.102s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -50,7 +50,7 @@ Choice Labels: 	5 labels
    * flip -> 136621 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 8.924s.
+Time for explicit reward bound unfolding: 9.118s.
 Exploring the belief MDP... 
 Exploring the belief space...
 

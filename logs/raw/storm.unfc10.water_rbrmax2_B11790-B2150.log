@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const B1=1790,B2=150 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 1024
-Wallclock time:	108.9178113937378
+Wallclock time:	115.61524486541748
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:21:31 2024
+Date: Sat Aug 10 07:48:32 2024
 Command line arguments: --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const 'B1=1790,B2=150' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 1024
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.023s.
+Time for model input parsing: 0.002s.
 
-Time for model construction: 0.091s.
+Time for model construction: 0.014s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -50,7 +50,7 @@ Choice Labels: 	5 labels
    * flip -> 309921 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 18.965s.
+Time for explicit reward bound unfolding: 20.499s.
 Exploring the belief MDP... 
 Exploring the belief space...
 Exploration stopped before all beliefs were explored. 1025 beliefs discovered. 648 beliefs explored.
@@ -91,16 +91,16 @@ Choice Labels: 	5 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 2191350
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 88.955s
+# Total check time: 94.403s
 ##########################################
 
 Result: ≥ 0
-Time for POMDP analysis: 89.388s.
+Time for POMDP analysis: 94.884s.
 
 Performance statistics:
   * peak memory usage: 8491MB
-  * CPU time: 105.824s
-  * wallclock time: 108.674s
+  * CPU time: 112.489s
+  * wallclock time: 115.472s
 
 
 ############################## Notes ##############################

@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/obstcl/obstcl.prism --prop $BENCH_HOME/models/obstcl/obstcl.props rbrmax2 -const B1=25,B2=7 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 16384
-Wallclock time:	1.1911258697509766
+Wallclock time:	0.9701106548309326
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:28 2024
+Date: Sat Aug 10 07:31:39 2024
 Command line arguments: --prism $BENCH_HOME/models/obstcl/obstcl.prism --prop $BENCH_HOME/models/obstcl/obstcl.props rbrmax2 -const 'B1=25,B2=7' --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 16384
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.029s.
+Time for model input parsing: 0.033s.
 
-Time for model construction: 0.109s.
+Time for model construction: 0.124s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -32,33 +32,34 @@ Choice Labels: 	4 labels
 -------------------------------------------------------------- 
 Analyzing property 'Pmax=? [true U^{rew{"energy"}<=25 , rew{"steps"}<=7 }"goal"]'
 Perform explicit unfolding of reward bounds.
+Use reward-aware unfolding.
 Unfolding POMDP Information:
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
-States: 	700
-Transitions: 	3084
-Choices: 	2328
-Observations: 	572
+States: 	1013
+Transitions: 	4478
+Choices: 	3379
+Observations: 	42
 Reward Models:  none
 State Labels: 	2 labels
    * init -> 1 item(s)
    * goal -> 1 item(s)
 Choice Labels: 	4 labels
-   * west -> 538 item(s)
-   * south -> 575 item(s)
-   * east -> 638 item(s)
-   * north -> 575 item(s)
+   * west -> 774 item(s)
+   * south -> 833 item(s)
+   * east -> 937 item(s)
+   * north -> 833 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 0.003s.
+Time for explicit reward bound unfolding: 0.004s.
 Exploring the belief MDP... 
 Exploring the belief space...
 Constructing the belief MDP...
 -------------------------------------------------------------- 
 Model type: 	MDP (sparse)
-States: 	3063
-Transitions: 	14403
-Choices: 	11092
+States: 	3475
+Transitions: 	15886
+Choices: 	12328
 Reward Models:  none
 State Labels: 	3 labels
    * target -> 1 item(s)
@@ -73,32 +74,32 @@ Time for analyzing the belief MDP: 0.000s.
 # Input model: 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
-States: 	700
-Transitions: 	3084
-Choices: 	2328
-Observations: 	572
+States: 	1013
+Transitions: 	4478
+Choices: 	3379
+Observations: 	42
 Reward Models:  none
 State Labels: 	2 labels
    * init -> 1 item(s)
    * goal -> 1 item(s)
 Choice Labels: 	4 labels
-   * west -> 538 item(s)
-   * south -> 575 item(s)
-   * east -> 638 item(s)
-   * north -> 575 item(s)
+   * west -> 774 item(s)
+   * south -> 833 item(s)
+   * east -> 937 item(s)
+   * north -> 833 item(s)
 -------------------------------------------------------------- 
-# Max. Number of states with same observation: 9
+# Max. Number of states with same observation: 290
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 0.017s
+# Total check time: 0.018s
 ##########################################
 
 Result: ≥ 0.8701171875
-Time for POMDP analysis: 0.018s.
+Time for POMDP analysis: 0.019s.
 
 Performance statistics:
   * peak memory usage: 70MB
-  * CPU time: 0.035s
-  * wallclock time: 0.175s
+  * CPU time: 0.046s
+  * wallclock time: 0.201s
 
 
 ############################## Notes ##############################

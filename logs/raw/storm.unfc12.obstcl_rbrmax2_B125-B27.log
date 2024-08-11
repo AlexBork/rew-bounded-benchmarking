@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/obstcl/obstcl.prism --prop $BENCH_HOME/models/obstcl/obstcl.props rbrmax2 -const B1=25,B2=7 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 4096
-Wallclock time:	0.07082557678222656
+Wallclock time:	0.3187861442565918
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:30 2024
+Date: Sat Aug 10 07:31:48 2024
 Command line arguments: --prism $BENCH_HOME/models/obstcl/obstcl.prism --prop $BENCH_HOME/models/obstcl/obstcl.props rbrmax2 -const 'B1=25,B2=7' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 4096
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.002s.
+Time for model input parsing: 0.013s.
 
-Time for model construction: 0.016s.
+Time for model construction: 0.015s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -90,16 +90,16 @@ Choice Labels: 	4 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 306
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 0.012s
+# Total check time: 0.011s
 ##########################################
 
 Result: ≥ 0.838677724
-Time for POMDP analysis: 0.012s.
+Time for POMDP analysis: 0.011s.
 
 Performance statistics:
-  * peak memory usage: 70MB
-  * CPU time: 0.038s
-  * wallclock time: 0.036s
+  * peak memory usage: 71MB
+  * CPU time: 0.034s
+  * wallclock time: 0.126s
 
 
 ############################## Notes ##############################

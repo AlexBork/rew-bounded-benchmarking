@@ -8,9 +8,9 @@
 		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=600,B2=1080,B3=600 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 32768"
 	],
 	"time-limit": 1800,
-	"log-dir": "logs2024-08-02",
+	"log-dir": "logs2024-08-10",
 	"log": "storm.belseqc15.rover_rbrmax3_B1600-B21080-B3600.log",
-	"wallclock-time": 542.6215355396271,
+	"wallclock-time": 559.5440039634705,
 	"timeout": false,
 	"execution-error": false,
 	"return-codes": [

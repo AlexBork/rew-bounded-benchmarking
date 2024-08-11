@@ -8,9 +8,9 @@
 		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=600,B2=1080,B3=600 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration discretize --resolution 18 --triangulationmode static"
 	],
 	"time-limit": 1800,
-	"log-dir": "logs2024-08-02",
+	"log-dir": "logs2024-08-10",
 	"log": "storm.caunfd18.rover_rbrmax3_B1600-B21080-B3600.log",
-	"wallclock-time": 177.17458701133728,
+	"wallclock-time": 86.08702850341797,
 	"timeout": false,
 	"execution-error": true,
 	"return-codes": [

@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 256
-Wallclock time:	1.4048421382904053
+Wallclock time:	1.7875003814697266
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:06 2024
+Date: Sat Aug 10 07:41:12 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 256
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.038s.
+Time for model input parsing: 0.031s.
 
-Time for model construction: 0.878s.
+Time for model construction: 0.875s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -59,13 +59,13 @@ Merging of sink states resulted in a model with 1 states.
 Statistics:
 ---------------------------------
           #checked epochs: 1.
-             overall Time: 0.001s.
+             overall Time: 0.000s.
 Epoch Model building Time: 0.000s.
 Epoch Model checking Time: 0.000s.
 ---------------------------------
-Time for exploring beliefs: 0.016s.
+Time for exploring beliefs: 0.017s.
 Time for building the belief MDP: 0.000s.
-Time for analyzing the belief MDP: 0.005s.
+Time for analyzing the belief MDP: 0.003s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -92,16 +92,16 @@ Choice Labels: 	9 labels
    * interact -> 76544 item(s)
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 21
-# Total check time: 0.069s
+# Total check time: 0.065s
 ##########################################
 
 Result: ≥ 0
-Time for POMDP analysis: 0.077s.
+Time for POMDP analysis: 0.072s.
 
 Performance statistics:
-  * peak memory usage: 161MB
-  * CPU time: 0.991s
-  * wallclock time: 1.215s
+  * peak memory usage: 163MB
+  * CPU time: 1.154s
+  * wallclock time: 1.320s
 
 
 ############################## Notes ##############################

@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 25 --triangulationmode static
-Wallclock time:	277.4458734989166
+Wallclock time:	272.5821945667267
 Return code:	-9
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:09 2024
+Date: Sat Aug 10 07:42:15 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 25 --triangulationmode static
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.018s.
+Time for model input parsing: 0.023s.
 
-Time for model construction: 0.821s.
+Time for model construction: 0.792s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)

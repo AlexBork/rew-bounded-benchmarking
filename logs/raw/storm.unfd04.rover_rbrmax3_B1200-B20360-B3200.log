@@ -1,10 +1,10 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=200,B2=360,B3=200 --timemem --statistics --revised --unfold-reward-bound --belief-exploration discretize --resolution 4 --triangulationmode static
-Wallclock time:	314.57032918930054
+Wallclock time:	334.29518365859985
 Return code:	-9
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:06:25 2024
+Date: Sat Aug 10 07:35:01 2024
 Command line arguments: --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const 'B1=200,B2=360,B3=200' --timemem --statistics --revised --unfold-reward-bound --belief-exploration discretize --resolution 4 --triangulationmode static
 Current working directory: $BENCH_HOME/experiments
 
@@ -53,7 +53,7 @@ Choice Labels: 	6 labels
    * done -> 1387062 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 21.326s.
+Time for explicit reward bound unfolding: 22.836s.
 Exploring the belief MDP... 
 Exploring the belief space...
 

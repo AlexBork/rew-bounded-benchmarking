@@ -8,11 +8,11 @@
 		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration discretize --resolution 6 --triangulationmode static"
 	],
 	"time-limit": 1800,
-	"log-dir": "logs2024-08-02",
+	"log-dir": "logs2024-08-10",
 	"log": "storm.caunfd06.serv_rbrmax1_B10570.log",
-	"wallclock-time": 1803.7232084274292,
-	"timeout": true,
-	"execution-error": false,
+	"wallclock-time": 757.3596777915955,
+	"timeout": false,
+	"execution-error": true,
 	"return-codes": [
 		-9
 	]

@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=15,B2=15,B3=180 --timemem --statistics --check-fully-observable --reward-aware
-Wallclock time:	22.425758600234985
+Wallclock time:	20.850677728652954
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Sat Aug  3 00:19:46 2024
+Date: Sat Aug 10 07:32:38 2024
 Command line arguments: --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const 'B1=15,B2=15,B3=180' --timemem --statistics --check-fully-observable --reward-aware
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.049s.
+Time for model input parsing: 0.004s.
 
-Time for model construction: 0.180s.
+Time for model construction: 0.022s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -35,18 +35,18 @@ Analyzing the formula on the fully observable MDP ... --------------------------
 Statistics:
 ---------------------------------
           #checked epochs: 43992.
-             overall Time: 21.169s.
-Epoch Model building Time: 19.805s.
-Epoch Model checking Time: 1.257s.
+             overall Time: 20.753s.
+Epoch Model building Time: 19.394s.
+Epoch Model checking Time: 1.252s.
 ---------------------------------
 
 Result: 0.01336346101
-Time for POMDP analysis: 21.207s.
+Time for POMDP analysis: 20.786s.
 
 Performance statistics:
-  * peak memory usage: 81MB
-  * CPU time: 21.151s
-  * wallclock time: 21.466s
+  * peak memory usage: 83MB
+  * CPU time: 20.757s
+  * wallclock time: 20.819s
 
 
 ############################## Notes ##############################

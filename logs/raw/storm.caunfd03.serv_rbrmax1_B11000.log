@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration discretize --resolution 3 --triangulationmode static
-Wallclock time:	136.53442668914795
-Return code:	0
+Wallclock time:	348.86879563331604
+Return code:	-9
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:15 2024
+Date: Sat Aug 10 07:43:52 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration discretize --resolution 3 --triangulationmode static
 Current working directory: $BENCH_HOME/experiments
 
 Time for model input parsing: 0.004s.
 
-Time for model construction: 0.723s.
+Time for model construction: 0.706s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -37,83 +37,34 @@ Choice Labels: 	9 labels
 -------------------------------------------------------------- 
 Analyzing property 'Pmax=? [true Urew{"time"}<=1000 "taskdone"]'
 Perform explicit unfolding of reward bounds.
+Use reward-aware unfolding.
 Unfolding POMDP Information:
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
-States: 	239394
-Transitions: 	2217912
-Choices: 	1784443
-Observations: 	403074
+States: 	735099
+Transitions: 	6890445
+Choices: 	5493838
+Observations: 	42114
 Reward Models:  none
 State Labels: 	2 labels
    * init -> 1 item(s)
    * goal -> 1 item(s)
 Choice Labels: 	9 labels
-   * interact -> 239392 item(s)
-   * get_water -> 239392 item(s)
-   * deliver_water -> 239392 item(s)
-   * check_water -> 239392 item(s)
-   * west -> 195827 item(s)
-   * wait_delay -> 43565 item(s)
-   * south -> 195827 item(s)
-   * east -> 195827 item(s)
-   * north -> 195827 item(s)
+   * interact -> 735097 item(s)
+   * get_water -> 735097 item(s)
+   * deliver_water -> 735097 item(s)
+   * check_water -> 735097 item(s)
+   * west -> 606117 item(s)
+   * wait_delay -> 128980 item(s)
+   * south -> 606117 item(s)
+   * east -> 606117 item(s)
+   * north -> 606117 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 1.362s.
+Time for explicit reward bound unfolding: 4.266s.
 Exploring the belief MDP... 
 Exploring the belief space...
 Constructing the belief MDP...
--------------------------------------------------------------- 
-Model type: 	MDP (sparse)
-States: 	12094360
-Transitions: 	179725124
-Choices: 	96545747
-Reward Models:  none
-State Labels: 	3 labels
-   * target -> 1 item(s)
-   * init -> 1 item(s)
-   * bottom -> 1 item(s)
-Choice Labels: 	none
--------------------------------------------------------------- 
-Time for exploring beliefs: 110.835s.
-Time for building the belief MDP: 10.521s.
-Time for analyzing the belief MDP: 5.220s.
-##### POMDP Approximation Statistics ######
-# Input model: 
--------------------------------------------------------------- 
-Model type: 	POMDP (sparse)
-States: 	239394
-Transitions: 	2217912
-Choices: 	1784443
-Observations: 	403074
-Reward Models:  none
-State Labels: 	2 labels
-   * init -> 1 item(s)
-   * goal -> 1 item(s)
-Choice Labels: 	9 labels
-   * interact -> 239392 item(s)
-   * get_water -> 239392 item(s)
-   * deliver_water -> 239392 item(s)
-   * check_water -> 239392 item(s)
-   * west -> 195827 item(s)
-   * wait_delay -> 43565 item(s)
-   * south -> 195827 item(s)
-   * east -> 195827 item(s)
-   * north -> 195827 item(s)
--------------------------------------------------------------- 
-# Max. Number of states with same observation: 21
-# Pre-computations detected that the belief MDP is finite.
-# Total check time: 134.066s
-##########################################
-
-Result: ≤ 0.6361012524
-Time for POMDP analysis: 134.118s.
-
-Performance statistics:
-  * peak memory usage: 13892MB
-  * CPU time: 129.889s
-  * wallclock time: 136.414s
 
 
 ############################## Notes ##############################

@@ -1,14 +1,14 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=600,B2=1080,B3=600 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 262144
-Wallclock time:	521.1398656368256
+Wallclock time:	479.83855390548706
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:06:52 2024
+Date: Sat Aug 10 07:35:43 2024
 Command line arguments: --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const 'B1=600,B2=1080,B3=600' --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 262144
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.002s.
+Time for model input parsing: 0.001s.
 
 Time for model construction: 0.014s.
 
@@ -55,13 +55,13 @@ Epoch model for epoch <0, _, _> is cyclic.
 Statistics:
 ---------------------------------
           #checked epochs: 19568501.
-             overall Time: 452.730s.
-Epoch Model building Time: 99.799s.
-Epoch Model checking Time: 82.569s.
+             overall Time: 414.167s.
+Epoch Model building Time: 96.908s.
+Epoch Model checking Time: 79.568s.
 ---------------------------------
 Time for exploring beliefs: 0.000s.
 Time for building the belief MDP: 0.000s.
-Time for analyzing the belief MDP: 520.791s.
+Time for analyzing the belief MDP: 479.485s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -84,16 +84,16 @@ Choice Labels: 	6 labels
    * task3_start -> 1 item(s)
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 2
-# Total check time: 520.791s
+# Total check time: 479.486s
 ##########################################
 
 Result: ≥ 0.9510782147
-Time for POMDP analysis: 520.791s.
+Time for POMDP analysis: 479.486s.
 
 Performance statistics:
   * peak memory usage: 1095MB
-  * CPU time: 517.811s
-  * wallclock time: 521.107s
+  * CPU time: 477.387s
+  * wallclock time: 479.797s
 
 
 ############################## Notes ##############################

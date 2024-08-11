@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=200,B2=360,B3=200 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 2147483648
-Wallclock time:	586.1827821731567
+Wallclock time:	295.02535939216614
 Return code:	-9
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:06:26 2024
+Date: Sat Aug 10 07:34:50 2024
 Command line arguments: --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const 'B1=200,B2=360,B3=200' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 2147483648
 Current working directory: $BENCH_HOME/experiments
 
 Time for model input parsing: 0.002s.
 
-Time for model construction: 0.014s.
+Time for model construction: 0.017s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -53,7 +53,7 @@ Choice Labels: 	6 labels
    * done -> 1387062 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 21.276s.
+Time for explicit reward bound unfolding: 26.291s.
 Exploring the belief MDP... 
 Exploring the belief space...
 

@@ -8,12 +8,12 @@
 		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/rover/rover.prism --prop $BENCH_HOME/models/rover/rover.props rbrmax3 -const B1=200,B2=360,B3=200 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 134217728"
 	],
 	"time-limit": 1800,
-	"log-dir": "logs2024-08-02",
+	"log-dir": "logs2024-08-10",
 	"log": "storm.caunfc27.rover_rbrmax3_B1200-B20360-B3200.log",
-	"wallclock-time": 195.55684423446655,
+	"wallclock-time": 350.79585242271423,
 	"timeout": false,
-	"execution-error": false,
+	"execution-error": true,
 	"return-codes": [
-		0
+		-9
 	]
 }

@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 1048576
-Wallclock time:	8.83057975769043
+Wallclock time:	7.979646444320679
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:06 2024
+Date: Sat Aug 10 07:41:27 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 1048576
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.023s.
+Time for model input parsing: 0.012s.
 
-Time for model construction: 0.931s.
+Time for model construction: 0.728s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -63,9 +63,9 @@ Statistics:
 Epoch Model building Time: 0.000s.
 Epoch Model checking Time: 0.000s.
 ---------------------------------
-Time for exploring beliefs: 3.916s.
-Time for building the belief MDP: 2.089s.
-Time for analyzing the belief MDP: 0.643s.
+Time for exploring beliefs: 3.577s.
+Time for building the belief MDP: 1.960s.
+Time for analyzing the belief MDP: 0.590s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -92,16 +92,16 @@ Choice Labels: 	9 labels
    * interact -> 76544 item(s)
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 21
-# Total check time: 7.507s
+# Total check time: 6.969s
 ##########################################
 
 Result: ≥ 0
-Time for POMDP analysis: 7.513s.
+Time for POMDP analysis: 6.976s.
 
 Performance statistics:
-  * peak memory usage: 1376MB
-  * CPU time: 8.188s
-  * wallclock time: 8.698s
+  * peak memory usage: 1373MB
+  * CPU time: 7.389s
+  * wallclock time: 7.922s
 
 
 ############################## Notes ##############################

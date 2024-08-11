@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/obstcl/obstcl.prism --prop $BENCH_HOME/models/obstcl/obstcl.props rbrmax2 -const B1=25,B2=7 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 256
-Wallclock time:	0.04772043228149414
+Wallclock time:	0.04615640640258789
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:29 2024
+Date: Sat Aug 10 07:31:47 2024
 Command line arguments: --prism $BENCH_HOME/models/obstcl/obstcl.prism --prop $BENCH_HOME/models/obstcl/obstcl.props rbrmax2 -const 'B1=25,B2=7' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 256
 Current working directory: $BENCH_HOME/experiments
 
 Time for model input parsing: 0.002s.
 
-Time for model construction: 0.017s.
+Time for model construction: 0.016s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -97,8 +97,8 @@ Result: ≥ 0.463285641
 Time for POMDP analysis: 0.004s.
 
 Performance statistics:
-  * peak memory usage: 69MB
-  * CPU time: 0.028s
+  * peak memory usage: 71MB
+  * CPU time: 0.030s
   * wallclock time: 0.027s
 
 

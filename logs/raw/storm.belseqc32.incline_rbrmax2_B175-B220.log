@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const B1=75,B2=20 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 4294967296
-Wallclock time:	192.90596771240234
+Wallclock time:	186.14210104942322
 Return code:	-9
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:13 2024
+Date: Sat Aug 10 07:31:25 2024
 Command line arguments: --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const 'B1=75,B2=20' --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 4294967296
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.034s.
+Time for model input parsing: 0.042s.
 
-Time for model construction: 0.108s.
+Time for model construction: 0.168s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)

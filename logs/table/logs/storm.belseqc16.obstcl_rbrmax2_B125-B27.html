@@ -21,7 +21,7 @@
 <div class="box">
 	<div class="boxlabelo"><div class="boxlabelc">Execution</div></div>
 	<table style="margin-bottom: 0.75ex;">
-		<tr><td>Walltime:</td><td style="tt">0.8229990005493164s</td></tr>
+		<tr><td>Walltime:</td><td style="tt">0.970512866973877s</td></tr>
 		<tr><td>Return code:</td><td style="tt">0</td></tr>
 		<tr><td>Note(s):</td><td>Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^16</td></tr>
 	</table>
@@ -30,13 +30,13 @@
 	<div class="boxlabelo"><div class="boxlabelc">Log</div></div>
 	<pre style="overflow:auto; padding-bottom: 1.5ex">Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:26 2024
+Date: Sat Aug 10 07:31:38 2024
 Command line arguments: --prism $BENCH_HOME/models/obstcl/obstcl.prism --prop $BENCH_HOME/models/obstcl/obstcl.props rbrmax2 -const 'B1=25,B2=7' --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 65536
 Current working directory: $BENCH_HOME/experiments
 
 Time for model input parsing: 0.002s.
 
-Time for model construction: 0.015s.
+Time for model construction: 0.016s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -81,13 +81,13 @@ Epoch model for epoch <_, _> is cyclic.
 Statistics:
 ---------------------------------
           #checked epochs: 83.
-             overall Time: 0.340s.
-Epoch Model building Time: 0.209s.
-Epoch Model checking Time: 0.130s.
+             overall Time: 0.398s.
+Epoch Model building Time: 0.261s.
+Epoch Model checking Time: 0.135s.
 ---------------------------------
-Time for exploring beliefs: 0.138s.
-Time for building the belief MDP: 0.047s.
-Time for analyzing the belief MDP: 0.559s.
+Time for exploring beliefs: 0.160s.
+Time for building the belief MDP: 0.068s.
+Time for analyzing the belief MDP: 0.663s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -109,16 +109,16 @@ Choice Labels: 	4 labels
    * west -> 19 item(s)
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 9
-# Total check time: 0.771s
+# Total check time: 0.921s
 ##########################################
 
 Result: ≥ 0.8701171875
-Time for POMDP analysis: 0.771s.
+Time for POMDP analysis: 0.921s.
 
 Performance statistics:
-  * peak memory usage: 176MB
-  * CPU time: 0.777s
-  * wallclock time: 0.796s
+  * peak memory usage: 177MB
+  * CPU time: 0.914s
+  * wallclock time: 0.949s
 
 
 ############################## Notes ##############################

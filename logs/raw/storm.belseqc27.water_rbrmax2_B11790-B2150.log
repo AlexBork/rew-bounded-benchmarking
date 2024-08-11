@@ -1,10 +1,10 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const B1=1790,B2=150 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 134217728
-Wallclock time:	4.301356554031372
+Wallclock time:	4.265010118484497
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:21:01 2024
+Date: Sat Aug 10 07:48:02 2024
 Command line arguments: --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const 'B1=1790,B2=150' --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 134217728
 Current working directory: $BENCH_HOME/experiments
 
@@ -52,13 +52,13 @@ Merging of sink states resulted in a model with 164 states.
 Statistics:
 ---------------------------------
           #checked epochs: 259267.
-             overall Time: 4.065s.
-Epoch Model building Time: 2.000s.
-Epoch Model checking Time: 1.098s.
+             overall Time: 4.049s.
+Epoch Model building Time: 1.998s.
+Epoch Model checking Time: 1.110s.
 ---------------------------------
 Time for exploring beliefs: 0.000s.
 Time for building the belief MDP: 0.000s.
-Time for analyzing the belief MDP: 4.245s.
+Time for analyzing the belief MDP: 4.221s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -80,16 +80,16 @@ Choice Labels: 	5 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 14
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 4.248s
+# Total check time: 4.222s
 ##########################################
 
 Result: ≥ 0.180755753
-Time for POMDP analysis: 4.249s.
+Time for POMDP analysis: 4.222s.
 
 Performance statistics:
-  * peak memory usage: 68MB
-  * CPU time: 4.253s
-  * wallclock time: 4.270s
+  * peak memory usage: 67MB
+  * CPU time: 4.235s
+  * wallclock time: 4.241s
 
 
 ############################## Notes ##############################

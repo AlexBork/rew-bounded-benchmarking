@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=15,B2=15,B3=180 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 4194304
-Wallclock time:	685.3027946949005
+Wallclock time:	646.045244216919
 Return code:	-9
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:48 2024
+Date: Sat Aug 10 07:32:18 2024
 Command line arguments: --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const 'B1=15,B2=15,B3=180' --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 4194304
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.209s.
+Time for model input parsing: 0.033s.
 
-Time for model construction: 0.697s.
+Time for model construction: 0.126s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)

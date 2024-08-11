@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const B1=75,B2=20 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 268435456
-Wallclock time:	30.158608198165894
+Wallclock time:	29.936750888824463
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:23 2024
+Date: Sat Aug 10 07:31:38 2024
 Command line arguments: --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const 'B1=75,B2=20' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 268435456
 Current working directory: $BENCH_HOME/experiments
 
 Time for model input parsing: 0.001s.
 
-Time for model construction: 0.014s.
+Time for model construction: 0.013s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -66,9 +66,9 @@ State Labels: 	3 labels
    * bottom -> 1 item(s)
 Choice Labels: 	none
 -------------------------------------------------------------- 
-Time for exploring beliefs: 23.245s.
-Time for building the belief MDP: 1.694s.
-Time for analyzing the belief MDP: 1.375s.
+Time for exploring beliefs: 23.256s.
+Time for building the belief MDP: 1.638s.
+Time for analyzing the belief MDP: 1.316s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -89,16 +89,16 @@ Choice Labels: 	4 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 731
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 30.008s
+# Total check time: 29.791s
 ##########################################
 
 Result: ≥ 0.989364624
-Time for POMDP analysis: 30.008s.
+Time for POMDP analysis: 29.791s.
 
 Performance statistics:
-  * peak memory usage: 3591MB
-  * CPU time: 29.218s
-  * wallclock time: 30.102s
+  * peak memory usage: 3592MB
+  * CPU time: 29.063s
+  * wallclock time: 29.890s
 
 
 ############################## Notes ##############################

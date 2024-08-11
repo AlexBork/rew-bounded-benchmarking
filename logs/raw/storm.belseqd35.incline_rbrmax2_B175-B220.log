@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const B1=75,B2=20 --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 35 --triangulationmode static
-Wallclock time:	1.4297940731048584
+Wallclock time:	0.7587876319885254
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:14 2024
+Date: Sat Aug 10 07:31:24 2024
 Command line arguments: --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const 'B1=75,B2=20' --timemem --statistics --revised --reward-aware --belief-exploration discretize --resolution 35 --triangulationmode static
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.030s.
+Time for model input parsing: 0.064s.
 
-Time for model construction: 0.118s.
+Time for model construction: 0.195s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -54,13 +54,13 @@ Epoch model for epoch <_, _> is cyclic.
 Statistics:
 ---------------------------------
           #checked epochs: 497.
-             overall Time: 0.045s.
-Epoch Model building Time: 0.017s.
-Epoch Model checking Time: 0.026s.
+             overall Time: 0.056s.
+Epoch Model building Time: 0.015s.
+Epoch Model checking Time: 0.040s.
 ---------------------------------
-Time for exploring beliefs: 0.004s.
+Time for exploring beliefs: 0.009s.
 Time for building the belief MDP: 0.000s.
-Time for analyzing the belief MDP: 0.055s.
+Time for analyzing the belief MDP: 0.118s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -82,16 +82,16 @@ Choice Labels: 	4 labels
    * west -> 19 item(s)
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 9
-# Total check time: 0.063s
+# Total check time: 0.147s
 ##########################################
 
 Result: ≤ 0.989364624
-Time for POMDP analysis: 0.065s.
+Time for POMDP analysis: 0.150s.
 
 Performance statistics:
   * peak memory usage: 67MB
   * CPU time: 0.078s
-  * wallclock time: 0.232s
+  * wallclock time: 0.495s
 
 
 ############################## Notes ##############################

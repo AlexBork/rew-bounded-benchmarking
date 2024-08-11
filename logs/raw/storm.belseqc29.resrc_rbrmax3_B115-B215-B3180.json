@@ -8,11 +8,11 @@
 		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=15,B2=15,B3=180 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 536870912"
 	],
 	"time-limit": 1800,
-	"log-dir": "logs2024-08-02",
+	"log-dir": "logs2024-08-10",
 	"log": "storm.belseqc29.resrc_rbrmax3_B115-B215-B3180.log",
-	"wallclock-time": 1805.8639059066772,
-	"timeout": true,
-	"execution-error": false,
+	"wallclock-time": 246.95353531837463,
+	"timeout": false,
+	"execution-error": true,
 	"return-codes": [
 		-9
 	]

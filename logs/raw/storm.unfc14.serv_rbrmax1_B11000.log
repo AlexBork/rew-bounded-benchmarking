@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 16384
-Wallclock time:	4.99702262878418
+Wallclock time:	4.5896079540252686
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:27 2024
+Date: Sat Aug 10 07:44:26 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 16384
 Current working directory: $BENCH_HOME/experiments
 
 Time for model input parsing: 0.004s.
 
-Time for model construction: 0.742s.
+Time for model construction: 0.722s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -60,7 +60,7 @@ Choice Labels: 	9 labels
    * north -> 195827 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 1.475s.
+Time for explicit reward bound unfolding: 1.376s.
 Exploring the belief MDP... 
 Exploring the belief space...
 Exploration stopped before all beliefs were explored. 16385 beliefs discovered. 3589 beliefs explored.
@@ -105,16 +105,16 @@ Choice Labels: 	9 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 1357
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 2.481s
+# Total check time: 2.213s
 ##########################################
 
 Result: ≥ 0.003631351886
-Time for POMDP analysis: 2.523s.
+Time for POMDP analysis: 2.251s.
 
 Performance statistics:
-  * peak memory usage: 993MB
-  * CPU time: 4.650s
-  * wallclock time: 4.954s
+  * peak memory usage: 994MB
+  * CPU time: 4.288s
+  * wallclock time: 4.551s
 
 
 ############################## Notes ##############################

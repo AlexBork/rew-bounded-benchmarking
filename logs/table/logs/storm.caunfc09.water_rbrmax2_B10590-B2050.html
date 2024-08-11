@@ -21,7 +21,7 @@
 <div class="box">
 	<div class="boxlabelo"><div class="boxlabelc">Execution</div></div>
 	<table style="margin-bottom: 0.75ex;">
-		<tr><td>Walltime:</td><td style="tt">6.780847787857056s</td></tr>
+		<tr><td>Walltime:</td><td style="tt">20.00932002067566s</td></tr>
 		<tr><td>Return code:</td><td style="tt">0</td></tr>
 		<tr><td>Note(s):</td><td>Storm-pomdp. Unfolds cost bounds, cost aware, with cutoffs and size threshold 2^9</td></tr>
 	</table>
@@ -30,13 +30,13 @@
 	<div class="boxlabelo"><div class="boxlabelc">Log</div></div>
 	<pre style="overflow:auto; padding-bottom: 1.5ex">Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:47 2024
+Date: Sat Aug 10 07:45:34 2024
 Command line arguments: --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const 'B1=590,B2=50' --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 512
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.002s.
+Time for model input parsing: 0.013s.
 
-Time for model construction: 0.015s.
+Time for model construction: 0.018s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -57,35 +57,36 @@ Choice Labels: 	5 labels
 -------------------------------------------------------------- 
 Analyzing property 'Pmax=? [true U^{rew{"energy"}<=590 , rew{"homeReached"}>=50 }true]'
 Perform explicit unfolding of reward bounds.
+Use reward-aware unfolding.
 Unfolding POMDP Information:
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
-States: 	579023
-Transitions: 	2249444
-Choices: 	2216123
-Observations: 	86957
+States: 	1116120
+Transitions: 	4331878
+Choices: 	4265580
+Observations: 	42
 Reward Models:  none
 State Labels: 	2 labels
    * init -> 1 item(s)
    * goal -> 1 item(s)
 Choice Labels: 	5 labels
-   * south -> 545700 item(s)
-   * west -> 545700 item(s)
-   * east -> 545700 item(s)
-   * north -> 545700 item(s)
-   * flip -> 33321 item(s)
+   * south -> 1049820 item(s)
+   * west -> 1049820 item(s)
+   * east -> 1049820 item(s)
+   * north -> 1049820 item(s)
+   * flip -> 66298 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 1.880s.
+Time for explicit reward bound unfolding: 4.894s.
 Exploring the belief MDP... 
 Exploring the belief space...
-Exploration stopped before all beliefs were explored. 513 beliefs discovered. 253 beliefs explored.
+Exploration stopped before all beliefs were explored. 514 beliefs discovered. 228 beliefs explored.
 Constructing the belief MDP...
 -------------------------------------------------------------- 
 Model type: 	MDP (sparse)
-States: 	515
-Transitions: 	4661
-Choices: 	2813
+States: 	516
+Transitions: 	4934
+Choices: 	2904
 Reward Models:  none
 State Labels: 	3 labels
    * target -> 1 item(s)
@@ -100,33 +101,33 @@ Time for analyzing the belief MDP: 0.000s.
 # Input model: 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
-States: 	579023
-Transitions: 	2249444
-Choices: 	2216123
-Observations: 	86957
+States: 	1116120
+Transitions: 	4331878
+Choices: 	4265580
+Observations: 	42
 Reward Models:  none
 State Labels: 	2 labels
    * init -> 1 item(s)
    * goal -> 1 item(s)
 Choice Labels: 	5 labels
-   * south -> 545700 item(s)
-   * west -> 545700 item(s)
-   * east -> 545700 item(s)
-   * north -> 545700 item(s)
-   * flip -> 33321 item(s)
+   * south -> 1049820 item(s)
+   * west -> 1049820 item(s)
+   * east -> 1049820 item(s)
+   * north -> 1049820 item(s)
+   * flip -> 66298 item(s)
 -------------------------------------------------------------- 
-# Max. Number of states with same observation: 14
+# Max. Number of states with same observation: 240400
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 4.684s
+# Total check time: 14.448s
 ##########################################
 
-Result: ≥ 2.281456468e-118
-Time for POMDP analysis: 4.823s.
+Result: ≥ 8.824953893e-140
+Time for POMDP analysis: 14.742s.
 
 Performance statistics:
-  * peak memory usage: 1437MB
-  * CPU time: 6.389s
-  * wallclock time: 6.744s
+  * peak memory usage: 2722MB
+  * CPU time: 18.575s
+  * wallclock time: 19.759s
 
 
 ############################## Notes ##############################

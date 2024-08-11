@@ -1,10 +1,10 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const B1=75,B2=20 --timemem --statistics --revised --unfold-reward-bound --belief-exploration discretize --resolution 30 --triangulationmode static
-Wallclock time:	63.886961936950684
+Wallclock time:	62.723464488983154
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:23 2024
+Date: Sat Aug 10 07:31:38 2024
 Command line arguments: --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const 'B1=75,B2=20' --timemem --statistics --revised --unfold-reward-bound --belief-exploration discretize --resolution 30 --triangulationmode static
 Current working directory: $BENCH_HOME/experiments
 
@@ -66,9 +66,9 @@ State Labels: 	3 labels
    * bottom -> 1 item(s)
 Choice Labels: 	none
 -------------------------------------------------------------- 
-Time for exploring beliefs: 51.986s.
-Time for building the belief MDP: 3.751s.
-Time for analyzing the belief MDP: 5.612s.
+Time for exploring beliefs: 51.516s.
+Time for building the belief MDP: 3.387s.
+Time for analyzing the belief MDP: 5.285s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -89,16 +89,16 @@ Choice Labels: 	4 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 731
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 63.793s
+# Total check time: 62.627s
 ##########################################
 
 Result: ≤ 0.989364624
-Time for POMDP analysis: 63.793s.
+Time for POMDP analysis: 62.628s.
 
 Performance statistics:
-  * peak memory usage: 5317MB
-  * CPU time: 62.207s
-  * wallclock time: 63.820s
+  * peak memory usage: 5320MB
+  * CPU time: 61.498s
+  * wallclock time: 62.653s
 
 
 ############################## Notes ##############################

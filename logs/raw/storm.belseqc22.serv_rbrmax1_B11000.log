@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 4194304
-Wallclock time:	34.69054055213928
+Wallclock time:	30.457003355026245
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:13 2024
+Date: Sat Aug 10 07:42:53 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 4194304
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.005s.
+Time for model input parsing: 0.004s.
 
-Time for model construction: 0.854s.
+Time for model construction: 0.726s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -63,9 +63,9 @@ Statistics:
 Epoch Model building Time: 0.000s.
 Epoch Model checking Time: 0.000s.
 ---------------------------------
-Time for exploring beliefs: 17.608s.
-Time for building the belief MDP: 8.283s.
-Time for analyzing the belief MDP: 2.815s.
+Time for exploring beliefs: 15.431s.
+Time for building the belief MDP: 7.358s.
+Time for analyzing the belief MDP: 2.446s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -92,16 +92,16 @@ Choice Labels: 	9 labels
    * interact -> 76544 item(s)
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 21
-# Total check time: 33.448s
+# Total check time: 29.391s
 ##########################################
 
 Result: ≥ 0
-Time for POMDP analysis: 33.455s.
+Time for POMDP analysis: 29.396s.
 
 Performance statistics:
-  * peak memory usage: 5032MB
-  * CPU time: 32.884s
-  * wallclock time: 34.548s
+  * peak memory usage: 5031MB
+  * CPU time: 28.943s
+  * wallclock time: 30.322s
 
 
 ############################## Notes ##############################

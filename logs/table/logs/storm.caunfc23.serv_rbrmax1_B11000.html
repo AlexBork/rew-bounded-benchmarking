@@ -21,7 +21,7 @@
 <div class="box">
 	<div class="boxlabelo"><div class="boxlabelc">Execution</div></div>
 	<table style="margin-bottom: 0.75ex;">
-		<tr><td>Walltime:</td><td style="tt">68.70826745033264s</td></tr>
+		<tr><td>Walltime:</td><td style="tt">70.02064561843872s</td></tr>
 		<tr><td>Return code:</td><td style="tt">0</td></tr>
 		<tr><td>Note(s):</td><td>Storm-pomdp. Unfolds cost bounds, cost aware, with cutoffs and size threshold 2^23</td></tr>
 	</table>
@@ -30,13 +30,13 @@
 	<div class="boxlabelo"><div class="boxlabelc">Log</div></div>
 	<pre style="overflow:auto; padding-bottom: 1.5ex">Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:15 2024
+Date: Sat Aug 10 07:43:43 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 8388608
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.020s.
+Time for model input parsing: 0.004s.
 
-Time for model construction: 0.812s.
+Time for model construction: 0.699s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -63,39 +63,40 @@ Choice Labels: 	9 labels
 -------------------------------------------------------------- 
 Analyzing property 'Pmax=? [true Urew{"time"}<=1000 "taskdone"]'
 Perform explicit unfolding of reward bounds.
+Use reward-aware unfolding.
 Unfolding POMDP Information:
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
-States: 	239394
-Transitions: 	2217912
-Choices: 	1784443
-Observations: 	403074
+States: 	735099
+Transitions: 	6890445
+Choices: 	5493838
+Observations: 	42114
 Reward Models:  none
 State Labels: 	2 labels
    * init -> 1 item(s)
    * goal -> 1 item(s)
 Choice Labels: 	9 labels
-   * interact -> 239392 item(s)
-   * get_water -> 239392 item(s)
-   * deliver_water -> 239392 item(s)
-   * check_water -> 239392 item(s)
-   * west -> 195827 item(s)
-   * wait_delay -> 43565 item(s)
-   * south -> 195827 item(s)
-   * east -> 195827 item(s)
-   * north -> 195827 item(s)
+   * interact -> 735097 item(s)
+   * get_water -> 735097 item(s)
+   * deliver_water -> 735097 item(s)
+   * check_water -> 735097 item(s)
+   * west -> 606117 item(s)
+   * wait_delay -> 128980 item(s)
+   * south -> 606117 item(s)
+   * east -> 606117 item(s)
+   * north -> 606117 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 1.368s.
+Time for explicit reward bound unfolding: 4.096s.
 Exploring the belief MDP... 
 Exploring the belief space...
-Exploration stopped before all beliefs were explored. 8388610 beliefs discovered. 1648583 beliefs explored.
+Exploration stopped before all beliefs were explored. 8388614 beliefs discovered. 1690838 beliefs explored.
 Constructing the belief MDP...
 -------------------------------------------------------------- 
 Model type: 	MDP (sparse)
-States: 	8388612
-Transitions: 	103988477
-Choices: 	60364516
+States: 	8388616
+Transitions: 	100873960
+Choices: 	60398267
 Reward Models:  none
 State Labels: 	3 labels
    * target -> 1 item(s)
@@ -103,44 +104,44 @@ State Labels: 	3 labels
    * bottom -> 1 item(s)
 Choice Labels: 	none
 -------------------------------------------------------------- 
-Time for exploring beliefs: 26.497s.
-Time for building the belief MDP: 20.180s.
-Time for analyzing the belief MDP: 12.456s.
+Time for exploring beliefs: 24.124s.
+Time for building the belief MDP: 18.621s.
+Time for analyzing the belief MDP: 11.210s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
-States: 	239394
-Transitions: 	2217912
-Choices: 	1784443
-Observations: 	403074
+States: 	735099
+Transitions: 	6890445
+Choices: 	5493838
+Observations: 	42114
 Reward Models:  none
 State Labels: 	2 labels
    * init -> 1 item(s)
    * goal -> 1 item(s)
 Choice Labels: 	9 labels
-   * interact -> 239392 item(s)
-   * get_water -> 239392 item(s)
-   * deliver_water -> 239392 item(s)
-   * check_water -> 239392 item(s)
-   * west -> 195827 item(s)
-   * wait_delay -> 43565 item(s)
-   * south -> 195827 item(s)
-   * east -> 195827 item(s)
-   * north -> 195827 item(s)
+   * interact -> 735097 item(s)
+   * get_water -> 735097 item(s)
+   * deliver_water -> 735097 item(s)
+   * check_water -> 735097 item(s)
+   * west -> 606117 item(s)
+   * wait_delay -> 128980 item(s)
+   * south -> 606117 item(s)
+   * east -> 606117 item(s)
+   * north -> 606117 item(s)
 -------------------------------------------------------------- 
-# Max. Number of states with same observation: 21
+# Max. Number of states with same observation: 1357
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 65.939s
+# Total check time: 64.692s
 ##########################################
 
-Result: ≥ 0.1117010693
-Time for POMDP analysis: 65.991s.
+Result: ≥ 0.06625440406
+Time for POMDP analysis: 64.810s.
 
 Performance statistics:
-  * peak memory usage: 14531MB
-  * CPU time: 64.683s
-  * wallclock time: 68.405s
+  * peak memory usage: 14807MB
+  * CPU time: 66.171s
+  * wallclock time: 69.811s
 
 
 ############################## Notes ##############################

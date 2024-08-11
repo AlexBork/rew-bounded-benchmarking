@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 32768
-Wallclock time:	2.183887004852295
+Wallclock time:	1.1810951232910156
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:14 2024
+Date: Sat Aug 10 07:42:47 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 32768
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.029s.
+Time for model input parsing: 0.004s.
 
-Time for model construction: 0.828s.
+Time for model construction: 0.739s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -63,9 +63,9 @@ Statistics:
 Epoch Model building Time: 0.000s.
 Epoch Model checking Time: 0.000s.
 ---------------------------------
-Time for exploring beliefs: 0.095s.
-Time for building the belief MDP: 0.022s.
-Time for analyzing the belief MDP: 0.013s.
+Time for exploring beliefs: 0.100s.
+Time for building the belief MDP: 0.030s.
+Time for analyzing the belief MDP: 0.016s.
 ##### POMDP Approximation Statistics ######
 # Input model: 
 -------------------------------------------------------------- 
@@ -92,16 +92,16 @@ Choice Labels: 	9 labels
    * interact -> 76544 item(s)
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 21
-# Total check time: 0.181s
+# Total check time: 0.206s
 ##########################################
 
 Result: ≥ 0
-Time for POMDP analysis: 0.189s.
+Time for POMDP analysis: 0.212s.
 
 Performance statistics:
-  * peak memory usage: 186MB
-  * CPU time: 1.097s
-  * wallclock time: 1.264s
+  * peak memory usage: 185MB
+  * CPU time: 1.118s
+  * wallclock time: 1.153s
 
 
 ############################## Notes ##############################

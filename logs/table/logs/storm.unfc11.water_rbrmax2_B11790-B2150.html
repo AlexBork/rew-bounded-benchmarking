@@ -21,7 +21,7 @@
 <div class="box">
 	<div class="boxlabelo"><div class="boxlabelc">Execution</div></div>
 	<table style="margin-bottom: 0.75ex;">
-		<tr><td>Walltime:</td><td style="tt">140.3321988582611s</td></tr>
+		<tr><td>Walltime:</td><td style="tt">116.21331024169922s</td></tr>
 		<tr><td>Return code:</td><td style="tt">0</td></tr>
 		<tr><td>Note(s):</td><td>Storm-pomdp. Unfolds cost bounds, not cost-aware, with cutoffs and size threshold 2^11</td></tr>
 	</table>
@@ -30,13 +30,13 @@
 	<div class="boxlabelo"><div class="boxlabelc">Log</div></div>
 	<pre style="overflow:auto; padding-bottom: 1.5ex">Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:21:31 2024
+Date: Sat Aug 10 07:48:32 2024
 Command line arguments: --prism $BENCH_HOME/models/water/water_grid_repeat.prism --prop $BENCH_HOME/models/water/water.props rbrmax2 -const 'B1=1790,B2=150' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 2048
 Current working directory: $BENCH_HOME/experiments
 
 Time for model input parsing: 0.002s.
 
-Time for model construction: 0.016s.
+Time for model construction: 0.014s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -76,7 +76,7 @@ Choice Labels: 	5 labels
    * flip -> 309921 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 23.438s.
+Time for explicit reward bound unfolding: 20.551s.
 Exploring the belief MDP... 
 Exploring the belief space...
 Exploration stopped before all beliefs were explored. 2049 beliefs discovered. 1356 beliefs explored.
@@ -117,16 +117,16 @@ Choice Labels: 	5 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 2191350
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 116.011s
+# Total check time: 94.957s
 ##########################################
 
 Result: ≥ 0
-Time for POMDP analysis: 116.530s.
+Time for POMDP analysis: 95.437s.
 
 Performance statistics:
-  * peak memory usage: 8492MB
-  * CPU time: 137.006s
-  * wallclock time: 140.203s
+  * peak memory usage: 8491MB
+  * CPU time: 113.109s
+  * wallclock time: 116.078s
 
 
 ############################## Notes ##############################

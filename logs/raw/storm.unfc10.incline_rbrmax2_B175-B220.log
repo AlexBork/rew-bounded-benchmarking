@@ -1,10 +1,10 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const B1=75,B2=20 --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 1024
-Wallclock time:	0.054940223693847656
+Wallclock time:	0.05985856056213379
 Return code:	0
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:05:24 2024
+Date: Sat Aug 10 07:31:31 2024
 Command line arguments: --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const 'B1=75,B2=20' --timemem --statistics --revised --unfold-reward-bound --belief-exploration unfold --size-threshold 1024
 Current working directory: $BENCH_HOME/experiments
 
@@ -50,7 +50,7 @@ Choice Labels: 	4 labels
    * north -> 1705 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 0.002s.
+Time for explicit reward bound unfolding: 0.003s.
 Exploring the belief MDP... 
 Exploring the belief space...
 Exploration stopped before all beliefs were explored. 1026 beliefs discovered. 507 beliefs explored.
@@ -67,7 +67,7 @@ State Labels: 	3 labels
    * bottom -> 1 item(s)
 Choice Labels: 	none
 -------------------------------------------------------------- 
-Time for exploring beliefs: 0.000s.
+Time for exploring beliefs: 0.001s.
 Time for building the belief MDP: 0.000s.
 Time for analyzing the belief MDP: 0.000s.
 ##### POMDP Approximation Statistics ######
@@ -90,16 +90,16 @@ Choice Labels: 	4 labels
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 731
 # Pre-computations detected that the belief MDP is finite.
-# Total check time: 0.014s
+# Total check time: 0.016s
 ##########################################
 
 Result: ≥ 0.723385746
-Time for POMDP analysis: 0.014s.
+Time for POMDP analysis: 0.016s.
 
 Performance statistics:
-  * peak memory usage: 68MB
-  * CPU time: 0.039s
-  * wallclock time: 0.037s
+  * peak memory usage: 69MB
+  * CPU time: 0.042s
+  * wallclock time: 0.040s
 
 
 ############################## Notes ##############################

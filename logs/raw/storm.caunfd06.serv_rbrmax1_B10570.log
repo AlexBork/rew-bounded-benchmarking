@@ -1,16 +1,16 @@
 Command:	$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration discretize --resolution 6 --triangulationmode static
-Wallclock time:	1803.7232084274292
-Return code:	None
+Wallclock time:	757.3596777915955
+Return code:	-9
 Output:
 Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:09 2024
+Date: Sat Aug 10 07:42:27 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=570 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration discretize --resolution 6 --triangulationmode static
 Current working directory: $BENCH_HOME/experiments
 
-Time for model input parsing: 0.005s.
+Time for model input parsing: 0.004s.
 
-Time for model construction: 0.779s.
+Time for model construction: 0.721s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -37,42 +37,34 @@ Choice Labels: 	9 labels
 -------------------------------------------------------------- 
 Analyzing property 'Pmax=? [true Urew{"time"}<=570 "taskdone"]'
 Perform explicit unfolding of reward bounds.
+Use reward-aware unfolding.
 Unfolding POMDP Information:
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
-States: 	19237
-Transitions: 	176962
-Choices: 	143112
-Observations: 	234626
+States: 	45484
+Transitions: 	422896
+Choices: 	339273
+Observations: 	42114
 Reward Models:  none
 State Labels: 	2 labels
    * init -> 1 item(s)
    * goal -> 1 item(s)
 Choice Labels: 	9 labels
-   * interact -> 19235 item(s)
-   * get_water -> 19235 item(s)
-   * deliver_water -> 19235 item(s)
-   * check_water -> 19235 item(s)
-   * west -> 15645 item(s)
-   * wait_delay -> 3590 item(s)
-   * south -> 15645 item(s)
-   * east -> 15645 item(s)
-   * north -> 15645 item(s)
+   * interact -> 45482 item(s)
+   * get_water -> 45482 item(s)
+   * deliver_water -> 45482 item(s)
+   * check_water -> 45482 item(s)
+   * west -> 37287 item(s)
+   * wait_delay -> 8195 item(s)
+   * south -> 37287 item(s)
+   * east -> 37287 item(s)
+   * north -> 37287 item(s)
 -------------------------------------------------------------- 
 Transformed formula: Pmax=? [true U "goal"]
-Time for explicit reward bound unfolding: 0.075s.
+Time for explicit reward bound unfolding: 0.262s.
 Exploring the belief MDP... 
 Exploring the belief space...
-Exploration stopped before all beliefs were explored. 50100174 beliefs discovered. 40629534 beliefs explored.
-Constructing the belief MDP...
 
-##############################Output to stderr##############################
-ERROR: The program received signal 15 and will be aborted in 3s.
-Received signal 14
-
-
-----------
-Computation aborted after 1803.7232084274292 seconds since the total time limit of 1800 seconds was exceeded.
 
 ############################## Notes ##############################
 Storm-pomdp. Unfolds cost bounds, cost aware, with discretization and resolution 6

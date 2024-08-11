@@ -8,9 +8,9 @@
 		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/resrc/resrc.prism --prop $BENCH_HOME/models/resrc/resrc.props rbrmax3 -const B1=15,B2=15,B3=180 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration unfold --size-threshold 16777216"
 	],
 	"time-limit": 1800,
-	"log-dir": "logs2024-08-02",
+	"log-dir": "logs2024-08-10",
 	"log": "storm.caunfc24.resrc_rbrmax3_B115-B215-B3180.log",
-	"wallclock-time": 164.4224145412445,
+	"wallclock-time": 147.23430800437927,
 	"timeout": false,
 	"execution-error": false,
 	"return-codes": [

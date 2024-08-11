@@ -8,9 +8,9 @@
 		"$BENCH_HOME/bin/storm-pomdp --prism $BENCH_HOME/models/incline/incline.prism --prop $BENCH_HOME/models/incline/incline.props rbrmax2 -const B1=75,B2=20 --timemem --statistics --revised --reward-aware --unfold-reward-bound --belief-exploration discretize --resolution 42 --triangulationmode static"
 	],
 	"time-limit": 1800,
-	"log-dir": "logs2024-08-02",
+	"log-dir": "logs2024-08-10",
 	"log": "storm.caunfd42.incline_rbrmax2_B175-B220.log",
-	"wallclock-time": 0.13478732109069824,
+	"wallclock-time": 0.1856546401977539,
 	"timeout": false,
 	"execution-error": false,
 	"return-codes": [

@@ -21,7 +21,7 @@
 <div class="box">
 	<div class="boxlabelo"><div class="boxlabelc">Execution</div></div>
 	<table style="margin-bottom: 0.75ex;">
-		<tr><td>Walltime:</td><td style="tt">1.1120758056640625s</td></tr>
+		<tr><td>Walltime:</td><td style="tt">1.009843111038208s</td></tr>
 		<tr><td>Return code:</td><td style="tt">0</td></tr>
 		<tr><td>Note(s):</td><td>Storm-pomdp. Sequential approach, cost aware, with cutoffs and size threshold 2^9</td></tr>
 	</table>
@@ -30,13 +30,13 @@
 	<div class="boxlabelo"><div class="boxlabelc">Log</div></div>
 	<pre style="overflow:auto; padding-bottom: 1.5ex">Storm-POMDP 1.8.2 (dev)
 
-Date: Fri Aug  2 21:18:12 2024
+Date: Sat Aug 10 07:42:47 2024
 Command line arguments: --prism $BENCH_HOME/models/serv/serv.prism --prop $BENCH_HOME/models/serv/serv.props rbrmax1 -const B1=1000 --timemem --statistics --revised --reward-aware --belief-exploration unfold --size-threshold 512
 Current working directory: $BENCH_HOME/experiments
 
 Time for model input parsing: 0.004s.
 
-Time for model construction: 0.837s.
+Time for model construction: 0.735s.
 
 -------------------------------------------------------------- 
 Model type: 	POMDP (sparse)
@@ -118,16 +118,16 @@ Choice Labels: 	9 labels
    * interact -> 76544 item(s)
 -------------------------------------------------------------- 
 # Max. Number of states with same observation: 21
-# Total check time: 0.049s
+# Total check time: 0.051s
 ##########################################
 
 Result: ≥ 0
-Time for POMDP analysis: 0.054s.
+Time for POMDP analysis: 0.056s.
 
 Performance statistics:
   * peak memory usage: 163MB
-  * CPU time: 1.056s
-  * wallclock time: 1.088s
+  * CPU time: 0.973s
+  * wallclock time: 0.990s
 
 
 ############################## Notes ##############################
