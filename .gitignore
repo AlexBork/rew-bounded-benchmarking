@@ -4,3 +4,4 @@ tmp/*
 */logs*/*
 */data/*
 bin/*
+experiments-*/*
