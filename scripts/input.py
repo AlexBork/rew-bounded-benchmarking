@@ -1,4 +1,4 @@
-import os
+import os, re
 
 def ask_user_for_info(description, default = None, validation = None):
     if default is None:
@@ -72,6 +72,10 @@ def input_selection(item : str, options, single_choice = False):
             elif selection == "c":
                 selected_keys = []
         else:
-            print ("Invalid selection. Enter any of {} or press Ctrl+C to abort.".format(keys))  
+            matching_keys = [key for key in keys if re.fullmatch(selection, key)]
+            if len(matching_keys) == 0:
+                print ("Invalid selection. Enter any of {} or press Ctrl+C to abort.".format(keys))
+            else:
+                selected_keys += matching_keys
     print("Selected {}: {}".format(item,selected_keys))
     return selected_keys

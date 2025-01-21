@@ -88,11 +88,13 @@ def create_all_instances():
     open_parameters = ["B1", "B2"]
     par_val_list = [[75,20]] # also interesting: [25,15], [75,15],
     instances += create_model_instances(name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list)
+    instances += create_model_instances(name, "unrmax")
 
     name = "obstcl"
     open_parameters = ["B1", "B2"]
     par_val_list = [[25,7]]
     instances += create_model_instances(name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list)
+    instances += create_model_instances(name, "unrmax")
 
     name = "resrc"
     open_parameters = ["B1", "B2", "B3"]
@@ -100,23 +102,26 @@ def create_all_instances():
     MULTIPLIERS = [12]
     par_val_list = [[b1,b1,b1*stepmul] for b1,stepmul in itertools.product(B1_values,MULTIPLIERS)]
     instances += create_model_instances(name, "rbrmax3", open_parameter_names=open_parameters, par_values_list=par_val_list)
+    instances += create_model_instances(name, "unrmax")
 
     name = "rover"
     open_parameters = ["B1", "B2", "B3"]
     MULTIPLIERS = [20,60]
     par_val_list = [[10*m,18*m,10*m] for m in MULTIPLIERS]
     instances += create_model_instances(name, "rbrmax3", open_parameter_names=open_parameters, par_values_list=par_val_list)
+    instances += create_model_instances(name, "unrmax")
 
     name = "serv"
     open_parameters = ["B1"]
     par_val_list = [[570], [1000]]
     instances += create_model_instances(name, "rbrmax1", open_parameter_names=open_parameters, par_values_list=par_val_list)
+    instances += create_model_instances(name, "unrmax")
 
     name = "water"
     open_parameters = ["B1", "B2"]
     par_val_list = [[590,50],[1190,100],[1790,150]]
     instances += create_model_instances(name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list, model_filename="water_grid_repeat.prism")
+    instances += create_model_instances(name, "unrmax")
 
-    # instances = [i for i in instances if i["name"] in ["water"]]
     return instances
 

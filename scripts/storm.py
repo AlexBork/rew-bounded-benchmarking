@@ -32,26 +32,32 @@ base_cfg = OrderedDict()
 base_cfg["tool"] = NAME
 base_cfg["cmd"] = ["--timemem", "--statistics"]
 base_cfg["notes"] = ["Storm-pomdp"]
-base_cfg["supported-obj-types"] = list(benchmarks.PROPERTY_TYPES.keys())
+base_cfg["supported-obj-types"] = ["rbr"] # the default is to only support reward bounded reachability
 base_cfg["supported-model-types"] = ["pomdp"]
 base_cfg["supported-model-formalisms"] = ["prism"]
 
 for i in range(8,33):
-    seq_c_cfg = copy.deepcopy(base_cfg)
+    seq_c_cfg = copy.deepcopy(base_cfg) # sequential approach with cutoffs (always reward aware)
     seq_c_cfg["id"] = f'belseqc{i:02}'
     seq_c_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration unfold", f"--size-threshold {2**i}"]
     seq_c_cfg["notes"] += [f"Sequential approach, cost aware, with cutoffs and size threshold 2^{i}"]
     CONFIGS.append(seq_c_cfg)
-    unr_c_cfg = copy.deepcopy(base_cfg)
+    unr_c_cfg = copy.deepcopy(base_cfg) # unfolding approach with cutoffs and reward awareness
     unr_c_cfg["id"] = f'caunfc{i:02}'
     unr_c_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration unfold", f"--size-threshold {2**i}"]
     unr_c_cfg["notes"] += [f"Unfolds cost bounds, cost aware, with cutoffs and size threshold 2^{i}"]
     CONFIGS.append(unr_c_cfg)
-    uns_c_cfg = copy.deepcopy(base_cfg)
+    uns_c_cfg = copy.deepcopy(base_cfg) # unfolding approach with cutoffs and no reward awareness
     uns_c_cfg["id"] = f'unfc{i:02}'
     uns_c_cfg["cmd"] += ["--revised", "--unfold-reward-bound", "--belief-exploration unfold", f"--size-threshold {2**i}"]
     uns_c_cfg["notes"] += [f"Unfolds cost bounds, not cost-aware, with cutoffs and size threshold 2^{i}"]
     CONFIGS.append(uns_c_cfg)
+    unb_c_cfg = copy.deepcopy(base_cfg) # discarding reward bounds, with cutoffs and no reward awareness
+    unb_c_cfg["id"] = f'unbc{i:02}'
+    unb_c_cfg["supported-obj-types"] = ["unb"] # only apply this config for unbounded reachability
+    unb_c_cfg["cmd"] += ["--revised", "--belief-exploration unfold", f"--size-threshold {2**i}"]
+    unb_c_cfg["notes"] += [f"Discards the reward bounds, not cost-aware, with cutoffs and size threshold 2^{i}"]
+    CONFIGS.append(unb_c_cfg)
 
 for i in sorted(set([i*j for i,j in itertools.product([1,2,3,4,5,6,7],[1,2,3,4,5,6,7])])):
     seq_d_cfg = copy.deepcopy(base_cfg)
@@ -64,11 +70,12 @@ for i in sorted(set([i*j for i,j in itertools.product([1,2,3,4,5,6,7],[1,2,3,4,5
     unr_d_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     unr_d_cfg["notes"] += [f"Unfolds cost bounds, cost aware, with discretization and resolution {i}"]
     CONFIGS.append(unr_d_cfg)
-    uns_d_cfg = copy.deepcopy(base_cfg)
-    uns_d_cfg["id"] = f'unfd{i:02}'
-    uns_d_cfg["cmd"] += ["--revised", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
-    uns_d_cfg["notes"] += [f"Unfolds cost bounds, not cost-aware, with discretization and resolution {i}"]
-    CONFIGS.append(uns_d_cfg)
+    unb_d_cfg = copy.deepcopy(base_cfg)
+    unb_d_cfg["id"] = f'unbd{i:02}'
+    unb_d_cfg["supported-obj-types"] = ["unb"] # only apply this config for unbounded reachability
+    unb_d_cfg["cmd"] += ["--revised", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
+    unb_d_cfg["notes"] += [f"Discards the reward bounds, not cost-aware, with discretization and resolution {i}"]
+    CONFIGS.append(unb_d_cfg)
 
 # Check fully observable models (not relevant)
 seq_fully_obs = copy.deepcopy(base_cfg)
@@ -85,8 +92,8 @@ CONFIGS.append(seq_fully_obs)
 
 CONFIGS = sorted(CONFIGS, key=lambda x: x["id"])
 
-META_CONFIG_TIMELIMITS = [10, 100, 1000, 1800]
-BASE_CONFIGS = ["unfc", "unfd", "caunfc", "caunfd", "belseqc", "belseqd"]
+META_CONFIG_TIMELIMITS = [1800]
+BASE_CONFIGS = ["unbc", "unbd", "unfc", "unfd", "caunfc", "caunfd", "belseqc", "belseqd"]
 META_CONFIGS = []
 for timelimit in META_CONFIG_TIMELIMITS:
     for cfgbase in BASE_CONFIGS:

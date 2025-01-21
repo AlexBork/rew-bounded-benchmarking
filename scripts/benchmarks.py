@@ -7,6 +7,7 @@ from executing import replace_placeholders_in_cmd_string
 MODELS_DIR = "$BENCH_HOME/models"
 
 PROPERTY_TYPES = OrderedDict()
+PROPERTY_TYPES["unr"] = "Unbounded reachability probability"
 PROPERTY_TYPES["rbr"] = "Reward-bounded reachability probability"
 INSTANCES = benchmarkset.create_all_instances()
 NAMES = list(dict.fromkeys([i["name"] for i in INSTANCES]).keys())
