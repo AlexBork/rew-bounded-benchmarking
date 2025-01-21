@@ -117,6 +117,12 @@ def create_all_instances():
     instances += create_model_instances(name, "rbrmax1", open_parameter_names=open_parameters, par_values_list=par_val_list)
     instances += create_model_instances(name, "unrmax")
 
+    name = "walk"
+    open_parameters = ["N", "B1"]
+    par_val_list = [[5,50], [10,100], [20,200]]
+    instances += create_model_instances(name, "rbrmax1", open_parameter_names=open_parameters, par_values_list=par_val_list)
+    instances += create_model_instances(name, "unrmax", open_parameter_names=open_parameters[:1], par_values_list = [[n_val] for n_val in set([p[0] for p in par_val_list])])
+
     name = "water"
     open_parameters = ["B1", "B2"]
     par_val_list = [[590,50],[1190,100],[1790,150]]

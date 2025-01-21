@@ -8,7 +8,7 @@ pomdp
 // Constants
 const int N; // number of states in the walk
 const double movep = 0.5; // probability of successful move
-const double obsp; // probability of successful observation
+const double obsp = 0.1; // probability of successful observation
 
 observable "observed" = observedX; // Observations are the current observed position
 

@@ -2,3 +2,4 @@
 const int B1;
 
 "rbrmax1": Pmax=? [F{"obsCost"}<=B1 "goal"];
+"unrmax": Pmax=? [F "goal"];
