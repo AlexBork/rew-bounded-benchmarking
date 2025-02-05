@@ -26,6 +26,7 @@ def check_execution(command):
 def is_supported(inst, cfg):
     if inst["model"]["formalism"] not in cfg["supported-model-formalisms"]: return False
     if inst["model"]["type"] not in cfg["supported-model-types"]: return False
+    if inst["property"]["type"] not in cfg["supported-obj-types"]: return False
     return True
 
 def get_invocation_id(inst, cfg):
@@ -53,7 +54,8 @@ def create_invocations():
         for cmd in get_command_lines(tool_binaries, cfg):
             if not check_execution(cmd): exit(-1)
 
-    invocations = [OrderedDict(id=get_invocation_id(inst,cfg), instance=inst, configuration=cfg) for inst,cfg in itertools.product(benchmarks.INSTANCES, cfgs) if is_supported(inst, cfg)]
+    bset_selection = input_selection("Benchmark Sets", benchmarks.BENCHMARK_SETS)
+    invocations = [OrderedDict(id=get_invocation_id(inst,cfg), instance=inst, configuration=cfg) for inst,cfg in itertools.product(benchmarks.INSTANCES, cfgs) if is_supported(inst, cfg) and inst["benchmark-set"] in bset_selection]
     print(f"Selected {len(invocations)} invocations.")
 
     time_limit = int(ask_user_for_info(f"Enter a time limit (in seconds):", "1800", lambda usr_in : usr_in.isdigit()))

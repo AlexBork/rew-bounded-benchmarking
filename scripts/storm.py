@@ -6,7 +6,15 @@ import benchmarks
 def const_def_string(inst):
     if "open-parameters" in inst["model"]:
         pars = inst["model"]["open-parameters"]
-        return ",".join([f"{p}={pars[p]}" for p in pars ])
+        values = [f"{p}={pars[p]}" for p in pars if not p.startswith("__lvl")]
+        values += [f"{p[2:]}={pars[p]}" for p in pars if p.startswith("__lvl")] # TODO:REMOVE
+
+    if len(values) != 0: return ",".join(values)
+def lvl_width_string(inst):
+    if "open-parameters" in inst["model"]:
+        pars = inst["model"]["open-parameters"]
+        values = [f"{pars[p]}" for p in pars if p.startswith("TODO:REMOVE__lvl")]
+        if len(values) != 0: return ",".join(values)
 
 def get_command_line_args(cfg, inst = None):
     out = []
@@ -16,7 +24,10 @@ def get_command_line_args(cfg, inst = None):
         out.append(f"--prop {benchmarks.get_full_property_filename(inst)} {inst['property']['id']}")
         c = const_def_string(inst)
         if c is not None:
-            out.append(f"-const {const_def_string(inst)}")
+            out.append(f"-const {c}")
+        l = lvl_width_string(inst)
+        if l is not None:
+            out.append(f"--levelwidth {l}")
     out += cfg["cmd"]
     return " ".join(out)
         
@@ -70,6 +81,11 @@ for i in sorted(set([i*j for i,j in itertools.product([1,2,3,4,5,6,7],[1,2,3,4,5
     unr_d_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     unr_d_cfg["notes"] += [f"Unfolds cost bounds, cost aware, with discretization and resolution {i}"]
     CONFIGS.append(unr_d_cfg)
+    uns_d_cfg = copy.deepcopy(base_cfg)
+    uns_d_cfg["id"] = f'unfd{i:02}'
+    uns_d_cfg["cmd"] += ["--revised", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
+    uns_d_cfg["notes"] += [f"Unfolds cost bounds, not cost aware, with discretization and resolution {i}"]
+    CONFIGS.append(uns_d_cfg)
     unb_d_cfg = copy.deepcopy(base_cfg)
     unb_d_cfg["id"] = f'unbd{i:02}'
     unb_d_cfg["supported-obj-types"] = ["unb"] # only apply this config for unbounded reachability

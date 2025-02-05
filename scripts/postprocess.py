@@ -370,10 +370,13 @@ def process_benchmark_instance_data(benchmark_instances, execution_json):
     bench_id = execution_json["benchmark"]["id"]
     bench_data = OrderedDict()
     bench_data["id"] = execution_json["benchmark"]["id"]
+    bench_data["benchmark-set"] = execution_json["benchmark"]["benchmark-set"]
     bench_data["name"] = execution_json["benchmark"]["name"]
     bench_data["formalism"] = execution_json["benchmark"]["model"]["formalism"]
     bench_data["type"] = execution_json["benchmark"]["model"]["type"]
-    bench_data["par"] = bench_id.split("_")[2]
+    if "lvl-width" in execution_json["benchmark"]["model"]:
+        bench_data["lvl-width"] = execution_json["benchmark"]["model"]["lvl-width"]
+    bench_data["par"] = "_".join(bench_id.split("_")[3:])
     bench_data["property"] = execution_json["benchmark"]["property"]["type"]
     bench_data["dim"] = execution_json["benchmark"]["property"].get("num-bnd-rew-assignments", 0)
     bench_data["states"] = execution_json["input-model"]["states"]
@@ -484,26 +487,27 @@ def process_meta_configs(exec_data, benchmark_instances):
                 if best_cfg_id is not None: benchmark_data[benchmark] = copy.deepcopy(exec_data[tool][best_cfg_id][benchmark])
             exec_data[tool][metacfg["id"]] = benchmark_data
 
-def export_data(exec_data, benchmark_instances):
-    SCATTER_MIN_VALUE, SCATTER_MAX_VALUE = 1, 1000
-    QUANTILE_MIN_VALUE = 1
-    KINDS = ["default", "scatter", "quantile", "html", "latexbenchmarks"] + [f"latext{t}" for t in storm.META_CONFIG_TIMELIMITS]
-
-    def scatter_special_value(i): return round(SCATTER_MAX_VALUE * (math.sqrt(2)**i))
-
-    def get_result(tool, config, inst_id):
+def get_result(exec_data, tool, config, inst_id):
         if tool in exec_data and config in exec_data[tool] and inst_id in exec_data[tool][config]:
             return exec_data[tool][config][inst_id]
 
-    def get_result_if_supported(tool, config, inst_id):
-        res = get_result(tool, config, inst_id)
+def get_result_if_supported(exec_data, tool, config, inst_id):
+        res = get_result(exec_data, tool, config, inst_id)
         if res is not None and not res["not-supported"]:
             return res
 
+
+def export_data(exec_data, benchmark_instances, export_kinds):
+    SCATTER_MIN_VALUE, SCATTER_MAX_VALUE = 1, 1000
+    QUANTILE_MIN_VALUE = 1
+
+    def scatter_special_value(i): return round(SCATTER_MAX_VALUE * (math.sqrt(2)**i))
+
+
     def get_instances_num_supported(cfgs):
         res = Counter()
-        for i in benchmarks.INSTANCES:
-            res[i["id"]] = len([c for c in cfgs if get_result_if_supported(c[0], c[1], i["id"]) is not None])
+        for b_id in benchmark_instances:
+            res[b_id] = len([c for c in cfgs if get_result_if_supported(exec_data, c[0], c[1], b_id) is not None])
         return res
 
     def get_instances_supported_by_some(cfgs):
@@ -550,12 +554,12 @@ def export_data(exec_data, benchmark_instances):
         return v if data_kind is None or data_kind == "time" else f"${v}$"
 
     def get_cell_content(column, inst, kind):
-        assert kind in KINDS, f"Invalid kind for cell content: {kind}"
+        assert kind in export_kinds, f"Invalid kind for cell content: {kind}"
         value = None
         # first check if the column refers to a tool config
         tool = column[0]
         if tool in TOOL_NAMES: # the column is assumed to be a [tool, config, data_key] list, where data_key is the cell content key
-            res = get_result_if_supported(tool, column[1], inst)
+            res = get_result_if_supported(exec_data, tool, column[1], inst)
             if res is None:
                 if kind in ["default", "html"]:
                     value = "NS"
@@ -606,13 +610,13 @@ def export_data(exec_data, benchmark_instances):
                 elif column[2] == "result" and kind.startswith("latex"):
                     value = to_latex(value, "result")
             if kind == "html":
-                res = get_result(tool, column[1], inst)
+                res = get_result(exec_data, tool, column[1], inst)
                 if res is not None:
                     value = [value, res]
                     if "result" in res:
                         value[0] = to_html("{} / {}".format(res["result"], value[0]))
             elif kind.startswith("latex"):
-                res = get_result(tool, column[1], inst)
+                res = get_result(exec_data, tool, column[1], inst)
                 if res is None or "result" not in res or res["result"] in ["≥ 0", "≤ 1"]:
                     value = r"\multicolumn{1}{c}{-}"
                 else:
@@ -652,7 +656,7 @@ def export_data(exec_data, benchmark_instances):
         else:
             header = [c[0] for c in columns[:-len(cfgs)]]
             if len(cfgs) > 0: header += [f"{c[0]}.{c[1]}" for c in columns[-len(cfgs):]]
-            rows = [i["id"] for i in benchmarks.INSTANCES]
+            rows = [i["id"] for i in benchmarks.INSTANCES if i["id"] in benchmark_instances]
             cells = [header]
             for inst in rows:
                 cells.append([])
@@ -664,7 +668,7 @@ def export_data(exec_data, benchmark_instances):
                     best_lower_result, best_upper_result = None, None
                     # first find the ones with the best bounds
                     for j in latex_highlight_best_col_indices:
-                        execdata_j = get_result(columns[j][0], columns[j][1], inst)
+                        execdata_j = get_result(exec_data, columns[j][0], columns[j][1], inst)
                         if execdata_j is None or "result" not in execdata_j: continue
                         res_j = execdata_j["result"]
                         if res_j[:2] not in ["≤ ", "≥ "]: continue
@@ -733,7 +737,7 @@ def export_data(exec_data, benchmark_instances):
         is_increasing = False
         is_decreasing = False
         for cfg in [c for c in storm.CONFIGS if c["id"].startswith(cfgbase)]:
-            res = get_result_if_supported(storm.NAME, cfg["id"], inst_id)
+            res = get_result_if_supported(exec_data, storm.NAME, cfg["id"], inst_id)
             if res is not None and "result" in res:
                 assert res["result"][:2] in ["≤ ", "≥ "], f"Unexpected result string: {res['result']}"
                 is_increasing = is_increasing or res["result"][:2] == "≥ " # lower bounds should be increasing over time
@@ -811,8 +815,72 @@ def export_data(exec_data, benchmark_instances):
                 assert False, f"Unhandled kind: {kind}"
 
     # invoke generation for all kinds
-    for kind in KINDS: export_data_for_kind(kind)
+    if len(benchmark_instances) == 0: return
+    for kind in export_kinds: export_data_for_kind(kind)
     create_time_result_csv()
+
+
+def get_lvlbnd_result_list_for_plot(cfg_id, instances, kind):
+    min_kind_value = 0
+    max_kind_value = 100000 # TODO
+    datalist = []
+    is_increasing = False
+    is_decreasing = False
+    for inst_id in instances:
+        res = get_result_if_supported(exec_data, storm.NAME, cfg_id, inst_id)
+        if res is not None and "result" in res:
+            print(f"Processing {cfg_id} {inst_id}")
+            assert res["result"][:2] in ["≤ ", "≥ "], f"Unexpected result string: {res['result']}"
+            is_increasing = is_increasing or res["result"][:2] == "≥ " # lower bounds should be increasing over time
+            is_decreasing = is_decreasing or res["result"][:2] == "≤ " # upper bounds should be decreasing over time
+            assert not is_increasing or not is_decreasing, f"Unexpected result string: {res['result']}"
+            if kind == "lvls":
+                kind_value = benchmark_instances[inst_id]["lvl-width"][0] # only look at first value, discard other lvl widths
+            else:
+                kind_value = benchmark_instances[inst_id]["num-epochs"]
+            datalist.append((kind_value, float(res["result"][2:])))
+    datalist = sorted(datalist)
+    if len(datalist) == 0: return []
+    result = [(min_kind_value, 0.0 if is_increasing else 1.0)]
+    for t,r in datalist:
+        prev_r = result[-1][1]
+        # discard bounds that are worse than what is already known TODO: check if this is necessary
+        # if is_increasing and prev_r > r: continue
+        # if is_decreasing and prev_r < r: continue
+        result.append((t,prev_r)) # results in a 'stair' form for the plot TODO: check if this is what we want
+        result.append((t,r))
+    result.append((max_kind_value, result[-1][1]))
+    return result
+
+
+def create_lvlbnd_result_csv(exec_data, instances, kind):
+    if len(instances) == 0: return
+    assert kind in ["lvls", "bnds"]
+    instance_names =  set([b["name"] for b in instances.values()])
+    header = []
+    column_contents = []
+    for cfg, inst_name in itertools.product(storm.META_CONFIGS, instance_names):
+        header += [f"{cfg['id']}.{inst_name}.{postfix}" for postfix in [kind, "result"]]
+        instance_subset = {b_id: b_data for b_id, b_data in instances.items() if b_data["name"] == inst_name}
+        column_contents.append(get_lvlbnd_result_list_for_plot(cfg["id"], instance_subset,  kind))
+
+    table = [header]
+    num_rows = max([len(c) for c in column_contents])
+    for row_index in range(num_rows):
+        row = []
+        for col in column_contents:
+            if row_index < len(col):
+                row += [col[row_index][0], col[row_index][1]]
+            else:
+                row += ["", ""]
+        table.append(row)
+
+    save_csv(table, os.path.join(OUT_DIR, f"{kind}_result.csv"))
+    with open(os.path.join(OUT_DIR, f"{kind}_result.tex"), 'w') as f:
+        for inst in instance_names:
+            f.write(r"\begin{figure}[t]" + "\\default{}resplot{{{}}}{{0.1}}{{3600}}\\caption{{{}}}".format(kind,inst, inst.replace("_", r"\_")) + r"\end{figure}" + "\n")
+
+
 
 if __name__ == "__main__":
     print("Benchmarking tool.")
@@ -838,4 +906,13 @@ if __name__ == "__main__":
 
     print("Found Data for {} benchmarks".format(len(benchmark_instances)))
 
-    export_data(exec_data, benchmark_instances)
+    for b_id, b_data in benchmark_instances.items():
+        if "benchmark-set" not in b_data: print(b_data.keys())
+    def get_benchmark_subset(subset):
+        return {b_id: b_data for b_id, b_data in benchmark_instances.items() if b_data["benchmark-set"] in subset}
+
+
+    export_kinds = ["default", "scatter", "quantile", "html", "latexbenchmarks"] + [f"latext{t}" for t in storm.META_CONFIG_TIMELIMITS]
+    export_data(exec_data, get_benchmark_subset(["main", "unb"]), export_kinds)
+    create_lvlbnd_result_csv(exec_data,  get_benchmark_subset(["lvls"]), "lvls")
+    create_lvlbnd_result_csv(exec_data,  get_benchmark_subset(["bnds"]), "bnds")

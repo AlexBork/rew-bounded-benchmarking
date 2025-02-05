@@ -11,6 +11,13 @@ PROPERTY_TYPES["unr"] = "Unbounded reachability probability"
 PROPERTY_TYPES["rbr"] = "Reward-bounded reachability probability"
 INSTANCES = benchmarkset.create_all_instances()
 NAMES = list(dict.fromkeys([i["name"] for i in INSTANCES]).keys())
+BENCHMARK_SETS = OrderedDict()
+BENCHMARK_SETS["main"] = ["Main benchmark set"]
+BENCHMARK_SETS["unb"] = ["Unbounded reachability"]
+BENCHMARK_SETS["lvls"] = ["Level observation experiments"]
+BENCHMARK_SETS["bnds"] = ["Bound magnitude experiments"]
+for bset in BENCHMARK_SETS:
+    BENCHMARK_SETS[bset].append("{} instances".format(len([i for i in INSTANCES if i["benchmark-set"] == bset])))
 
 def get_full_model_filename(inst):
     return os.path.join(MODELS_DIR, inst["name"], inst["model"]["file"])
@@ -43,3 +50,4 @@ if __name__ == "__main__":
     for name in NAMES:
         name_instances = [b for b in INSTANCES if b['name'] == name]
         print(f"Model '{name}' ({len(name_instances)} instances):\n\t" + "\n\t".join([b['id'] for b in name_instances]))
+    print(f"Registered {len(BENCHMARK_SETS)} benchmark sets: {', '.join(BENCHMARK_SETS)}")
