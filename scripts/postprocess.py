@@ -376,6 +376,8 @@ def process_benchmark_instance_data(benchmark_instances, execution_json):
     bench_data["type"] = execution_json["benchmark"]["model"]["type"]
     if "lvl-width" in execution_json["benchmark"]["model"]:
         bench_data["lvl-width"] = execution_json["benchmark"]["model"]["lvl-width"]
+    if "bnd-thresholds" in execution_json["benchmark"]["model"]:
+        bench_data["bnd-thresholds"] = execution_json["benchmark"]["model"]["bnd-thresholds"]
     bench_data["par"] = "_".join(bench_id.split("_")[3:])
     bench_data["property"] = execution_json["benchmark"]["property"]["type"]
     bench_data["dim"] = execution_json["benchmark"]["property"].get("num-bnd-rew-assignments", 0)
@@ -822,20 +824,19 @@ def export_data(exec_data, benchmark_instances, export_kinds):
 
 def get_lvlbnd_result_list_for_plot(cfg_id, instances, kind):
     min_kind_value = 0
-    max_kind_value = 100000 # TODO
+    max_kind_value = 300 if kind == "lvls" else 30000 # TODO
     datalist = []
     is_increasing = False
     is_decreasing = False
     for inst_id in instances:
         res = get_result_if_supported(exec_data, storm.NAME, cfg_id, inst_id)
         if res is not None and "result" in res:
-            print(f"Processing {cfg_id} {inst_id}")
             assert res["result"][:2] in ["≤ ", "≥ "], f"Unexpected result string: {res['result']}"
             is_increasing = is_increasing or res["result"][:2] == "≥ " # lower bounds should be increasing over time
             is_decreasing = is_decreasing or res["result"][:2] == "≤ " # upper bounds should be decreasing over time
             assert not is_increasing or not is_decreasing, f"Unexpected result string: {res['result']}"
             if kind == "lvls":
-                kind_value = benchmark_instances[inst_id]["lvl-width"][0] # only look at first value, discard other lvl widths
+                kind_value = benchmark_instances[inst_id]["bnd-thresholds"][0] / benchmark_instances[inst_id]["lvl-width"][0] # TODO: only looks at first value, discard other lvl widths
             else:
                 kind_value = benchmark_instances[inst_id]["num-epochs"]
             datalist.append((kind_value, float(res["result"][2:])))

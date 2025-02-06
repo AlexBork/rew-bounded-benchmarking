@@ -62,10 +62,14 @@ def create_instance(inst_id, bset_name, model_name, property_id, file_parameter_
         lvl_width = [v for k,v in inst["model"]["open-parameters"].items() if k.startswith("__lvl")]
         if len(lvl_width) > 0:
             inst["model"]["lvl-width"] = lvl_width
+        bnd_thresholds = [v for k,v in inst["model"]["open-parameters"].items() if k in [f"B{i}" for i in range(1,10)]] # detect bound thresholds by parameter name B1, B2, ...
+        if len(bnd_thresholds) > 0:
+            inst["model"]["bnd-thresholds"] = bnd_thresholds
     inst["model"]["file"] = f"{model_name}.prism" if model_filename is None else model_filename
     inst["model"]["formalism"] = "prism"
     inst["model"]["type"] = "pomdp"
     inst["property"] = create_property_info(property_id, file_name=f"{model_name}.props" if property_filename is None else property_filename)
+    assert inst["property"].get("num-bnd-rew-assignments", 0) == len(inst["model"].get("bnd-thresholds", [])), f"Inconsistent dimension of reward bound for instance {inst_id}."
     return inst
 
 def create_model_instances(bset_name, model_name, property_id, file_parameter_names = [], open_parameter_names = [], par_values_list = None, model_filename = None, property_filename = None):
