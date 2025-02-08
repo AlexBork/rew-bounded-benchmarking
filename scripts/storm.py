@@ -7,8 +7,8 @@ def const_def_string(inst):
     if "open-parameters" in inst["model"]:
         pars = inst["model"]["open-parameters"]
         values = [f"{p}={pars[p]}" for p in pars if not p.startswith("__lvl")]
+        if len(values) != 0: return ",".join(values)
 
-    if len(values) != 0: return ",".join(values)
 def lvl_width_string(inst):
     if "open-parameters" in inst["model"]:
         pars = inst["model"]["open-parameters"]
@@ -68,7 +68,7 @@ for i in range(8,33):
     CONFIGS.append(uns_c_cfg)
     unb_c_cfg = copy.deepcopy(base_cfg) # discarding reward bounds, with cutoffs and no reward awareness
     unb_c_cfg["id"] = f'unbc{i:02}'
-    unb_c_cfg["supported-obj-types"] = ["unb"] # only apply this config for unbounded reachability
+    unb_c_cfg["supported-obj-types"] = ["unr"] # only apply this config for unbounded reachability
     unb_c_cfg["cmd"] += ["--revised", "--belief-exploration unfold", f"--size-threshold {2**i}"]
     unb_c_cfg["notes"] += [f"Discards the reward bounds, not cost-aware, with cutoffs and size threshold 2^{i}"]
     CONFIGS.append(unb_c_cfg)
@@ -93,7 +93,7 @@ for i in sorted(set([i*j for i,j in itertools.product([1,2,3,4,5,6,7],[1,2,3,4,5
     CONFIGS.append(uns_d_cfg)
     unb_d_cfg = copy.deepcopy(base_cfg)
     unb_d_cfg["id"] = f'unbd{i:02}'
-    unb_d_cfg["supported-obj-types"] = ["unb"] # only apply this config for unbounded reachability
+    unb_d_cfg["supported-obj-types"] = ["unr"] # only apply this config for unbounded reachability
     unb_d_cfg["cmd"] += ["--revised", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     unb_d_cfg["notes"] += [f"Discards the reward bounds, not cost-aware, with discretization and resolution {i}"]
     CONFIGS.append(unb_d_cfg)
