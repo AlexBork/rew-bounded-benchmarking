@@ -763,7 +763,7 @@ def export_data(exec_data, benchmark_instances, export_kinds):
         header = []
         column_contents = []
         for cfgbase, inst_id in itertools.product(storm.BASE_CONFIGS, benchmark_instances.keys()):
-            header += [f"{cfgbase}.{inst_id}.{postfix}" for postfix in ["time", "result"]]
+            header += [f"{cfgbase}.{inst_id.replace('main_','')}.{postfix}" for postfix in ["time", "result"]]
             column_contents.append(get_time_result_list_for_plot(cfgbase, inst_id))
 
         table = [header]
@@ -789,7 +789,7 @@ def export_data(exec_data, benchmark_instances, export_kinds):
             if kind.startswith("latext"):
                 cols = [["name"], ["states"], ["dim"], ["num-epochs"], ["unf-states"]]
                 timelimit = kind[len("latext"):]
-                cfgs = [ [storm.NAME, f"{cfgbase}-best-in-{timelimit}s"] for cfgbase in storm.BASE_CONFIGS ]
+                cfgs = [ [storm.NAME, f"{cfgbase}-best-in-{timelimit}s"] for cfgbase in storm.BASE_CONFIGS[:6] ]
                 cols += [[c[0], c[1], "wallclock-time"] for c in cfgs]
                 latex_cols = [r"Model", r"$|S|$", r"$k$", r"$|\epochs|$",r"$|S_\mathsf{un}|$", r"\multicolumn{2}{c}{\config{unfold}: \config{cut} / \config{discr}}", r"\multicolumn{2}{c}{\config{ca-unfold}: \config{cut} / \config{discr}}", r"\multicolumn{2}{c}{\config{ca-bel-seq}: \config{cut} / \config{discr}}"]
                 latex_col_aligns = "r" * len(cols)

@@ -114,7 +114,7 @@ CONFIGS.append(seq_fully_obs)
 CONFIGS = sorted(CONFIGS, key=lambda x: x["id"])
 
 META_CONFIG_TIMELIMITS = [1800]
-BASE_CONFIGS = ["unbc", "unbd", "unfc", "unfd", "caunfc", "caunfd", "belseqc", "belseqd"]
+BASE_CONFIGS = ["unfc", "unfd", "caunfc", "caunfd", "belseqc", "belseqd", "unbc", "unbd"]
 META_CONFIGS = []
 for timelimit in META_CONFIG_TIMELIMITS:
     for cfgbase in BASE_CONFIGS:
