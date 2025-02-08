@@ -7,17 +7,17 @@ def const_def_string(inst):
     if "open-parameters" in inst["model"]:
         pars = inst["model"]["open-parameters"]
         values = [f"{p}={pars[p]}" for p in pars if not p.startswith("__lvl")]
-        values += [f"{p[2:]}={pars[p]}" for p in pars if p.startswith("__lvl")] # TODO:REMOVE
 
     if len(values) != 0: return ",".join(values)
 def lvl_width_string(inst):
     if "open-parameters" in inst["model"]:
         pars = inst["model"]["open-parameters"]
-        values = [f"{pars[p]}" for p in pars if p.startswith("TODO:REMOVE__lvl")]
+        values = [f"{pars[p]}" for p in pars if p.startswith("__lvl")]
         if len(values) != 0: return ",".join(values)
 
 def get_command_line_args(cfg, inst = None):
     out = []
+    lvl_def = None
     if inst is not None:
         assert inst["model"]["formalism"] == "prism", f"Unhandled model formalism {inst['model']['formalism']} for storm."
         out.append(f"--prism {benchmarks.get_full_model_filename(inst)}")
@@ -25,10 +25,11 @@ def get_command_line_args(cfg, inst = None):
         c = const_def_string(inst)
         if c is not None:
             out.append(f"-const {c}")
-        l = lvl_width_string(inst)
-        if l is not None:
-            out.append(f"--levelwidth {l}")
+        lvl_def = lvl_width_string(inst)
     out += cfg["cmd"]
+    if lvl_def is not None:
+        assert "--reward-aware" in cfg["cmd"], "lvl width given but reward-awareness not set for cfg {}. commands \n\t{}".format(cfg["id"], cfg["cmd"])
+        out[out.index("--reward-aware")] = f"--reward-aware {lvl_def}"
     return " ".join(out)
         
 NAME = "storm"
@@ -52,11 +53,13 @@ for i in range(8,33):
     seq_c_cfg["id"] = f'belseqc{i:02}'
     seq_c_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration unfold", f"--size-threshold {2**i}"]
     seq_c_cfg["notes"] += [f"Sequential approach, cost aware, with cutoffs and size threshold 2^{i}"]
+    seq_c_cfg["supports-lvl-width"] = True
     CONFIGS.append(seq_c_cfg)
     unr_c_cfg = copy.deepcopy(base_cfg) # unfolding approach with cutoffs and reward awareness
     unr_c_cfg["id"] = f'caunfc{i:02}'
     unr_c_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration unfold", f"--size-threshold {2**i}"]
     unr_c_cfg["notes"] += [f"Unfolds cost bounds, cost aware, with cutoffs and size threshold 2^{i}"]
+    unr_c_cfg["supports-lvl-width"] = True
     CONFIGS.append(unr_c_cfg)
     uns_c_cfg = copy.deepcopy(base_cfg) # unfolding approach with cutoffs and no reward awareness
     uns_c_cfg["id"] = f'unfc{i:02}'
@@ -75,11 +78,13 @@ for i in sorted(set([i*j for i,j in itertools.product([1,2,3,4,5,6,7],[1,2,3,4,5
     seq_d_cfg["id"] = f'belseqd{i:02}'
     seq_d_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     seq_d_cfg["notes"] += [f"Sequential approach, cost aware, with discretization and resolution {i}"]
+    seq_d_cfg["supports-lvl-width"] = True
     CONFIGS.append(seq_d_cfg)
     unr_d_cfg = copy.deepcopy(base_cfg)
     unr_d_cfg["id"] = f'caunfd{i:02}'
     unr_d_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     unr_d_cfg["notes"] += [f"Unfolds cost bounds, cost aware, with discretization and resolution {i}"]
+    unr_d_cfg["supports-lvl-width"] = True
     CONFIGS.append(unr_d_cfg)
     uns_d_cfg = copy.deepcopy(base_cfg)
     uns_d_cfg["id"] = f'unfd{i:02}'
