@@ -27,7 +27,6 @@ def is_supported(inst, cfg):
     if inst["model"]["formalism"] not in cfg["supported-model-formalisms"]: return False
     if inst["model"]["type"] not in cfg["supported-model-types"]: return False
     if inst["property"]["type"] not in cfg["supported-obj-types"]: return False
-    if "lvl-width" in inst["model"] and not cfg.get("supports-lvl-width", False): return False
     return True
 
 def get_invocation_id(inst, cfg):

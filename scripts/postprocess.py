@@ -332,6 +332,7 @@ def save_html(table_data, num_tool_configs, path):
 def save_latex(table_data, cols, header, path):
     with open(path, 'w') as latex_file:
         latex_file.write(r"""
+\renewcommand{\tabcolsep}{4.5pt}
 \begin{tabular}{@{}""")
         latex_file.write(cols)
         latex_file.write(r"""@{}}
@@ -467,7 +468,7 @@ def process_meta_configs(exec_data, benchmark_instances):
                 for cfg_id in exec_data[tool]:
                     if cfg_id in [c["id"] for c in TOOL_NAMES[tool].META_CONFIGS]: continue
                     if not cfg_id.startswith(metacfg["cfgbase"]): continue
-                    if benchmark not in exec_data[tool][cfg_id]: print(f"Missing data for {tool}.{cfg_id}.{benchmark}")
+                    if benchmark not in  exec_data[tool][cfg_id]: continue
                     data = exec_data[tool][cfg_id][benchmark]
                     if "maxtime" in metacfg and data["wallclock-time"] > metacfg["maxtime"]: continue
                     if not "result" in data: continue
@@ -623,7 +624,10 @@ def export_data(exec_data, benchmark_instances, export_kinds):
                     value = r"\multicolumn{1}{c}{-}"
                 else:
                     assert res["result"][:2] in ["≤ ", "≥ "]
-                    value = "{} ({}s)".format(to_latex(float(res["result"][2:])), value)
+                    asterisk = ""
+                    if "--belief-exploration unfold" in res["commands"][0] and "belief-mdp-incomplete" not in res:
+                        asterisk = "$^*$"
+                    value = "{} ({}s){}".format(to_latex(float(res["result"][2:])), value, asterisk)
         else: # column[0] is a key in benchmark_instances, column[1] is either not present or a function that applies a transformation
             if column[0] in benchmark_instances[inst]:
                 value = benchmark_instances[inst][column[0]]
@@ -787,13 +791,13 @@ def export_data(exec_data, benchmark_instances, export_kinds):
         # get the columns relevant for this kind
         if kind.startswith("latex"):
             if kind.startswith("latext"):
-                cols = [["name"], ["states"], ["dim"], ["num-epochs"], ["unf-states"]]
+                cols = [["name"], ["num-epochs"], ["unf-states"]]
                 timelimit = kind[len("latext"):]
                 cfgs = [ [storm.NAME, f"{cfgbase}-best-in-{timelimit}s"] for cfgbase in storm.BASE_CONFIGS[:6] ]
                 cols += [[c[0], c[1], "wallclock-time"] for c in cfgs]
-                latex_cols = [r"Model", r"$|S|$", r"$k$", r"$|\epochs|$",r"$|S_\mathsf{un}|$", r"\multicolumn{2}{c}{\config{unfold}: \config{cut} / \config{discr}}", r"\multicolumn{2}{c}{\config{ca-unfold}: \config{cut} / \config{discr}}", r"\multicolumn{2}{c}{\config{ca-bel-seq}: \config{cut} / \config{discr}}"]
+                latex_cols = [r"Model", r"$|\epochs|$", r"$|S_\mathsf{un}|$", r"\multicolumn{2}{c}{\config{unfold}: \config{cut} / \config{discr}}", r"\multicolumn{2}{c}{\config{ca-unfold}: \config{cut} / \config{discr}}", r"\multicolumn{2}{c}{\config{ca-bel-seq}: \config{cut} / \config{discr}}"]
                 latex_col_aligns = "r" * len(cols)
-                cells = create_cells(cols, cfgs, kind, [7,8,9,10])
+                cells = create_cells(cols, cfgs, kind, [5,6,7,8])
                 # cells = merge_cells_latex(cells, [[5,6],[7,8],[9,10]])
             else:
                 cols = [["name"], ["states"], ["choices"], ["observations"], ["dim"], ["num-epochs"]]
@@ -824,7 +828,7 @@ def export_data(exec_data, benchmark_instances, export_kinds):
 
 def get_lvlbnd_result_list_for_plot(cfg_id, instances, kind):
     min_kind_value = 0
-    max_kind_value = 300 if kind == "lvls" else 30000 # TODO
+    max_kind_value = 300 if kind == "lvls" else 300 # TODO
     datalist = []
     is_increasing = False
     is_decreasing = False
@@ -838,6 +842,7 @@ def get_lvlbnd_result_list_for_plot(cfg_id, instances, kind):
             if kind == "lvls":
                 kind_value = benchmark_instances[inst_id]["bnd-thresholds"][0] / benchmark_instances[inst_id]["lvl-width"][0] # TODO: only looks at first value, discard other lvl widths
             else:
+                assert "num-epochs" in benchmark_instances[inst_id], "no epochs in {}".format(inst_id)
                 kind_value = benchmark_instances[inst_id]["num-epochs"]
             datalist.append((kind_value, float(res["result"][2:])))
     datalist = sorted(datalist)
@@ -851,6 +856,7 @@ def get_lvlbnd_result_list_for_plot(cfg_id, instances, kind):
         result.append((t,prev_r)) # results in a 'stair' form for the plot TODO: check if this is what we want
         result.append((t,r))
     result.append((max_kind_value, result[-1][1]))
+    result = result[1:]
     return result
 
 
@@ -914,6 +920,6 @@ if __name__ == "__main__":
 
 
     export_kinds = ["default", "scatter", "quantile", "html", "latexbenchmarks"] + [f"latext{t}" for t in storm.META_CONFIG_TIMELIMITS]
-    export_data(exec_data, get_benchmark_subset(["main", "unb"]), export_kinds)
+    export_data(exec_data, get_benchmark_subset(["main"]), export_kinds)
     create_lvlbnd_result_csv(exec_data,  get_benchmark_subset(["lvls"]), "lvls")
     create_lvlbnd_result_csv(exec_data,  get_benchmark_subset(["bnds"]), "bnds")

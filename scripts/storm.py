@@ -27,8 +27,7 @@ def get_command_line_args(cfg, inst = None):
             out.append(f"-const {c}")
         lvl_def = lvl_width_string(inst)
     out += cfg["cmd"]
-    if lvl_def is not None:
-        assert "--reward-aware" in cfg["cmd"], "lvl width given but reward-awareness not set for cfg {}. commands \n\t{}".format(cfg["id"], cfg["cmd"])
+    if lvl_def is not None and "--reward-aware" in cfg["cmd"]:
         out[out.index("--reward-aware")] = f"--reward-aware {lvl_def}"
     return " ".join(out)
         
@@ -53,13 +52,11 @@ for i in range(8,33):
     seq_c_cfg["id"] = f'belseqc{i:02}'
     seq_c_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration unfold", f"--size-threshold {2**i}"]
     seq_c_cfg["notes"] += [f"Sequential approach, cost aware, with cutoffs and size threshold 2^{i}"]
-    seq_c_cfg["supports-lvl-width"] = True
     CONFIGS.append(seq_c_cfg)
     unr_c_cfg = copy.deepcopy(base_cfg) # unfolding approach with cutoffs and reward awareness
     unr_c_cfg["id"] = f'caunfc{i:02}'
     unr_c_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration unfold", f"--size-threshold {2**i}"]
     unr_c_cfg["notes"] += [f"Unfolds cost bounds, cost aware, with cutoffs and size threshold 2^{i}"]
-    unr_c_cfg["supports-lvl-width"] = True
     CONFIGS.append(unr_c_cfg)
     uns_c_cfg = copy.deepcopy(base_cfg) # unfolding approach with cutoffs and no reward awareness
     uns_c_cfg["id"] = f'unfc{i:02}'
@@ -78,13 +75,11 @@ for i in sorted(set([i*j for i,j in itertools.product([1,2,3,4,5,6,7],[1,2,3,4,5
     seq_d_cfg["id"] = f'belseqd{i:02}'
     seq_d_cfg["cmd"] += ["--revised", "--reward-aware", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     seq_d_cfg["notes"] += [f"Sequential approach, cost aware, with discretization and resolution {i}"]
-    seq_d_cfg["supports-lvl-width"] = True
     CONFIGS.append(seq_d_cfg)
     unr_d_cfg = copy.deepcopy(base_cfg)
     unr_d_cfg["id"] = f'caunfd{i:02}'
     unr_d_cfg["cmd"] += ["--revised", "--reward-aware", "--unfold-reward-bound", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     unr_d_cfg["notes"] += [f"Unfolds cost bounds, cost aware, with discretization and resolution {i}"]
-    unr_d_cfg["supports-lvl-width"] = True
     CONFIGS.append(unr_d_cfg)
     uns_d_cfg = copy.deepcopy(base_cfg)
     uns_d_cfg["id"] = f'unfd{i:02}'
@@ -173,6 +168,10 @@ def parse_logfile(log, inv):
         assert inv["memout"] or inv["timeout"], "Unable to find query output in {}".format(inv["id"])
         return
 
+    if "Analyzing property 'Pmax=? [F true]'" in log: # todo this is to catch the trivial case
+        inv["result"] = "≥1.0"
+        inv["total-chk-time"] = "0.0"
+
     posUnf = log.find("Perform explicit unfolding of reward bounds.", pos)
     if posUnf >= 0:
         pos = posUnf
@@ -181,6 +180,9 @@ def parse_logfile(log, inv):
         pos = try_parse(log, pos, "Transitions: \t", "\n", inv["unfolding-pomdp"], "transitions", int)
         pos = try_parse(log, pos, "Choices: \t", "\n", inv["unfolding-pomdp"], "choices", int)
         pos = try_parse(log, pos, "Observations: \t", "\n", inv["unfolding-pomdp"], "observations", int)
+
+    if "Exploration stopped before all beliefs were explored" in log:
+        inv["belief-mdp-incomplete"] = True
 
     posBel = log.find("Constructing the belief MDP...", pos)
     if posBel>=0:
