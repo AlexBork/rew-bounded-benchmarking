@@ -500,7 +500,7 @@ def get_result_if_supported(exec_data, tool, config, inst_id):
             return res
 
 
-def export_data(exec_data, benchmark_instances, export_kinds):
+def export_data(exec_data, benchmark_instances, export_kinds, prefix=""):
     SCATTER_MIN_VALUE, SCATTER_MAX_VALUE = 1, 1000
     QUANTILE_MIN_VALUE = 1
 
@@ -781,10 +781,10 @@ def export_data(exec_data, benchmark_instances, export_kinds):
                     row += ["", ""]
             table.append(row)
 
-        save_csv(table, os.path.join(OUT_DIR, "time_result.csv"))
-        with open(os.path.join(OUT_DIR, "time_result.tex"), 'w') as f:
+        save_csv(table, os.path.join(OUT_DIR, f"{prefix}time_result.csv"))
+        with open(os.path.join(OUT_DIR, f"{prefix}time_result.tex"), 'w') as f:
             for inst in benchmark_instances.keys():
-                f.write(r"\begin{figure}[t]" + "\\defaulttimeresplot{{{}}}{{0.1}}{{3600}}\\caption{{{}}}".format(inst, inst.replace("_", r"\_")) + r"\end{figure}" + "\n")
+                f.write("\\defaulttimeresplot{{{}}}{{0.1}}{{3600}}\n".format( inst.replace("main_", r"")))
 
 
     def export_data_for_kind(kind):
@@ -795,18 +795,18 @@ def export_data(exec_data, benchmark_instances, export_kinds):
                 timelimit = kind[len("latext"):]
                 cfgs = [ [storm.NAME, f"{cfgbase}-best-in-{timelimit}s"] for cfgbase in storm.BASE_CONFIGS[:6] ]
                 cols += [[c[0], c[1], "wallclock-time"] for c in cfgs]
-                latex_cols = [r"Model", r"$|\epochs|$", r"$|S_\mathsf{un}|$", r"\multicolumn{2}{c}{\config{unfold}: \config{cut} / \config{discr}}", r"\multicolumn{2}{c}{\config{ca-unfold}: \config{cut} / \config{discr}}", r"\multicolumn{2}{c}{\config{ca-bel-seq}: \config{cut} / \config{discr}}"]
-                latex_col_aligns = "r" * len(cols)
+                latex_cols = [r"\multicolumn{1}{c}{Model}", r"\multicolumn{1}{c}{$|\epochs|$}", r"\multicolumn{1}{c}{$|S_\mathsf{un}|$}", r"\multicolumn{2}{c}{\config{unfold}: \config{cut} / \config{discr}}", r"\multicolumn{2}{c}{\config{ca-unfold}: \config{cut} / \config{discr}}", r"\multicolumn{2}{c}{\config{ca-bel-seq}: \config{cut} / \config{discr}}"]
+                latex_col_aligns = "c@{}" + "r" * (len(cols)-1)
                 cells = create_cells(cols, cfgs, kind, [5,6,7,8])
                 # cells = merge_cells_latex(cells, [[5,6],[7,8],[9,10]])
             else:
                 cols = [["name"], ["states"], ["choices"], ["observations"], ["dim"], ["num-epochs"]]
-                latex_cols = [r"model", r"$|S|$", r"$|Act|$", r"$|Z|$", r"$k$", r"$|\epochs|$"]
+                latex_cols = [r"Model", r"$|S|$", r"$|Act|$", r"$|Z|$", r"$k$", r"$|\epochs|$"]
                 latex_col_aligns = "crrrrr"
                 cfgs = []
                 cells = create_cells(cols, cfgs, kind)
             latex_header = "\n& ".join(latex_cols)
-            save_latex(cells, latex_col_aligns, latex_header, os.path.join(OUT_DIR, "table{}.tex".format(kind[len("latex"):])))
+            save_latex(cells, latex_col_aligns, latex_header, os.path.join(OUT_DIR, "{}table{}.tex".format(prefix, kind[len("latex"):])))
         else:
             cols = [["name"], ["par"], ["states"], ["choices"], ["observations"], ["property"], ["dim"], ["num-epochs"], ["unf-states"], ["caunf-states"]]
             cfgs = [ [tool.NAME, c["id"]] for tool in TOOLS  for c in tool.CONFIGS + tool.META_CONFIGS ]
@@ -814,9 +814,9 @@ def export_data(exec_data, benchmark_instances, export_kinds):
             # create and export different kinds of data
             cells = create_cells(cols, cfgs, kind)
             if kind in ["default", "scatter", "quantile"]:
-                save_csv(cells, os.path.join(OUT_DIR, f"{kind}.csv"))
+                save_csv(cells, os.path.join(OUT_DIR, f"{prefix}{kind}.csv"))
             elif kind == "html":
-                save_html(cells, len(cfgs), os.path.join(OUT_DIR, f"table"))
+                save_html(cells, len(cfgs), os.path.join(OUT_DIR, f"{prefix}table"))
             else:
                 assert False, f"Unhandled kind: {kind}"
 
@@ -920,6 +920,8 @@ if __name__ == "__main__":
 
     export_kinds = ["default", "scatter", "quantile", "html", "latexbenchmarks"] + [f"latext{t}" for t in storm.META_CONFIG_TIMELIMITS]
     export_data(exec_data, get_benchmark_subset(["main"]), export_kinds)
+    export_data(exec_data, get_benchmark_subset(["lvls"]), ["html"], prefix="lvls")
+    export_data(exec_data, get_benchmark_subset(["bnds"]), ["html"], prefix="bnds")
     # export_data(exec_data, get_benchmark_subset(["unb"]), export_kinds)
     create_lvlbnd_result_csv(exec_data,  get_benchmark_subset(["lvls"]), "lvls")
     create_lvlbnd_result_csv(exec_data,  get_benchmark_subset(["bnds"]), "bnds")
