@@ -68,7 +68,7 @@ for i in range(8,33):
     unb_c_cfg["supported-obj-types"] = ["unr"] # only apply this config for unbounded reachability
     unb_c_cfg["cmd"] += ["--revised", "--belief-exploration unfold", f"--size-threshold {2**i}"]
     unb_c_cfg["notes"] += [f"Discards the reward bounds, not cost-aware, with cutoffs and size threshold 2^{i}"]
-    CONFIGS.append(unb_c_cfg)
+    # CONFIGS.append(unb_c_cfg)
 
 for i in sorted(set([i*j for i,j in itertools.product([1,2,3,4,5,6,7],[1,2,3,4,5,6,7])])):
     seq_d_cfg = copy.deepcopy(base_cfg)
@@ -91,7 +91,7 @@ for i in sorted(set([i*j for i,j in itertools.product([1,2,3,4,5,6,7],[1,2,3,4,5
     unb_d_cfg["supported-obj-types"] = ["unr"] # only apply this config for unbounded reachability
     unb_d_cfg["cmd"] += ["--revised", "--belief-exploration discretize", f"--resolution {i}", "--triangulationmode static"]
     unb_d_cfg["notes"] += [f"Discards the reward bounds, not cost-aware, with discretization and resolution {i}"]
-    CONFIGS.append(unb_d_cfg)
+    # CONFIGS.append(unb_d_cfg)
 
 # Check fully observable models (not relevant)
 seq_fully_obs = copy.deepcopy(base_cfg)
@@ -109,7 +109,7 @@ CONFIGS.append(seq_fully_obs)
 CONFIGS = sorted(CONFIGS, key=lambda x: x["id"])
 
 META_CONFIG_TIMELIMITS = [1800]
-BASE_CONFIGS = ["unfc", "unfd", "caunfc", "caunfd", "belseqc", "belseqd", "unbc", "unbd"]
+BASE_CONFIGS = ["unfc", "unfd", "caunfc", "caunfd", "belseqc", "belseqd"] #, "unbc", "unbd"]
 META_CONFIGS = []
 for timelimit in META_CONFIG_TIMELIMITS:
     for cfgbase in BASE_CONFIGS:
