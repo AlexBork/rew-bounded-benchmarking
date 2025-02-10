@@ -94,15 +94,15 @@ def create_all_instances():
 
     name = "clean"
     open_parameters = ["N", "B1", "B2", "__lvl1", "__lvl2"]
-    par_val_list = [[6,60,5,1,0], [12,120,11,1,0], [60,600,59,1,0]]
+    par_val_list = [[6,60,5,1,0], [12,120,11,1,0]]
     instances += create_model_instances( "main", name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list)
     instances += create_model_instances( "unb", name, "unrmax", open_parameter_names=open_parameters[:1], par_values_list = [[n_val] for n_val in set([p[0] for p in par_val_list])])
 
     # instances for bnds experiments
-    par_val_list = [[12,b,11,1,0] for b in range(50,200,10)]
+    par_val_list = [[6,b,5,1,0] for b in range(25,100,5)]
     instances += create_model_instances("bnds", name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list)
     # instances for lvls experiments
-    par_val_list = [[12,120,11,l,0] for l in [1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24, 30, 40, 60, 120]]
+    par_val_list = [[6,60,5,l,0] for l in [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60]]
     instances += create_model_instances("lvls", name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list)
 
     name = "incline"
@@ -140,13 +140,13 @@ def create_all_instances():
 
     name = "walk"
     open_parameters = ["N", "B1"]
-    par_val_list = [[20,80], [30,80], [40,80]]
+    par_val_list = [[40,80],[120,80]]
     instances += create_model_instances("main", name, "rbrmax1", open_parameter_names=open_parameters, par_values_list=par_val_list)
     instances += create_model_instances("unb", name, "unrmax", open_parameter_names=open_parameters[:1], par_values_list = [[n_val] for n_val in set([p[0] for p in par_val_list])])
 
     name = "water"
     open_parameters = ["B1", "B2"]
-    par_val_list = [[590,50],[1190,100],[1790,150]]
+    par_val_list = [[590,50],[1790,150]]
     instances += create_model_instances("main", name, "rbrmax2", open_parameter_names=open_parameters, par_values_list=par_val_list, model_filename="water_grid_repeat.prism")
     instances += create_model_instances("unb", name, "unrmax", model_filename="water_grid_repeat.prism")
 

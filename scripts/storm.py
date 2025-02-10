@@ -27,7 +27,7 @@ def get_command_line_args(cfg, inst = None):
             out.append(f"-const {c}")
         lvl_def = lvl_width_string(inst)
     out += cfg["cmd"]
-    if lvl_def is not None and "--reward-aware" in cfg["cmd"]:
+    if lvl_def is not None and "--reward-aware" in cfg["cmd"] and "--check-fully-observable" not in cfg["cmd"]:
         out[out.index("--reward-aware")] = f"--reward-aware {lvl_def}"
     return " ".join(out)
         

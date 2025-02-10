@@ -842,8 +842,7 @@ def get_lvlbnd_result_list_for_plot(cfg_id, instances, kind):
             if kind == "lvls":
                 kind_value = benchmark_instances[inst_id]["bnd-thresholds"][0] / benchmark_instances[inst_id]["lvl-width"][0] # TODO: only looks at first value, discard other lvl widths
             else:
-                assert "num-epochs" in benchmark_instances[inst_id], "no epochs in {}".format(inst_id)
-                kind_value = benchmark_instances[inst_id]["num-epochs"]
+                kind_value = benchmark_instances[inst_id]["bnd-thresholds"][0]
             datalist.append((kind_value, float(res["result"][2:])))
     datalist = sorted(datalist)
     if len(datalist) == 0: return []
@@ -921,5 +920,6 @@ if __name__ == "__main__":
 
     export_kinds = ["default", "scatter", "quantile", "html", "latexbenchmarks"] + [f"latext{t}" for t in storm.META_CONFIG_TIMELIMITS]
     export_data(exec_data, get_benchmark_subset(["main"]), export_kinds)
+    # export_data(exec_data, get_benchmark_subset(["unb"]), export_kinds)
     create_lvlbnd_result_csv(exec_data,  get_benchmark_subset(["lvls"]), "lvls")
     create_lvlbnd_result_csv(exec_data,  get_benchmark_subset(["bnds"]), "bnds")
