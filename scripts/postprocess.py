@@ -395,6 +395,8 @@ def process_benchmark_instance_data(benchmark_instances, execution_json):
             bench_data["caunf-states"] = execution_json["unfolding-pomdp"]["states"]
         else:
             bench_data["unf-states"] = execution_json["unfolding-pomdp"]["states"]
+    if "ca-pomdp" in execution_json and "states" in execution_json["ca-pomdp"]:
+        bench_data["ca-states"] = execution_json["ca-pomdp"]["states"]
     bench_data["invocations"] = [execution_json["id"]]
 
     # incorporate into existing data
@@ -402,7 +404,7 @@ def process_benchmark_instance_data(benchmark_instances, execution_json):
         benchmark_instances[bench_id] = bench_data
     else:
         # ensure consistency
-        for key in ["id", "name", "formalism", "type", "par", "property", "dim", "states", "choices", "observations", "transitions", "num-epochs", "unf-states", "caunf-states"]:
+        for key in ["id", "name", "formalism", "type", "par", "property", "dim", "states", "choices", "observations", "transitions", "num-epochs", "unf-states", "caunf-states", "ca-states"]:
             if key in bench_data:
                 if key in benchmark_instances[bench_id]:
                     if benchmark_instances[bench_id][key] != bench_data[key]:
@@ -524,9 +526,9 @@ def export_data(exec_data, benchmark_instances, export_kinds, prefix=""):
 
     def to_latex(value, data_kind = None):
         if data_kind == "time":
-            if value < 1.0: v = r"\textless 1"
-            elif value < 100: v = f"{value:.1f}"
-            else: v = f"{value:.0f}"
+            if value < 1.0: v = r"\textless 1s"
+            elif value < 100: v = f"{value:.1f}s"
+            else: v = f"{value:.0f}s"
         elif type(value) == int:
             v = f"{value:.4g}"
             if "e+" in v: v = "{} {{\\cdot}} 10^{{{}}}".format(round(float(v[:v.find("e+")])), int(v[v.find("e+")+2:]))
@@ -540,9 +542,13 @@ def export_data(exec_data, benchmark_instances, export_kinds, prefix=""):
                     v = "{}..{}".format(to_latex(min(value)), to_latex(max(value)))
         elif type(value) == str and value.startswith("(") and value.endswith(")"):
             v = "{}".format(value[1:-1])
-        elif type(value) == str and data_kind == "result" and value[:2] in ["≤ ", "≥ "]:
-            v = r"$\{}$ {}".format("le" if value[0] == "≤" else "ge", to_latex(float(value[2:]), ))
-            data_kind = None # do not add $ for the value
+        elif type(value) == str and data_kind in ["result", "exact-result"] and value[:2] in ["≤ ", "≥ "]:
+            if data_kind == "exact-result":
+                v = "$=$"
+            else:
+                v = r"$\{}$".format("le" if value[0] == "≤" else "ge")
+            v += " {}".format(to_latex(float(value[2:])))
+            data_kind = None # do not add $ for the value below
         elif type(value) == str and data_kind == "name":
             value = value.replace("resources", "resrc").replace("obstacle", "obstcl").replace("service", "serv")
             v = f"\\model{{{value}}}"
@@ -569,7 +575,7 @@ def export_data(exec_data, benchmark_instances, export_kinds, prefix=""):
                 elif kind in ["scatter"]:
                     value = scatter_special_value(2)
                 elif kind.startswith("latex"):
-                    value = "-"
+                    value = r"\multicolumn{1}{c}{-}"
                 elif kind in ["quantile"]:
                     value = math.inf
             elif res["timeout"] == True:
@@ -600,6 +606,7 @@ def export_data(exec_data, benchmark_instances, export_kinds, prefix=""):
                 elif kind in ["quantile"]:
                     value = math.inf
             elif "result" in res:
+                assert column[2] in res, f"Column {column} not found in result for instance {inst} (kind {kind})\nResult: {res}"
                 value = res[column[2]]
                 if "time" in column[2]:
                     if kind in ["html"]:
@@ -611,14 +618,19 @@ def export_data(exec_data, benchmark_instances, export_kinds, prefix=""):
                     elif kind in ["quantile"]:
                         value = max(QUANTILE_MIN_VALUE, value)
                 elif column[2] == "result" and kind.startswith("latex"):
-                    value = to_latex(value, "result")
+                    if  "--belief-exploration unfold" in res["commands"][0] and "belief-mdp-incomplete" not in res:
+                        value = to_latex(value, "exact-result")
+                    else:
+                        value = to_latex(value, "result")
+                elif kind.startswith("latex"):
+                    value = to_latex(value, column[2])
             if kind == "html":
                 res = get_result(exec_data, tool, column[1], inst)
                 if res is not None:
                     value = [value, res]
                     if "result" in res:
                         value[0] = to_html("{} / {}".format(res["result"], value[0]))
-            elif kind.startswith("latex"):
+            elif kind.startswith("latext") and "time" in column[2]: # attach verification result to time column
                 res = get_result(exec_data, tool, column[1], inst)
                 if res is None or "result" not in res or res["result"] in ["≥ 0", "≤ 1"]:
                     value = r"\multicolumn{1}{c}{-}"
@@ -668,7 +680,7 @@ def export_data(exec_data, benchmark_instances, export_kinds, prefix=""):
                 cells.append([])
                 for c in columns:
                     cells[-1].append(get_cell_content(c, inst, kind))
-                if kind.startswith("latex") and latex_highlight_best_col_indices is not None:
+                if kind.startswith("latext") and latex_highlight_best_col_indices is not None:
                     # mark the best results
                     best_lower_indices, best_upper_indices = [], []
                     best_lower_result, best_upper_result = None, None
@@ -790,6 +802,7 @@ def export_data(exec_data, benchmark_instances, export_kinds, prefix=""):
     def export_data_for_kind(kind):
         # get the columns relevant for this kind
         if kind.startswith("latex"):
+            latex_primary_header = None
             if kind.startswith("latext"):
                 cols = [["name"], ["num-epochs"], ["unf-states"]]
                 timelimit = kind[len("latext"):]
@@ -799,13 +812,41 @@ def export_data(exec_data, benchmark_instances, export_kinds, prefix=""):
                 latex_col_aligns = "c@{}" + "r" * (len(cols)-1)
                 cells = create_cells(cols, cfgs, kind, [5,6,7,8])
                 # cells = merge_cells_latex(cells, [[5,6],[7,8],[9,10]])
-            else:
-                cols = [["name"], ["states"], ["choices"], ["observations"], ["dim"], ["num-epochs"]]
-                latex_cols = [r"Model", r"$|S|$", r"$|Act|$", r"$|Z|$", r"$k$", r"$|\epochs|$"]
-                latex_col_aligns = "crrrrr"
+            elif kind == "latexbenchmarks":
+                cols = [["name"], ["states"], ["observations"], ["dim"], ["num-epochs"]]
+                latex_cols = [r"Model", r"$|S|$", r"$|Z|$", r"$k$", r"$|\epochs|$"]
+                latex_cols = [r"\multicolumn{1}{c}{" + lc + "}" for lc in latex_cols]
+                latex_col_aligns = "crrrr"
                 cfgs = []
                 cells = create_cells(cols, cfgs, kind)
+            else:
+                subkind = kind[len("latex"):]
+                cols = [["name"], ["states"], ["observations"], ["dim"], ["num-epochs"]]
+                latex_cols = [r"Model", r"$|S|$", r"$|Z|$", r"$k$", r"$|\epochs|$"]
+                if subkind == "unf":
+                    cols += [["unf-states"]]
+                    latex_cols += [r"$|S_\mathsf{un}|$"]
+                elif subkind == "caunf":
+                    cols += [["caunf-states"]]
+                    latex_cols += [r"$|S^\mathsf{ca}_\mathsf{un}|$"]
+                else:
+                    assert subkind == "belseq", "Unhandled latex subkind: {}".format(subkind)
+                    cols += [["ca-states"]]
+                    latex_cols += [r"$|S^\mathsf{ca}|$"]
+                timelimit = storm.META_CONFIG_TIMELIMITS[0]
+                assert len(storm.META_CONFIG_TIMELIMITS) == 1, "Expected only one meta config time limit for latex export, got {}".format(storm.META_CONFIG_TIMELIMITS)
+                cfgs = [ [storm.NAME, f"{cfgbase}-best-in-{timelimit}s"] for cfgbase in [subkind + "c", subkind + "d"] ]
+                cols += [[cfgs[0][0], cfgs[0][1], cutoffcol] for cutoffcol in ["belief-mdp-states", "wallclock-time","result"]]
+                cols += [[cfgs[1][0], cfgs[1][1], discrcoll] for discrcoll in ["resolution", "belief-mdp-states","wallclock-time","result"]]
+                latex_cols += [r"$|\mathcal{B}^\mathsf{cut}|$", "time", "result"]
+                latex_cols += [r"$\mathtt{r}$",r"$|\mathcal{B}^\mathsf{discr}|$", "time", "result"]
+                latex_cols = [r"\multicolumn{1}{c}{" + lc + "}" for lc in latex_cols]
+                latex_col_aligns = "crrrrr@{\hskip 2em}rrr@{\hskip 2em}rrrr"
+                cells = create_cells(cols, cfgs, kind)
+                latex_primary_header = [r"\multicolumn{6}{c}{}", r"\multicolumn{3}{c}{\config{" + subkind + r"}: \config{cut}}", r"\multicolumn{4}{c}{\config{" + subkind + r"}: \config{discr}}"]
             latex_header = "\n& ".join(latex_cols)
+            if latex_primary_header is not None:
+                latex_header = "\n&".join(latex_primary_header) + "\\\\\n " + latex_header
             save_latex(cells, latex_col_aligns, latex_header, os.path.join(OUT_DIR, "{}table{}.tex".format(prefix, kind[len("latex"):])))
         else:
             cols = [["name"], ["par"], ["states"], ["choices"], ["observations"], ["property"], ["dim"], ["num-epochs"], ["unf-states"], ["caunf-states"]]
@@ -918,7 +959,7 @@ if __name__ == "__main__":
         return {b_id: b_data for b_id, b_data in benchmark_instances.items() if b_data["benchmark-set"] in subset}
 
 
-    export_kinds = ["default", "scatter", "quantile", "html", "latexbenchmarks"] + [f"latext{t}" for t in storm.META_CONFIG_TIMELIMITS]
+    export_kinds = ["default", "scatter", "quantile", "html", "latexbenchmarks"] + [f"latext{t}" for t in storm.META_CONFIG_TIMELIMITS] + ["latexunf", "latexcaunf", "latexbelseq"]
     export_data(exec_data, get_benchmark_subset(["main"]), export_kinds)
     export_data(exec_data, get_benchmark_subset(["lvls"]), ["html"], prefix="lvls")
     export_data(exec_data, get_benchmark_subset(["bnds"]), ["html"], prefix="bnds")

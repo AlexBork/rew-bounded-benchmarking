@@ -153,7 +153,11 @@ def parse_logfile(log, inv):
     if len(inv["return-codes"]) != 1 or inv["return-codes"][0] != 0:
         if not inv["timeout"] and not inv["memout"]: print("WARN: Unexpected return code(s): {} in {}".format(inv["return-codes"], inv["id"]))
 
-    pos = try_parse(log, 0, "Time for model construction: ", "s.", inv, "model-building-time", float)
+    pos = 0
+
+    pos = try_parse(log, pos, "--resolution ", " --triangulationmode", inv, "resolution", int)
+
+    pos = try_parse(log, pos, "Time for model construction: ", "s.", inv, "model-building-time", float)
     if pos == 0: 
         assert inv["timeout"] or inv["memout"], "WARN: unable to get model construction time for {}".format(inv["id"])
         return
@@ -173,6 +177,7 @@ def parse_logfile(log, inv):
         inv["total-chk-time"] = "0.0"
 
     posUnf = log.find("Perform explicit unfolding of reward bounds.", pos)
+    posCa = log.find("Extend observation function to become reward aware.", pos)
     if posUnf >= 0:
         pos = posUnf
         inv["unfolding-pomdp"] = OrderedDict()
@@ -180,6 +185,14 @@ def parse_logfile(log, inv):
         pos = try_parse(log, pos, "Transitions: \t", "\n", inv["unfolding-pomdp"], "transitions", int)
         pos = try_parse(log, pos, "Choices: \t", "\n", inv["unfolding-pomdp"], "choices", int)
         pos = try_parse(log, pos, "Observations: \t", "\n", inv["unfolding-pomdp"], "observations", int)
+    elif posCa >= 0:
+        pos = posCa
+        inv["ca-pomdp"] = OrderedDict()
+        pos = try_parse(log, pos, "States: \t", "\n", inv["ca-pomdp"], "states", int)
+        pos = try_parse(log, pos, "Transitions: \t", "\n", inv["ca-pomdp"], "transitions", int)
+        pos = try_parse(log, pos, "Choices: \t", "\n", inv["ca-pomdp"], "choices", int)
+        pos = try_parse(log, pos, "Observations: \t", "\n", inv["ca-pomdp"], "observations", int)
+
 
     if "Exploration stopped before all beliefs were explored" in log:
         inv["belief-mdp-incomplete"] = True
@@ -194,6 +207,7 @@ def parse_logfile(log, inv):
         pos = try_parse(log, pos, "Time for exploring beliefs: ", "s.", inv["belief-mdp"], "expl-time", float)
         pos = try_parse(log, pos, "Time for building the belief MDP: ", "s.", inv["belief-mdp"], "build-time", float)
         pos = try_parse(log, pos, "Time for analyzing the belief MDP: ", "s.", inv["belief-mdp"], "chk-time", float)
+        inv["belief-mdp-states"] = inv["belief-mdp"].get("states", 0)
 
     # intentionally, this is now only parsed if the belief MDP is *not* constructed.
     # this is because the belief MDP might be incomplete and thus the reported number of checked epochs might be lower
